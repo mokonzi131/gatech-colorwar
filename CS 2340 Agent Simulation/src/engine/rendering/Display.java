@@ -1,5 +1,7 @@
 package engine.rendering;
 
+import iview.IView;
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
@@ -20,6 +22,10 @@ public class Display {
 		m_height = height;
 		m_component = null;
 		m_isInteractive = interactive;
+	}
+	
+	public IView getController() {
+		return m_component.getController();
 	}
 	
 	public BufferedImage getContext() {

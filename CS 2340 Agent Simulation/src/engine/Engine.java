@@ -1,5 +1,7 @@
 package engine;
 
+import iview.IView;
+
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
@@ -82,6 +84,9 @@ public class Engine implements Runnable {
 			m_humanDisplay = new Display(
 					Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT, Constants.isHumanPlayable);
 			m_humanDisplay.initialize();
+			IView controller = m_humanDisplay.getController();
+			if (controller != null)
+				m_game.setController(controller);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
 			break;

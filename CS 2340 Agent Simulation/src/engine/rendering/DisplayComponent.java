@@ -40,6 +40,8 @@ public class DisplayComponent extends JComponent {
 		this.setDoubleBuffered(true);
 	}
 	
+	public IView getController() { return m_inputView; }
+	
 	public BufferedImage getContext() {
 		// draw previous image to screen // TODO double buffer this later...
 		this.getGraphics().drawImage(m_image, 0, 0, null);

@@ -1,5 +1,6 @@
 package environment;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -41,6 +42,11 @@ public class Environment {
 	}
 	
 	public List<Cell> cells() { return m_cells; }
+	
+	public Point2D.Float spawnLocation() {
+		float[] array = gridToWorld(1, 1);
+		return new Point2D.Float(array[0], array[1]);
+	}
 	
 	public int getWidth() { return Constants.GRID_WIDTH; }
 	public int getHeight() { return Constants.GRID_HEIGHT; }

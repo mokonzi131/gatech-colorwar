@@ -1,5 +1,7 @@
 package colorsgame;
 
+import iview.IView;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
@@ -22,11 +24,19 @@ public class ColorsScene extends Scene {
 	BufferedImage m_worldImage;
 	private List<Actor> m_actors;
 	private List<Actor> m_agentActors;
+	private IView m_controller;
 	
 	public ColorsScene() {
 		m_agentTimer = 0.0;
 		m_actors = new ArrayList<>();
 		m_agentActors = new ArrayList<>();
+		m_controller = null;
+	}
+	
+	public void setController(IView controller) {
+		m_controller = controller;
+		if (m_agentActors.size() > 0)
+			((AgentActor)m_agentActors.get(0)).setController(controller);
 	}
 
 	@Override
@@ -34,11 +44,9 @@ public class ColorsScene extends Scene {
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 		// create background color star-field
-		for (int i = 0; i < 33; ++i)
-			m_actors.add(new StarActor(-5, 5));
-		for (int i = 0; i < 33; ++i)
+		for (int i = 0; i < 45; ++i)
 			m_actors.add(new StarActor(-10, 10));
-		for (int i = 0; i < 33; ++i)
+		for (int i = 0; i < 45; ++i)
 			m_actors.add(new StarActor(-40, 40));
 		
 		// create world map (environment)
@@ -51,10 +59,13 @@ public class ColorsScene extends Scene {
 		
 		// create agents
 		for (int i = 0; i < Constants.numAgents; ++i) {
-			AgentActor agent = new AgentActor(30, 30);
+			Point2D.Float location = environment.spawnLocation();
+			AgentActor agent = new AgentActor(location.x, location.y);
 			m_actors.add(agent);
 			m_agentActors.add(agent);
 		}
+		if (m_controller != null)
+			((AgentActor)m_agentActors.get(0)).setController(m_controller);
 	}
 
 	@Override
@@ -82,10 +93,10 @@ public class ColorsScene extends Scene {
 		for (Actor actor : m_actors)
 			actor.render(worldContext);
 		
-		// render the developer view...
+		// render developer image from world image
 		viewport(m_worldImage, images[0]);
 		
-		// build human view from developer image...
+		// render human image from world image
 		Actor humanAgent = m_agentActors.get(0);
 		Point2D location = humanAgent.location();
 		snapshot(m_worldImage, images[1], location);

@@ -1,36 +1,44 @@
 package colorsgame;
 
+import iview.IView;
+
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
-import java.util.Random;
 
 import engine.scene.Actor;
 
 // game entity that has a controller
 public class AgentActor extends Actor {
 	private float x, y;
-	private float vx, vy;
+	private IView m_controller;
 	
-	public AgentActor(float v_x, float v_y) {
+	public AgentActor(float x0, float y0) {
 		super(new AgentSprite());
 		
-		Random random = new Random();
-		x = random.nextInt(Constants.WORLD_WIDTH);
-		y = random.nextInt(Constants.WORLD_HEIGHT);
-		vx = v_x;
-		vy = v_y;
+		x = x0;
+		y = y0;
+		m_controller = null;
+	}
+	
+	public void setController(IView controller) {
+		m_controller = controller;
 	}
 	
 	public void initialize() {}
 	public void teardown() {}
 	
 	public void update(double deltaTime) {
-		x += vx * deltaTime;
-		y += vy * deltaTime;
-		
-		if (x > Constants.WORLD_WIDTH) x = 0;
-		if (y > Constants.WORLD_HEIGHT) y = 0;
+		if (m_controller != null) {
+			int[] input = m_controller.getInput();
+			if (input[IView.INPUT_EAST] == 1)
+				x += Constants.CELL_DISTANCE;
+			if (input[IView.INPUT_WEST] == 1)
+				x -= Constants.CELL_DISTANCE;
+			if (input[IView.INPUT_NORTH] == 1)
+				y -= Constants.CELL_DISTANCE;
+			if (input[IView.INPUT_SOUTH] == 1)
+				y += Constants.CELL_DISTANCE;
+		}
 	}
 	
 	public void render(Graphics2D context) {

@@ -1,5 +1,7 @@
 package engine;
 
+import iview.IView;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
@@ -36,5 +38,9 @@ public class Game implements Interactable {
 	
 	public void render(BufferedImage[] images) {
 		m_currentScene.render(images);
+	}
+	
+	public void setController(IView controller) {
+		m_currentScene.setController(controller);
 	}
 }
