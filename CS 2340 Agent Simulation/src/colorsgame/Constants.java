@@ -4,7 +4,7 @@ import engine.Engine.RENDERING_TYPE;
 
 public class Constants {
 	// pre-defined constants
-	public static final String GAME_NAME = "Colors Game";
+	public static final String GAME_NAME = "Color War";
 	
 	public static final int CELL_DISTANCE = 20;
 	

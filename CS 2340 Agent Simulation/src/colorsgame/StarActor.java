@@ -1,6 +1,8 @@
 package colorsgame;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.Random;
 
 import engine.scene.Actor;
@@ -33,5 +35,10 @@ public class StarActor extends Actor {
 	
 	public void render(Graphics2D context) {
 		m_sprite.draw(context, (int)x, (int)y);
+	}
+
+	@Override
+	public Point2D location() {
+		return new Point2D.Double(x, y);
 	}
 }

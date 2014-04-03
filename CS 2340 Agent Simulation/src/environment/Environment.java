@@ -24,7 +24,7 @@ public class Environment {
 		// layout initial grid
 		for (int i = 0; i < MAP_CELLS_X; ++i)
 			for (int j = 0; j < MAP_CELLS_Y; ++j) {
-				boolean create = random.nextInt(100) > 12 ? true : false;
+				boolean create = random.nextInt(100) > 10 ? true : false;
 				grid[i][j] = create;
 				if (create)
 					m_cells.add(createCell(i, j));

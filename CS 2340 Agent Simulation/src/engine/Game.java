@@ -30,6 +30,10 @@ public class Game implements Interactable {
 	}
 	
 	public void render(Graphics2D context) {
-		m_currentScene.render(context);
+//		m_currentScene.render(context);
+	}
+	
+	public void render(Graphics2D[] contexts) {
+		m_currentScene.render(contexts);
 	}
 }

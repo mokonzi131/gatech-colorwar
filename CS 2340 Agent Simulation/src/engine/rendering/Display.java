@@ -31,8 +31,10 @@ public class Display {
 		
 		JFrame frame = new JFrame(Constants.GAME_NAME);
 		frame.setContentPane(m_component);
-		frame.setResizable(false);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(true);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		// TODO make windows closeable, currently there is an error when window closes before app shuts down,
+		//  so window closing has been temporarily disabled...
 		frame.pack();
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

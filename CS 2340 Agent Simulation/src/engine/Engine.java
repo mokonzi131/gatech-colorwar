@@ -1,5 +1,6 @@
 package engine;
 
+import java.awt.Graphics2D;
 import java.util.logging.Logger;
 
 import colorsgame.Constants;
@@ -20,12 +21,14 @@ public class Engine implements Runnable {
 	private Game m_game;
 	private RENDERING_TYPE m_renderingType;
 	private Display m_masterDisplay;
+	private Display m_humanDisplay;
 	private boolean m_running;
 	
 	public Engine(Game game) {
 		m_game = game;
 		m_renderingType = Constants.renderingType;
 		m_masterDisplay = null;
+		m_humanDisplay = null;
 		m_running = false;
 	}
 	
@@ -48,10 +51,14 @@ public class Engine implements Runnable {
 			lastTime += elapsedTime;
 			double  deltaTime = elapsedTime / NANOS_PER_SECOND;
 			
-			// update game, render game
+			// update game
 			m_game.update(deltaTime);
 			
-			m_game.render(m_masterDisplay.getContext());
+			// render the game (//TODO make sure displays and contexts are valid)
+			Graphics2D[] contexts = new Graphics2D[2];
+			contexts[0] = m_masterDisplay.getContext();
+			contexts[1] = m_humanDisplay.getContext();
+			m_game.render(contexts);
 		}
 		
 		// cleanup the game
@@ -66,23 +73,17 @@ public class Engine implements Runnable {
 		
 		switch(this.m_renderingType) {
 		case DEVELOPER:
-			m_masterDisplay = new Display(Constants.DEVELOPER_VIEW_WIDTH, Constants.DEVELOPER_VIEW_HEIGHT, false);
+			m_masterDisplay = new Display(
+					Constants.DEVELOPER_VIEW_WIDTH, Constants.DEVELOPER_VIEW_HEIGHT, false);
 			m_masterDisplay.initialize();
 			
 			// TODO also create game views for each AI agent -- one per agent?
 		case NORMAL:
-			// TODO create the normal game view for player
-//			JFrame normalFrame = new JFrame(Constants.GAME_NAME);
-//			m_normalDisplayComponent =
-//					new DisplayComponent(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-//			normalFrame.setContentPane(m_normalDisplayComponent);
-//			normalFrame.setResizable(false);
-//			normalFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			normalFrame.pack();
-//			
-//			normalFrame.setVisible(true);
+			m_humanDisplay = new Display(
+					Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT, Constants.isHumanPlayable);
+			m_humanDisplay.initialize();
 		case SIMULATED:
-			// TODO just the text-based resources are needed
+			// TODO implement text-based resources to help observe agent-training...
 			break;
 		}
 	}

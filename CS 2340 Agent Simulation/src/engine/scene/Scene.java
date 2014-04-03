@@ -9,5 +9,5 @@ public abstract class Scene {
 	
 	public abstract void update(double deltaTime);
 	
-	public abstract void render(Graphics2D context);
+	public abstract void render(Graphics2D[] contexts);
 }

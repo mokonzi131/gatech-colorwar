@@ -11,5 +11,5 @@ public class Cell {
 	}
 	
 	public float[] coords() { return new float[]{m_posx, m_posy}; }
-	public boolean constainsResource() { return m_resource; }
+	public boolean containsResource() { return m_resource; }
 }

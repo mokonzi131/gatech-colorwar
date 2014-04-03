@@ -1,9 +1,15 @@
 package engine.rendering;
 
+import iview.IView;
+import iview.KeyboardView;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
@@ -16,6 +22,7 @@ public class DisplayComponent extends JComponent {
 //	private GraphicsConfiguration m_graphicsConfiguration; // for initializing artwork TODO
 	private boolean m_isInteractive;
 	private BufferedImage m_image;
+	private IView m_inputView;
 	
 	public DisplayComponent(int width, int height, boolean interactive) {
 		m_dimension = new Dimension(width, height);
@@ -23,6 +30,9 @@ public class DisplayComponent extends JComponent {
 		
 		this.setFocusable(m_isInteractive);
 		this.setEnabled(m_isInteractive);
+		m_inputView = (m_isInteractive) ? new KeyboardView() : null;
+		if (m_inputView != null)
+			this.addKeyListener((KeyListener) m_inputView);
 		
 		this.setPreferredSize(m_dimension);
 		this.setMinimumSize(m_dimension);
@@ -48,9 +58,11 @@ public class DisplayComponent extends JComponent {
 	
 	public void initialize() {
 		m_image = new BufferedImage(m_dimension.width, m_dimension.height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = (Graphics2D) m_image.getGraphics();
+		graphics.setColor(Color.BLACK);
+		graphics.fillRect(0, 0, m_dimension.width, m_dimension.height);
 	}
 	
 	public void teardown() {
-		// TODO
 	}
 }
