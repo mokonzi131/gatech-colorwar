@@ -11,7 +11,7 @@ public class StarActor extends Actor {
 	private float vx, vy;
 	
 	public StarActor(float v_x, float v_y) {
-		super(new SimpleCircleSprite());
+		super(new StarSprite());
 		
 		Random random = new Random();
 		x = random.nextInt(Constants.WORLD_WIDTH);

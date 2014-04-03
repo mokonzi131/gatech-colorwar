@@ -7,7 +7,7 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.util.Random;
 
-import engine.Sprite;
+import engine.rendering.Sprite;
 
 public class TileSprite extends Sprite {
 	private static final int TILE_SIZE = Constants.CELL_DISTANCE;

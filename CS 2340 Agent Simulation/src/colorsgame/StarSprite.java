@@ -5,13 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.Random;
 
-import engine.Sprite;
+import engine.rendering.Sprite;
 
-public class SimpleCircleSprite extends Sprite {
+public class StarSprite extends Sprite {
 	private Color m_color;
 	private Rectangle m_bounds;
 	
-	public SimpleCircleSprite() {
+	public StarSprite() {
 		Random random = new Random();
 		int diameter = random.nextInt(5) + 3;
 		m_color = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255), 255);

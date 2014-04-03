@@ -1,4 +1,4 @@
-package engine;
+package engine.rendering;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;

@@ -27,7 +27,7 @@ public class AgentActor extends Actor {
 		x += vx * deltaTime;
 		y += vy * deltaTime;
 		
-		if (x < 0) x = Constants.WORLD_WIDTH;
+		if (x > Constants.WORLD_WIDTH) x = 0;
 		if (y > Constants.WORLD_HEIGHT) y = 0;
 	}
 	

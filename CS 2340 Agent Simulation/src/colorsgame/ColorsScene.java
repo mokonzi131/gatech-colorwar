@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import engine.scene.Actor;
 import engine.scene.Scene;
+import environment.Environment;
 
 public class ColorsScene extends Scene {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
@@ -16,14 +17,9 @@ public class ColorsScene extends Scene {
 	
 	private List<Actor> m_actors;
 	
-	private List<StarActor> m_agents;
-	private StarActor m_environment;
-	
 	public ColorsScene() {
 		m_agentTimer = 0.0;
 		m_actors = new ArrayList<>();
-		m_agents = new ArrayList<>();
-		m_environment = null;
 	}
 
 	@Override

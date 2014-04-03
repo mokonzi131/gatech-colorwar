@@ -6,17 +6,17 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 
-import engine.Sprite;
+import engine.rendering.Sprite;
 
 public class AgentSprite extends Sprite {
-	private static final int AGENT_RADIUS = Constants.CELL_DISTANCE / 2;
-	private static final Stroke stroke = new BasicStroke(1.0f);
+	private static final int AGENT_RADIUS = Constants.CELL_DISTANCE / 2 - 2;
+	private static final Stroke stroke = new BasicStroke(2.0f);
 	
 	private Color m_color;
 	private Rectangle m_bounds;
 	
 	public AgentSprite() {
-		m_color = new Color(255, 255, 255, 50);
+		m_color = new Color(0, 255, 0, 0);
 		m_bounds = new Rectangle(AGENT_RADIUS * 2, AGENT_RADIUS * 2);
 	}
 	

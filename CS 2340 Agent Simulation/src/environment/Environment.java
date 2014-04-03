@@ -1,7 +1,11 @@
-package colorsgame;
+package environment;
 
 import java.util.Random;
 
+import colorsgame.Constants;
+
+// a grid of tiles, most tiles are valid, some are invalid,
+//  some tiles contain colors, also keep track of which players (agents) are where...
 public class Environment {
 	public int[][] map =
 			new int[Constants.WORLD_WIDTH / Constants.CELL_DISTANCE - 1]
