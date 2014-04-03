@@ -16,8 +16,8 @@ public class StarActor extends Actor {
 		super(new StarSprite());
 		
 		Random random = new Random();
-		x = random.nextInt(Constants.DEVELOPER_VIEW_WIDTH);
-		y = random.nextInt(Constants.DEVELOPER_VIEW_HEIGHT);
+		x = random.nextInt(Constants.WORLD_WIDTH);
+		y = random.nextInt(Constants.WORLD_HEIGHT);
 		vx = v_x;
 		vy = v_y;
 	}
@@ -29,8 +29,8 @@ public class StarActor extends Actor {
 		x += vx * deltaTime;
 		y += vy * deltaTime;
 		
-		if (x < 0) x = Constants.DEVELOPER_VIEW_WIDTH;
-		if (y > Constants.DEVELOPER_VIEW_HEIGHT) y = 0;
+		if (x < 0) x = Constants.WORLD_WIDTH;
+		if (y > Constants.WORLD_HEIGHT) y = 0;
 	}
 	
 	public void render(Graphics2D context) {

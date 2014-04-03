@@ -10,20 +10,16 @@ import colorsgame.Constants;
 //  some tiles contain colors, also keep track of which players (agents) are where...
 public class Environment {
 	private static final Random random = new Random();
-	private static final int WORLD_WIDTH = Constants.DEVELOPER_VIEW_WIDTH;
-	private static final int WORLD_HEIGHT = Constants.DEVELOPER_VIEW_HEIGHT;
-	private static final int MAP_CELLS_X = WORLD_WIDTH / Constants.CELL_DISTANCE - 2;
-	private static final int MAP_CELLS_Y = WORLD_HEIGHT / Constants.CELL_DISTANCE - 2;
 	
-	private boolean[][] grid = new boolean[MAP_CELLS_X][MAP_CELLS_Y];
+	private boolean[][] grid = new boolean[Constants.GRID_WIDTH][Constants.GRID_HEIGHT];
 	private List<Cell> m_cells;
 	
 	public Environment() {
 		m_cells = new ArrayList<>();
 		
 		// layout initial grid
-		for (int i = 0; i < MAP_CELLS_X; ++i)
-			for (int j = 0; j < MAP_CELLS_Y; ++j) {
+		for (int i = 0; i < Constants.GRID_WIDTH; ++i)
+			for (int j = 0; j < Constants.GRID_HEIGHT; ++j) {
 				boolean create = random.nextInt(100) > 10 ? true : false;
 				grid[i][j] = create;
 				if (create)
@@ -39,13 +35,13 @@ public class Environment {
 	
 	private float[] gridToWorld(int i, int j) {
 		float x, y;
-		x = i * Constants.CELL_DISTANCE + 1.5f * Constants.CELL_DISTANCE;
-		y = j * Constants.CELL_DISTANCE + 1.5f * Constants.CELL_DISTANCE;
+		x = i * Constants.CELL_DISTANCE + 0.5f * Constants.CELL_DISTANCE + Constants.GRID_BUFFER;
+		y = j * Constants.CELL_DISTANCE + 0.5f * Constants.CELL_DISTANCE + Constants.GRID_BUFFER;
 		return new float[]{x, y};
 	}
 	
 	public List<Cell> cells() { return m_cells; }
 	
-	public int getWidth() { return MAP_CELLS_X; }
-	public int getHeight() { return MAP_CELLS_Y; }
+	public int getWidth() { return Constants.GRID_WIDTH; }
+	public int getHeight() { return Constants.GRID_HEIGHT; }
 }

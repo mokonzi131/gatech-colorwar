@@ -2,10 +2,8 @@ package colorsgame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -21,6 +19,7 @@ public class ColorsScene extends Scene {
 
 	private double m_agentTimer;
 	
+	BufferedImage m_worldImage;
 	private List<Actor> m_actors;
 	private List<Actor> m_agentActors;
 	
@@ -32,6 +31,8 @@ public class ColorsScene extends Scene {
 
 	@Override
 	public void initialize() {
+		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		
 		// create background color star-field
 		for (int i = 0; i < 33; ++i)
 			m_actors.add(new StarActor(-5, 5));
@@ -50,7 +51,7 @@ public class ColorsScene extends Scene {
 		
 		// create agents
 		for (int i = 0; i < Constants.numAgents; ++i) {
-			AgentActor agent = new AgentActor(5, 5);
+			AgentActor agent = new AgentActor(30, 30);
 			m_actors.add(agent);
 			m_agentActors.add(agent);
 		}
@@ -75,17 +76,19 @@ public class ColorsScene extends Scene {
 
 	@Override
 	public void render(BufferedImage[] images) {
+		// render the world
+		Graphics2D worldContext = m_worldImage.createGraphics();
+		background(worldContext, m_worldImage.getWidth(), m_worldImage.getHeight());
+		for (Actor actor : m_actors)
+			actor.render(worldContext);
+		
 		// render the developer view...
-		Graphics2D developerContext = images[0].createGraphics();
-		background(developerContext, images[0].getWidth(), images[0].getHeight());
-		for (Actor actor : m_actors) {
-			actor.render(developerContext);
-		}
+		viewport(m_worldImage, images[0]);
 		
 		// build human view from developer image...
 		Actor humanAgent = m_agentActors.get(0);
 		Point2D location = humanAgent.location();
-		snapshot(images[0], images[1], location);
+		snapshot(m_worldImage, images[1], location);
 	}
 	
 	// clear a graphics context to the background color
@@ -95,14 +98,20 @@ public class ColorsScene extends Scene {
 	}
 	
 	// render a snapshot image from one graphics to the other centered at a location
-	// TODO extract this scaling stuff to Constants
 	private void snapshot(BufferedImage from, BufferedImage to, Point2D location) {
 		Graphics2D graphics = to.createGraphics();
 		background(graphics, to.getWidth(), to.getHeight());
 		int x = (int) location.getX();
 		int y = (int) location.getY();
-		int range = 50;
+		int radius = (Constants.AGENT_RANGE * Constants.CELL_DISTANCE) / 2;
+		
 		graphics.drawImage(from, 0, 0, to.getWidth(), to.getHeight(),
-				x - range, y - range, x + range, y + range, null);
+				x - radius, y - radius, x + radius, y + radius, null);
+	}
+	
+	private void viewport(BufferedImage from, BufferedImage to) {
+		Graphics2D graphics = to.createGraphics();
+		graphics.drawImage(from, 0, 0, to.getWidth(), to.getHeight(),
+				0, 0, from.getWidth(), from.getHeight(), null);
 	}
 }

@@ -8,6 +8,7 @@ import engine.rendering.Sprite;
 
 public class TileSprite extends Sprite {
 	private static final int TILE_SIZE = Constants.CELL_DISTANCE;
+	private static final int TILE_BUFFER = (int) (TILE_SIZE * 0.15f);
 	
 	private Color m_color;
 	private Rectangle m_bounds;
@@ -24,8 +25,8 @@ public class TileSprite extends Sprite {
 	@Override
 	public void draw(Graphics2D graphics, int x, int y) {
 		graphics.setColor(m_color);
-		graphics.fillRect(x - (m_bounds.width / 2) + 2, y - (m_bounds.height / 2) + 2,
-				m_bounds.width - 2, m_bounds.height - 2);
+		graphics.fillRect(x - (m_bounds.width / 2) + TILE_BUFFER, y - (m_bounds.height / 2) + TILE_BUFFER,
+				m_bounds.width - TILE_BUFFER, m_bounds.height - TILE_BUFFER);
 	}
 
 	@Override

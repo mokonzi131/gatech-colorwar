@@ -1,6 +1,5 @@
 package engine;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
@@ -75,7 +74,7 @@ public class Engine implements Runnable {
 		switch(this.m_renderingType) {
 		case DEVELOPER:
 			m_masterDisplay = new Display(
-					Constants.DEVELOPER_VIEW_WIDTH, Constants.DEVELOPER_VIEW_HEIGHT, false);
+					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT, false);
 			m_masterDisplay.initialize();
 			
 			// TODO also create game views for each AI agent -- one per agent?
