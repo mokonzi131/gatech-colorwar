@@ -1,6 +1,5 @@
 package colorsgame;
 
-import engine.Engine;
 import engine.Engine.RENDERING_TYPE;
 
 public class Constants {
