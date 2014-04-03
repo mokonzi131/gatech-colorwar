@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
 import colorsgame.ColorsScene;
@@ -33,7 +34,7 @@ public class Game implements Interactable {
 //		m_currentScene.render(context);
 	}
 	
-	public void render(Graphics2D[] contexts) {
-		m_currentScene.render(contexts);
+	public void render(BufferedImage[] images) {
+		m_currentScene.render(images);
 	}
 }

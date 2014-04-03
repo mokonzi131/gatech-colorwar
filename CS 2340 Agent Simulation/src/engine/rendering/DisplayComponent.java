@@ -40,16 +40,12 @@ public class DisplayComponent extends JComponent {
 		this.setDoubleBuffered(true);
 	}
 	
-	public Graphics2D getContext() {
+	public BufferedImage getContext() {
 		// draw previous image to screen // TODO double buffer this later...
 		this.getGraphics().drawImage(m_image, 0, 0, null);
 		
 		// get and clear graphics from the image
-		Graphics2D graphics = (Graphics2D) m_image.getGraphics();
-		graphics.setColor(Color.BLACK);
-		graphics.fillRect(0, 0, m_dimension.width, m_dimension.height);
-		
-		return graphics;
+		return m_image;
 	}
 	
 	public Dimension getPreferredSize() {
@@ -58,9 +54,6 @@ public class DisplayComponent extends JComponent {
 	
 	public void initialize() {
 		m_image = new BufferedImage(m_dimension.width, m_dimension.height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphics = (Graphics2D) m_image.getGraphics();
-		graphics.setColor(Color.BLACK);
-		graphics.fillRect(0, 0, m_dimension.width, m_dimension.height);
 	}
 	
 	public void teardown() {

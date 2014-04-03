@@ -1,6 +1,6 @@
 package engine.scene;
 
-import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 public abstract class Scene {
 	public abstract void initialize();
@@ -9,5 +9,5 @@ public abstract class Scene {
 	
 	public abstract void update(double deltaTime);
 	
-	public abstract void render(Graphics2D[] contexts);
+	public abstract void render(BufferedImage[] images);
 }

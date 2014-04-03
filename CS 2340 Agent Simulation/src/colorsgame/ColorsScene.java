@@ -1,7 +1,11 @@
 package colorsgame;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,20 +74,35 @@ public class ColorsScene extends Scene {
 	}
 
 	@Override
-	public void render(Graphics2D[] contexts) {
-		Graphics2D developerContext = contexts[0];
+	public void render(BufferedImage[] images) {
+		// render the developer view...
+		Graphics2D developerContext = images[0].createGraphics();
+		background(developerContext, images[0].getWidth(), images[0].getHeight());
 		for (Actor actor : m_actors) {
 			actor.render(developerContext);
 		}
 		
-		Graphics2D humanContext = contexts[1];
+		// build human view from developer image...
 		Actor humanAgent = m_agentActors.get(0);
 		Point2D location = humanAgent.location();
-		snapshot(developerContext, humanContext, location);
+		snapshot(images[0], images[1], location);
+	}
+	
+	// clear a graphics context to the background color
+	private void background(Graphics2D context, int width, int height) {
+		context.setColor(Color.BLACK);
+		context.fillRect(0, 0, width, height);
 	}
 	
 	// render a snapshot image from one graphics to the other centered at a location
-	private void snapshot(Graphics2D from, Graphics2D to, Point2D location) {
-		// TODO
+	// TODO extract this scaling stuff to Constants
+	private void snapshot(BufferedImage from, BufferedImage to, Point2D location) {
+		Graphics2D graphics = to.createGraphics();
+		background(graphics, to.getWidth(), to.getHeight());
+		int x = (int) location.getX();
+		int y = (int) location.getY();
+		int range = 50;
+		graphics.drawImage(from, 0, 0, to.getWidth(), to.getHeight(),
+				x - range, y - range, x + range, y + range, null);
 	}
 }

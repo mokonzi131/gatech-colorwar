@@ -1,6 +1,7 @@
 package engine;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
 import colorsgame.Constants;
@@ -55,10 +56,10 @@ public class Engine implements Runnable {
 			m_game.update(deltaTime);
 			
 			// render the game (//TODO make sure displays and contexts are valid)
-			Graphics2D[] contexts = new Graphics2D[2];
-			contexts[0] = m_masterDisplay.getContext();
-			contexts[1] = m_humanDisplay.getContext();
-			m_game.render(contexts);
+			BufferedImage[] images = new BufferedImage[2];
+			images[0] = m_masterDisplay.getContext();
+			images[1] = m_humanDisplay.getContext();
+			m_game.render(images);
 		}
 		
 		// cleanup the game

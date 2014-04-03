@@ -3,6 +3,7 @@ package engine.rendering;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -21,7 +22,7 @@ public class Display {
 		m_isInteractive = interactive;
 	}
 	
-	public Graphics2D getContext() {
+	public BufferedImage getContext() {
 		return m_component.getContext();
 	}
 	
