@@ -2,6 +2,9 @@ package engine;
 
 import java.util.logging.Logger;
 
+import colorsgame.Constants;
+import engine.rendering.Display;
+
 public class Engine implements Runnable {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 	private static final int FPS = 30;
@@ -19,10 +22,9 @@ public class Engine implements Runnable {
 	private Display m_masterDisplay;
 	private boolean m_running;
 	
-	public Engine(Game game, RENDERING_TYPE renderingType) {
-		LOGGER.info("Rendering Type: " + renderingType);
+	public Engine(Game game) {
 		m_game = game;
-		m_renderingType = renderingType;
+		m_renderingType = Constants.renderingType;
 		m_masterDisplay = null;
 		m_running = false;
 	}

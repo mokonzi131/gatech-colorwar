@@ -1,10 +1,12 @@
-package engine;
+package engine.rendering;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
+
+import colorsgame.Constants;
 
 public class Display {
 	private int m_width;

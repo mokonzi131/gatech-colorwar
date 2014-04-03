@@ -1,12 +1,9 @@
-package engine;
+package engine.rendering;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.VolatileImage;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
@@ -30,6 +27,7 @@ public class DisplayComponent extends JComponent {
 		this.setPreferredSize(m_dimension);
 		this.setMinimumSize(m_dimension);
 		this.setMaximumSize(m_dimension);
+		this.setDoubleBuffered(true);
 	}
 	
 	public Graphics2D getContext() {
