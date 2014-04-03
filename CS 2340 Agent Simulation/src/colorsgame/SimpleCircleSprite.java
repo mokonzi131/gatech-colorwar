@@ -13,9 +13,9 @@ public class SimpleCircleSprite extends Sprite {
 	
 	public SimpleCircleSprite() {
 		Random random = new Random();
-		int radius = random.nextInt(5) + 3;
+		int diameter = random.nextInt(5) + 3;
 		m_color = new Color(random.nextInt(255), random.nextInt(255), random.nextInt(255), 255);
-		m_bounds = new Rectangle(radius, radius);
+		m_bounds = new Rectangle(diameter, diameter);
 	}
 	
 	@Override

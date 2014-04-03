@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import engine.scene.Actor;
 import engine.scene.Scene;
 
 public class ColorsScene extends Scene {
@@ -13,7 +14,7 @@ public class ColorsScene extends Scene {
 
 	private double m_agentTimer;
 	
-	private List<StarActor> m_actors;
+	private List<Actor> m_actors;
 	
 	private List<StarActor> m_agents;
 	private StarActor m_environment;
@@ -27,12 +28,26 @@ public class ColorsScene extends Scene {
 
 	@Override
 	public void initialize() {
+		// create background color star-field
 		for (int i = 0; i < 33; ++i)
 			m_actors.add(new StarActor(-10, 10));
 		for (int i = 0; i < 33; ++i)
 			m_actors.add(new StarActor(-20, 20));
 		for (int i = 0; i < 33; ++i)
 			m_actors.add(new StarActor(-40, 40));
+		
+		// create world map (environment)
+		Environment environment = new Environment();
+		for (int x = Constants.CELL_DISTANCE / 2 + 2, i = 0;
+				i < environment.getWidth(); x += Constants.CELL_DISTANCE, ++i)
+			for (int y = Constants.CELL_DISTANCE / 2 + 2, j = 0;
+					j < environment.getHeight(); y += Constants.CELL_DISTANCE, ++j)
+				if (environment.map[i][j] == 1)
+					m_actors.add(new TileActor(x, y));
+		
+		// create agents
+		for (int i = 0; i < Constants.numAgents; ++i)
+			m_actors.add(new AgentActor(5, 5));
 	}
 
 	@Override
@@ -42,7 +57,7 @@ public class ColorsScene extends Scene {
 
 	@Override
 	public void update(double deltaTime) {
-		for (StarActor actor : m_actors)
+		for (Actor actor : m_actors)
 			actor.update(deltaTime);
 		
 		m_agentTimer += deltaTime;
@@ -54,7 +69,7 @@ public class ColorsScene extends Scene {
 
 	@Override
 	public void render(Graphics2D context) {
-		for (StarActor actor : m_actors)
+		for (Actor actor : m_actors)
 			actor.render(context);
 	}
 

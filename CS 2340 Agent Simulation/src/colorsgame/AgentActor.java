@@ -6,12 +6,12 @@ import java.util.Random;
 import engine.scene.Actor;
 
 // game entity that has a controller
-public class StarActor extends Actor {
+public class AgentActor extends Actor {
 	private float x, y;
 	private float vx, vy;
 	
-	public StarActor(float v_x, float v_y) {
-		super(new SimpleCircleSprite());
+	public AgentActor(float v_x, float v_y) {
+		super(new AgentSprite());
 		
 		Random random = new Random();
 		x = random.nextInt(Constants.WORLD_WIDTH);
