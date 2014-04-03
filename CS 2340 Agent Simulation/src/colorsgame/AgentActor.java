@@ -14,8 +14,8 @@ public class AgentActor extends Actor {
 		super(new AgentSprite());
 		
 		Random random = new Random();
-		x = random.nextInt(Constants.WORLD_WIDTH);
-		y = random.nextInt(Constants.WORLD_HEIGHT);
+		x = random.nextInt(Constants.DEVELOPER_VIEW_WIDTH);
+		y = random.nextInt(Constants.DEVELOPER_VIEW_HEIGHT);
 		vx = v_x;
 		vy = v_y;
 	}
@@ -27,8 +27,8 @@ public class AgentActor extends Actor {
 		x += vx * deltaTime;
 		y += vy * deltaTime;
 		
-		if (x > Constants.WORLD_WIDTH) x = 0;
-		if (y > Constants.WORLD_HEIGHT) y = 0;
+		if (x > Constants.DEVELOPER_VIEW_WIDTH) x = 0;
+		if (y > Constants.DEVELOPER_VIEW_HEIGHT) y = 0;
 	}
 	
 	public void render(Graphics2D context) {

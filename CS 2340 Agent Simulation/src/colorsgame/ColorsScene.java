@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 
 import engine.scene.Actor;
 import engine.scene.Scene;
+import environment.Cell;
 import environment.Environment;
 
 public class ColorsScene extends Scene {
@@ -34,12 +35,10 @@ public class ColorsScene extends Scene {
 		
 		// create world map (environment)
 		Environment environment = new Environment();
-		for (int x = Constants.CELL_DISTANCE / 2 + 2, i = 0;
-				i < environment.getWidth(); x += Constants.CELL_DISTANCE, ++i)
-			for (int y = Constants.CELL_DISTANCE / 2 + 2, j = 0;
-					j < environment.getHeight(); y += Constants.CELL_DISTANCE, ++j)
-				if (environment.map[i][j] == 1)
-					m_actors.add(new TileActor(x, y));
+		for (Cell cell : environment.cells()) {
+			float[] coordinates = cell.coords();
+			m_actors.add(new TileActor(coordinates[0], coordinates[1], cell.constainsResource()));
+		}
 		
 		// create agents
 		for (int i = 0; i < Constants.numAgents; ++i)

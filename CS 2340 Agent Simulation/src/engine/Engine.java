@@ -66,7 +66,7 @@ public class Engine implements Runnable {
 		
 		switch(this.m_renderingType) {
 		case DEVELOPER:
-			m_masterDisplay = new Display(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, false);
+			m_masterDisplay = new Display(Constants.DEVELOPER_VIEW_WIDTH, Constants.DEVELOPER_VIEW_HEIGHT, false);
 			m_masterDisplay.initialize();
 			
 			// TODO also create game views for each AI agent -- one per agent?
