@@ -2,6 +2,6 @@ package iagent;
 
 public interface Observer {
 	
-	public double[] observe();
+	public double[] observe(int a);
 	
 }

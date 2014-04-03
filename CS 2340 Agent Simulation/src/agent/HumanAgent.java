@@ -12,8 +12,8 @@ public class HumanAgent implements IAgent {
 	}
 	
 	@Override
-	public int move() {
-		return observer.observe();
+	public int move(int a) {
+		return observer.queueUserMove(a);
 	}
 	
 	@Override
