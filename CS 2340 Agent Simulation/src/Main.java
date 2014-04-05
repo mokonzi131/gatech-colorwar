@@ -3,10 +3,10 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import colorsgame.Constants;
-import engine.Engine;
-import engine.Game;
-import engine.Engine.RENDERING_TYPE;
+import view.engine.Engine;
+import view.engine.Game;
+import view.engine.Engine.RENDERING_TYPE;
+import environment.colorwar.Constants;
 
 public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Thread

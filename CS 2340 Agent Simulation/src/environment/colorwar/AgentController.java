@@ -1,4 +1,4 @@
-package colorsgame;
+package environment.colorwar;
 
 public abstract class AgentController {
 	public static enum DIRECTION {

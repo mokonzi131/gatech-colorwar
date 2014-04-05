@@ -1,14 +1,11 @@
-package engine;
-
-import iview.IView;
+package view.engine;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
-import colorsgame.ColorsScene;
-import engine.scene.Interactable;
-import engine.scene.Scene;
+import view.IView;
+import environment.colorwar.ColorsScene;
 
 // manage a set of scenes and their transitions
 public class Game implements Interactable {

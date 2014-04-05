@@ -1,16 +1,16 @@
-package environment;
+package environment.colorwar;
 
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import colorsgame.AgentController;
-import colorsgame.Constants;
+import environment.i.IEnvironment;
 
 // a grid of tiles, most tiles are valid, some are invalid,
 //  some tiles contain colors, also keep track of which players (agents) are where...
-public class Environment {
+public class Environment implements IEnvironment {
 	private static final Random random = new Random();
 	
 	private boolean[][] grid = new boolean[Constants.GRID_WIDTH][Constants.GRID_HEIGHT];
@@ -63,6 +63,7 @@ public class Environment {
 	public List<Cell> cells() { return m_cells; }
 	
 	public Point2D.Float spawnLocation() {
+		// TODO return a valid location on the grid
 		float[] array = gridToWorld(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2);
 		return new Point2D.Float(array[0], array[1]);
 	}
@@ -96,4 +97,40 @@ public class Environment {
 	
 	public int getWidth() { return Constants.GRID_WIDTH; }
 	public int getHeight() { return Constants.GRID_HEIGHT; }
+
+	@Override
+	public double[][][] observeStructure(int a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public double[] observe(int a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int actionRange(int a) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void turn() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public BufferedImage total() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BufferedImage human() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

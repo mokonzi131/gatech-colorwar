@@ -1,6 +1,4 @@
-package colorsgame;
-
-import iview.IView;
+package environment.colorwar;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -9,8 +7,8 @@ import java.awt.geom.Point2D.Float;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import engine.scene.Actor;
-import environment.Environment;
+import view.IView;
+import view.engine.Actor;
 
 // game entity that has a controller
 public class AgentActor extends Actor {

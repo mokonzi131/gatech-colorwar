@@ -1,6 +1,4 @@
-package engine.rendering;
-
-import iview.IView;
+package view.engine;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -9,7 +7,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-import colorsgame.Constants;
+import view.IView;
+import environment.colorwar.Constants;
 
 public class Display {
 	private int m_width;

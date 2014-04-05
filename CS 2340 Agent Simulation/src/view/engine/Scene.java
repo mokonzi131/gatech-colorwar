@@ -1,8 +1,8 @@
-package engine.scene;
-
-import iview.IView;
+package view.engine;
 
 import java.awt.image.BufferedImage;
+
+import view.IView;
 
 public abstract class Scene {
 	public abstract void initialize();

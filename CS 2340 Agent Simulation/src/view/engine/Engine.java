@@ -1,12 +1,10 @@
-package engine;
-
-import iview.IView;
+package view.engine;
 
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
-import colorsgame.Constants;
-import engine.rendering.Display;
+import view.IView;
+import environment.colorwar.Constants;
 
 public class Engine implements Runnable {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());

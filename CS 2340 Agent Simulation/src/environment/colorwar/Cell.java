@@ -1,4 +1,4 @@
-package environment;
+package environment.colorwar;
 
 public class Cell {
 	float m_posx, m_posy;

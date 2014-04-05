@@ -1,6 +1,4 @@
-package colorsgame;
-
-import iview.IView;
+package environment.colorwar;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -11,10 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import engine.scene.Actor;
-import engine.scene.Scene;
-import environment.Cell;
-import environment.Environment;
+import view.IView;
+import view.engine.Actor;
+import view.engine.Scene;
 
 public class ColorsScene extends Scene {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());

@@ -1,4 +1,4 @@
-package colorsgame;
+package environment.colorwar;
 
 import java.util.Random;
 

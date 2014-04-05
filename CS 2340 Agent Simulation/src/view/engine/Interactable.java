@@ -1,4 +1,4 @@
-package engine.scene;
+package view.engine;
 
 import java.awt.Graphics2D;
 

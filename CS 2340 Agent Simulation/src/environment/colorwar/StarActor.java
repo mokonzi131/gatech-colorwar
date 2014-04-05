@@ -1,11 +1,11 @@
-package colorsgame;
+package environment.colorwar;
 
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.util.Random;
 
-import engine.scene.Actor;
+import view.engine.Actor;
 
 // game entity that has a controller
 public class StarActor extends Actor {

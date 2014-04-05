@@ -1,7 +1,4 @@
-package engine.rendering;
-
-import iview.IView;
-import iview.KeyboardView;
+package view.engine;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,6 +10,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
+
+import view.IView;
+import view.KeyboardView;
 
 public class DisplayComponent extends JComponent {
 	private static final long serialVersionUID = 1L;

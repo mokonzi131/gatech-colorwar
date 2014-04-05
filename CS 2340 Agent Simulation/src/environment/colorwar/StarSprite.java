@@ -1,11 +1,11 @@
-package colorsgame;
+package environment.colorwar;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.util.Random;
 
-import engine.rendering.Sprite;
+import view.engine.Sprite;
 
 public class StarSprite extends Sprite {
 	private Color m_color;

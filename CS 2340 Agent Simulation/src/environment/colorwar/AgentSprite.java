@@ -1,4 +1,4 @@
-package colorsgame;
+package environment.colorwar;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 
-import engine.rendering.Sprite;
+import view.engine.Sprite;
 
 public class AgentSprite extends Sprite {
 	private static final int AGENT_RADIUS = Constants.CELL_DISTANCE / 2 - 2;

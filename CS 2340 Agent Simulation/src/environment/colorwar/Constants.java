@@ -1,6 +1,6 @@
-package colorsgame;
+package environment.colorwar;
 
-import engine.Engine.RENDERING_TYPE;
+import view.engine.Engine.RENDERING_TYPE;
 
 public class Constants {
 	// pre-defined constants
