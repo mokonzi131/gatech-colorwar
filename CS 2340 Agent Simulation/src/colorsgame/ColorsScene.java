@@ -23,7 +23,7 @@ public class ColorsScene extends Scene {
 	
 	BufferedImage m_worldImage;
 	private List<Actor> m_actors;
-	private List<Actor> m_agentActors;
+	private List<AgentActor> m_agentActors;
 	private IView m_controller;
 	
 	public ColorsScene() {
@@ -35,8 +35,6 @@ public class ColorsScene extends Scene {
 	
 	public void setController(IView controller) {
 		m_controller = controller;
-		if (m_agentActors.size() > 0)
-			((AgentActor)m_agentActors.get(0)).setController(controller);
 	}
 
 	@Override
@@ -45,9 +43,9 @@ public class ColorsScene extends Scene {
 		
 		// create background color star-field
 		for (int i = 0; i < 45; ++i)
-			m_actors.add(new StarActor(-10, 10));
+			m_actors.add(new StarActor(-21, 40));
 		for (int i = 0; i < 45; ++i)
-			m_actors.add(new StarActor(-40, 40));
+			m_actors.add(new StarActor(-50, 100));
 		
 		// create world map (environment)
 		Environment environment = new Environment();
@@ -60,12 +58,11 @@ public class ColorsScene extends Scene {
 		// create agents
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			Point2D.Float location = environment.spawnLocation();
-			AgentActor agent = new AgentActor(location.x, location.y);
+			// TODO create and assign controllers to the agents
+			AgentActor agent = new AgentActor(location.x, location.y, new RandomAgentController());
 			m_actors.add(agent);
 			m_agentActors.add(agent);
 		}
-		if (m_controller != null)
-			((AgentActor)m_agentActors.get(0)).setController(m_controller);
 	}
 
 	@Override
@@ -81,7 +78,8 @@ public class ColorsScene extends Scene {
 		m_agentTimer += deltaTime;
 		if (m_agentTimer > 1.0) {
 			m_agentTimer = 0.0;
-			LOGGER.log(Level.INFO, "MOVE AGENTS!");
+			for (AgentActor agent : m_agentActors)
+				agent.move();
 		}
 	}
 

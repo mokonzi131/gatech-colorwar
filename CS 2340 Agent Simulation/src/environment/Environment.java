@@ -44,7 +44,7 @@ public class Environment {
 	public List<Cell> cells() { return m_cells; }
 	
 	public Point2D.Float spawnLocation() {
-		float[] array = gridToWorld(1, 1);
+		float[] array = gridToWorld(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2);
 		return new Point2D.Float(array[0], array[1]);
 	}
 	

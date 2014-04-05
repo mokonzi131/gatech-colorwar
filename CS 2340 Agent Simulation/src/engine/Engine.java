@@ -10,9 +10,8 @@ import engine.rendering.Display;
 
 public class Engine implements Runnable {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
-	private static final int FPS = 30;
 	private static final float NANOS_PER_SECOND = 1000000000f;
-	private static final float FRAME_FREQUENCY_NANOS = NANOS_PER_SECOND / FPS;
+	private static final float FRAME_FREQUENCY_NANOS = NANOS_PER_SECOND / Constants.FPS;
 	
 	public enum RENDERING_TYPE {
 		SIMULATED,
