@@ -1,10 +1,10 @@
-package iagent;
+package agent.i;
 
 /**
  * Interface to the agents or the players
  * @author John
  */
-public interface IAgent {
+public interface Agent {
 	
 	/**
 	 * This method returns the agent's desired move.  

@@ -1,4 +1,4 @@
-package iagent;
+package agent.i;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import java.util.HashMap;
  * @author John
  *
  */
-public interface SymmetryBasedObserver {
+public interface SymmetryBasedObserver extends StructuredObserver {
 	
 	/**
 	 * Observes a structure that contains information on symmetry.  

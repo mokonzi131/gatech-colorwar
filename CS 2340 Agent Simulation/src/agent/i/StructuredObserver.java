@@ -1,10 +1,10 @@
-package iagent;
+package agent.i;
 
 /**
  * The interface for returning structured information about the agent's perspective. 
  * @author John
  */
-public interface StructuredObserver {
+public interface StructuredObserver extends Observer {
 	
 	/**
 	 * Returns structure about the game

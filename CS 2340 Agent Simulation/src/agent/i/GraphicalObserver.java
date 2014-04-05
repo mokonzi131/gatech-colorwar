@@ -1,4 +1,4 @@
-package iagent;
+package agent.i;
 
 /**
  * The interface for retrieving graphical information about the users location
@@ -6,7 +6,7 @@ package iagent;
  * @author John
  *
  */
-public interface GraphicalObserver {
+public interface GraphicalObserver extends Observer {
 	
 	/**
 	 * Shows the user the state of the game and requests a move.  

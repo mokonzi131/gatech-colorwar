@@ -1,4 +1,4 @@
-package iagent;
+package agent.i;
 
 /**
  * Contains the different symmetry tags.  

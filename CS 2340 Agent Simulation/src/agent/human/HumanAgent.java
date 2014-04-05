@@ -1,9 +1,9 @@
-package agent;
+package agent.human;
 
-import iagent.GraphicalObserver;
-import iagent.IAgent;
+import agent.i.GraphicalObserver;
+import agent.i.Agent;
 
-public class HumanAgent implements IAgent {
+public class HumanAgent implements Agent {
 	
 	private GraphicalObserver observer;
 	
