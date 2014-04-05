@@ -1,4 +1,4 @@
-package agent.i;
+package environment.i;
 
 /**
  * The interface for retrieving graphical information about the users location

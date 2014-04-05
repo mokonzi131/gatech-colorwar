@@ -2,8 +2,9 @@ package agent.random;
 
 import java.util.Random;
 
+import environment.i.Observer;
+
 import agent.i.Agent;
-import agent.i.Observer;
 
 public class RandomAgent implements Agent {
 	

@@ -1,6 +1,6 @@
 package agent.human;
 
-import agent.i.GraphicalObserver;
+import environment.i.GraphicalObserver;
 import agent.i.Agent;
 
 public class HumanAgent implements Agent {

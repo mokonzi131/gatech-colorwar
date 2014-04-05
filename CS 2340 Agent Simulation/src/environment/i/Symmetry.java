@@ -1,4 +1,4 @@
-package agent.i;
+package environment.i;
 
 /**
  * Contains the different symmetry tags.  

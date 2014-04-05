@@ -4,8 +4,9 @@ import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 
-import iagent.IAgent;
-import ienvironment.IEnvironment;
+import environment.i.IEnvironment;
+
+import agent.i.Agent;
 
 public class ColorWar implements IEnvironment {
 
@@ -13,7 +14,7 @@ public class ColorWar implements IEnvironment {
 	Random r= new Random();
 	Point[] location;
 	int n;
-	ColorWar(IAgent[] a){
+	ColorWar(Agent[] a){
 		n=a.length;
 		location= new Point [n];
 		for (int i=0; i< n; i++){
@@ -43,15 +44,21 @@ public class ColorWar implements IEnvironment {
 	
 	
 	@Override
-	public double[][][] agentView(int a) {
+	public double[][][] observeStructure(int a) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public double[] information(int a) {
+	public double[] observe(int a) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public int actionRange(int a) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override

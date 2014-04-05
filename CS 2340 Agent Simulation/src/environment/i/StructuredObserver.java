@@ -1,4 +1,4 @@
-package agent.i;
+package environment.i;
 
 /**
  * The interface for returning structured information about the agent's perspective. 

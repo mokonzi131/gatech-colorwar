@@ -1,4 +1,4 @@
-package agent.i;
+package environment.i;
 
 public interface Observer {
 	
