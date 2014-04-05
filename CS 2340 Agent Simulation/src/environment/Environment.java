@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import colorsgame.AgentController;
 import colorsgame.Constants;
 
 // a grid of tiles, most tiles are valid, some are invalid,
@@ -41,11 +42,56 @@ public class Environment {
 		return new float[]{x, y};
 	}
 	
+	private int[] worldToGrid(float x, float y) {
+		float fi, fj;
+		fi = (x - Constants.GRID_BUFFER - 0.5f * Constants.CELL_DISTANCE) / Constants.CELL_DISTANCE;
+		fj = (y - Constants.GRID_BUFFER - 0.5f * Constants.CELL_DISTANCE) / Constants.CELL_DISTANCE;
+		int i = Math.round(fi);
+		int j = Math.round(fj);
+		return new int[]{i, j};
+	}
+	
+	private boolean isValidLocation(Point2D.Float location) {
+		int[] pos = worldToGrid(location.x, location.y);
+		int i = pos[0];
+		int j = pos[1];
+		if (i < 0 || j < 0 || i >= Constants.GRID_WIDTH || j >= Constants.GRID_HEIGHT)
+			return false;
+		return grid[i][j];
+	}
+	
 	public List<Cell> cells() { return m_cells; }
 	
 	public Point2D.Float spawnLocation() {
 		float[] array = gridToWorld(Constants.GRID_WIDTH / 2, Constants.GRID_HEIGHT / 2);
 		return new Point2D.Float(array[0], array[1]);
+	}
+	
+	public Point2D.Float getLocation(Point2D.Float currentLocation, AgentController.DIRECTION direction) {
+		Point2D.Float location;
+		
+		switch(direction) {
+		case NORTH:
+			location = new Point2D.Float(currentLocation.x, currentLocation.y - Constants.CELL_DISTANCE);
+			break;
+		case EAST:
+			location = new Point2D.Float(currentLocation.x + Constants.CELL_DISTANCE, currentLocation.y);
+			break;
+		case SOUTH:
+			location = new Point2D.Float(currentLocation.x, currentLocation.y + Constants.CELL_DISTANCE);
+			break;
+		case WEST:
+			location = new Point2D.Float(currentLocation.x - Constants.CELL_DISTANCE, currentLocation.y);
+			break;
+		default:
+			location = currentLocation;
+			break;
+		}
+		
+		if (!isValidLocation(location))
+			location = currentLocation;
+		
+		return location;
 	}
 	
 	public int getWidth() { return Constants.GRID_WIDTH; }

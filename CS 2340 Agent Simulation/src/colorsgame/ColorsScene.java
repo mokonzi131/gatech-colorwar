@@ -59,7 +59,7 @@ public class ColorsScene extends Scene {
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			Point2D.Float location = environment.spawnLocation();
 			// TODO create and assign controllers to the agents
-			AgentActor agent = new AgentActor(location.x, location.y, new RandomAgentController());
+			AgentActor agent = new AgentActor(location.x, location.y, new RandomAgentController(), environment);
 			m_actors.add(agent);
 			m_agentActors.add(agent);
 		}
