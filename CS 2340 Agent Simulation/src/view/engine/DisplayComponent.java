@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.JComponent;
 
 import view.IView;
-import view.KeyboardView;
+import view.InputMap;
 
 public class DisplayComponent extends JComponent {
 	private static final long serialVersionUID = 1L;
@@ -22,7 +22,7 @@ public class DisplayComponent extends JComponent {
 //	private GraphicsConfiguration m_graphicsConfiguration; // for initializing artwork TODO
 	private boolean m_isInteractive;
 	private BufferedImage m_image;
-	private IView m_inputView;
+	private InputMap m_inputMap;
 	
 	public DisplayComponent(int width, int height, boolean interactive) {
 		m_dimension = new Dimension(width, height);
@@ -30,9 +30,10 @@ public class DisplayComponent extends JComponent {
 		
 		this.setFocusable(m_isInteractive);
 		this.setEnabled(m_isInteractive);
-		m_inputView = (m_isInteractive) ? new KeyboardView() : null;
-		if (m_inputView != null)
-			this.addKeyListener((KeyListener) m_inputView);
+//		m_inputMap = 
+//		m_inputView = (m_isInteractive) ? new InputMap() : null;
+//		if (m_inputView != null)
+//			this.addKeyListener((KeyListener) m_inputView);
 		
 		this.setPreferredSize(m_dimension);
 		this.setMinimumSize(m_dimension);
@@ -40,7 +41,7 @@ public class DisplayComponent extends JComponent {
 		this.setDoubleBuffered(true);
 	}
 	
-	public IView getController() { return m_inputView; }
+//	public IView getController() { return m_inputView; }
 	
 	public BufferedImage getContext() {
 		// draw previous image to screen // TODO double buffer this later...

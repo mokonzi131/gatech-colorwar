@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import view.IView;
+import view.InputMap;
 import view.engine.Actor;
 import view.engine.Scene;
 
@@ -53,10 +54,14 @@ public class ColorsScene extends Scene {
 		}
 		
 		// create agents
+		InputMap inputMap = null;
+		if (Constants.isHumanPlayable)
+			inputMap = new InputMap(); // TODO assign this to an actual window (in the engine)
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			Point2D.Float location = environment.spawnLocation();
-			// TODO create and assign controllers to the agents
-			AgentActor agent = new AgentActor(location.x, location.y, new RandomAgentController(), environment);
+			AgentController controller = (Constants.isHumanPlayable && i == 0) ?
+					new HumanAgentController(inputMap) : new RandomAgentController();
+			AgentActor agent = new AgentActor(location.x, location.y, controller, environment);
 			m_actors.add(agent);
 			m_agentActors.add(agent);
 		}

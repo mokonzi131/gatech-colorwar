@@ -23,9 +23,9 @@ public class Display {
 		m_isInteractive = interactive;
 	}
 	
-	public IView getController() {
-		return m_component.getController();
-	}
+//	public IView getController() {
+//		return m_component.getController();
+//	}
 	
 	public BufferedImage getContext() {
 		return m_component.getContext();

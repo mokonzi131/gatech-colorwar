@@ -8,6 +8,7 @@ public class RandomAgentController extends AgentController {
 	public RandomAgentController() {
 		m_random = new Random();
 	}
+	
 	@Override
 	public DIRECTION getNextMove() {
 		int variable = m_random.nextInt(5);
@@ -24,5 +25,4 @@ public class RandomAgentController extends AgentController {
 			return DIRECTION.NONE;
 		}
 	}
-
 }
