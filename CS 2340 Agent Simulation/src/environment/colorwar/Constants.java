@@ -1,7 +1,5 @@
 package environment.colorwar;
 
-import view.engine.Engine.RENDERING_TYPE;
-
 public class Constants {
 	// pre-defined constants
 	public static final String GAME_NAME = "Color War";
@@ -25,6 +23,12 @@ public class Constants {
 	public static final int AGENT_VIEW_HEIGHT = Math.min(CELL_DISTANCE * AGENT_RANGE, 200);
 	
 	// settings
+	public enum RENDERING_TYPE {
+		SIMULATED,
+		DEVELOPER,
+		NORMAL
+	}
+	
 	public static RENDERING_TYPE renderingType = RENDERING_TYPE.NORMAL;
 	public static int numAgents = 10;
 	public static boolean isHumanPlayable = true;

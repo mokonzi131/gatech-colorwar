@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import view.IView;
-import view.InputMap;
 import view.engine.Actor;
 import view.engine.Scene;
+import view.engine.system.Display;
+import view.engine.system.InputMap;
 
-public class ColorsScene extends Scene {
+public class ColorScene implements Scene {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
 	private double m_agentTimer;
@@ -22,21 +22,38 @@ public class ColorsScene extends Scene {
 	BufferedImage m_worldImage;
 	private List<Actor> m_actors;
 	private List<AgentActor> m_agentActors;
-	private IView m_controller;
+	private Display m_masterDisplay;
+	private Display m_humanDisplay;
 	
-	public ColorsScene() {
+	public ColorScene() {
 		m_agentTimer = 0.0;
 		m_actors = new ArrayList<>();
 		m_agentActors = new ArrayList<>();
-		m_controller = null;
-	}
-	
-	public void setController(IView controller) {
-		m_controller = controller;
+		m_masterDisplay = null;
+		m_humanDisplay = null;
 	}
 
 	@Override
 	public void initialize() {
+		switch(Constants.renderingType) {
+		case DEVELOPER:
+			m_masterDisplay = new Display(
+					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT, false);
+			m_masterDisplay.initialize();
+			
+			// TODO also create game views for each AI agent -- one per agent?
+		case NORMAL:
+			m_humanDisplay = new Display(
+					Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT, Constants.isHumanPlayable);
+			m_humanDisplay.initialize();
+//			IView controller = m_humanDisplay.getController();
+//			if (controller != null)
+//				m_game.setController(controller);
+		case SIMULATED:
+			// TODO implement text-based resources to help observe agent-training...
+			break;
+		}
+		
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 		// create background color star-field
@@ -68,11 +85,6 @@ public class ColorsScene extends Scene {
 	}
 
 	@Override
-	public void teardown() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	public void update(double deltaTime) {
 		for (Actor actor : m_actors)
 			actor.update(deltaTime);
@@ -86,7 +98,12 @@ public class ColorsScene extends Scene {
 	}
 
 	@Override
-	public void render(BufferedImage[] images) {
+	public void render() {
+		// render the game (//TODO make sure displays and contexts are valid)
+		BufferedImage[] images = new BufferedImage[2];
+		images[0] = m_masterDisplay.getContext();
+		images[1] = m_humanDisplay.getContext();
+		
 		// render the world
 		Graphics2D worldContext = m_worldImage.createGraphics();
 		background(worldContext, m_worldImage.getWidth(), m_worldImage.getHeight());

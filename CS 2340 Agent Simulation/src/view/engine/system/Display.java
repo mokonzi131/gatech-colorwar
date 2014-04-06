@@ -1,4 +1,4 @@
-package view.engine;
+package view.engine.system;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-import view.IView;
 import environment.colorwar.Constants;
 
 public class Display {
@@ -22,10 +21,6 @@ public class Display {
 		m_component = null;
 		m_isInteractive = interactive;
 	}
-	
-//	public IView getController() {
-//		return m_component.getController();
-//	}
 	
 	public BufferedImage getContext() {
 		return m_component.getContext();
@@ -47,6 +42,4 @@ public class Display {
 		frame.setLocation((screenSize.width - frame.getWidth())/2, (screenSize.height - frame.getHeight()) / 2);
 		frame.setVisible(true);
 	}
-	
-	public void teardown() {}
 }

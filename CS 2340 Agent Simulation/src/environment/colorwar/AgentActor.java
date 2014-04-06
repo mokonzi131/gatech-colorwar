@@ -7,7 +7,6 @@ import java.awt.geom.Point2D.Float;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import view.IView;
 import view.engine.Actor;
 
 // game entity that has a controller

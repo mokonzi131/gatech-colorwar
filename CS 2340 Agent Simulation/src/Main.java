@@ -3,10 +3,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import view.engine.Engine;
-import view.engine.Game;
-import view.engine.Engine.RENDERING_TYPE;
 import environment.colorwar.Constants;
+import environment.colorwar.GenericGame;
 
 public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Thread
@@ -33,9 +31,9 @@ public class Main {
 		// set game type
 		String property = properties.getProperty(PROPERTY_RENDERING);
 		if (property.equals("SIMULATED"))
-			Constants.renderingType = RENDERING_TYPE.SIMULATED;
+			Constants.renderingType = Constants.RENDERING_TYPE.SIMULATED;
 		else if (property.equals("DEVELOPER"))
-			Constants.renderingType = RENDERING_TYPE.DEVELOPER;
+			Constants.renderingType = Constants.RENDERING_TYPE.DEVELOPER;
 
 		// set num agents
 		Constants.numAgents =
@@ -49,10 +47,7 @@ public class Main {
 			Constants.isHumanPlayable = false;
 
 		// create game
-		Game game = new Game();
-
-		// run engine on game
-		Engine engine = new Engine(game);
-		new Thread(engine, "Game Engine").start();
+		GenericGame game = new GenericGame();
+		new Thread(game, "Generic Game Thread").start();
 	}
 }

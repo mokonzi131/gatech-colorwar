@@ -1,6 +1,6 @@
 package environment.colorwar;
 
-import view.InputMap;
+import view.engine.system.InputMap;
 
 public class HumanAgentController extends AgentController {
 	private InputMap m_inputMap;
@@ -11,6 +11,7 @@ public class HumanAgentController extends AgentController {
 
 	@Override
 	public DIRECTION getNextMove() {
+		// TODO use the inputMap to figure out the right move...
 		return DIRECTION.NONE;
 	}
 

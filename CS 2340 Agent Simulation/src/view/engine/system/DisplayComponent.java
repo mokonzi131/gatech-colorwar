@@ -1,4 +1,4 @@
-package view.engine;
+package view.engine.system;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -10,9 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
-
-import view.IView;
-import view.InputMap;
 
 public class DisplayComponent extends JComponent {
 	private static final long serialVersionUID = 1L;
