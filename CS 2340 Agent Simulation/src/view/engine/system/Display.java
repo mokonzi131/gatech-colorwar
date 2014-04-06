@@ -1,7 +1,6 @@
 package view.engine.system;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 
@@ -13,21 +12,19 @@ public class Display {
 	private int m_width;
 	private int m_height;
 	private DisplayComponent m_component;
-	private boolean m_isInteractive;
 	
-	public Display(int width, int height, boolean interactive) {
+	public Display(int width, int height) {
 		m_width = width;
 		m_height = height;
 		m_component = null;
-		m_isInteractive = interactive;
 	}
 	
 	public BufferedImage getContext() {
 		return m_component.getContext();
 	}
 	
-	public void initialize() {
-		m_component = new DisplayComponent(m_width, m_height, m_isInteractive);
+	public void initialize(InputMap imap) {
+		m_component = new DisplayComponent(m_width, m_height, imap);
 		m_component.initialize();
 		
 		JFrame frame = new JFrame(Constants.GAME_NAME);

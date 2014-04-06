@@ -35,20 +35,21 @@ public class ColorScene implements Scene {
 
 	@Override
 	public void initialize() {
+		InputMap imap = null;
+		if (Constants.isHumanPlayable)
+			imap = new InputMap();
+		
 		switch(Constants.renderingType) {
 		case DEVELOPER:
 			m_masterDisplay = new Display(
-					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT, false);
-			m_masterDisplay.initialize();
+					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
+			m_masterDisplay.initialize(null);
 			
 			// TODO also create game views for each AI agent -- one per agent?
 		case NORMAL:
 			m_humanDisplay = new Display(
-					Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT, Constants.isHumanPlayable);
-			m_humanDisplay.initialize();
-//			IView controller = m_humanDisplay.getController();
-//			if (controller != null)
-//				m_game.setController(controller);
+					Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+			m_humanDisplay.initialize(imap);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
 			break;
@@ -71,13 +72,10 @@ public class ColorScene implements Scene {
 		}
 		
 		// create agents
-		InputMap inputMap = null;
-		if (Constants.isHumanPlayable)
-			inputMap = new InputMap(); // TODO assign this to an actual window (in the engine)
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			Point2D.Float location = environment.spawnLocation();
 			AgentController controller = (Constants.isHumanPlayable && i == 0) ?
-					new HumanAgentController(inputMap) : new RandomAgentController();
+					new HumanAgentController(imap) : new RandomAgentController();
 			AgentActor agent = new AgentActor(location.x, location.y, controller, environment);
 			m_actors.add(agent);
 			m_agentActors.add(agent);
@@ -100,9 +98,9 @@ public class ColorScene implements Scene {
 	@Override
 	public void render() {
 		// render the game (//TODO make sure displays and contexts are valid)
-		BufferedImage[] images = new BufferedImage[2];
-		images[0] = m_masterDisplay.getContext();
-		images[1] = m_humanDisplay.getContext();
+		BufferedImage image0, image1;
+		image0 = m_masterDisplay.getContext();
+		image1 = m_humanDisplay.getContext();
 		
 		// render the world
 		Graphics2D worldContext = m_worldImage.createGraphics();
@@ -111,12 +109,12 @@ public class ColorScene implements Scene {
 			actor.render(worldContext);
 		
 		// render developer image from world image
-		viewport(m_worldImage, images[0]);
+		viewport(m_worldImage, image0);
 		
 		// render human image from world image
 		Actor humanAgent = m_agentActors.get(0);
 		Point2D location = humanAgent.location();
-		snapshot(m_worldImage, images[1], location);
+		snapshot(m_worldImage, image1, location);
 	}
 	
 	// clear a graphics context to the background color

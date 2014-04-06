@@ -11,8 +11,20 @@ public class HumanAgentController extends AgentController {
 
 	@Override
 	public DIRECTION getNextMove() {
-		// TODO use the inputMap to figure out the right move...
-		return DIRECTION.NONE;
+		int key = m_inputMap.getLastKey();
+		
+		switch(key) {
+		case InputMap.KEY_LEFT:
+			return DIRECTION.WEST;
+		case InputMap.KEY_RIGHT:
+			return DIRECTION.EAST;
+		case InputMap.KEY_DOWN:
+			return DIRECTION.SOUTH;
+		case InputMap.KEY_UP:
+			return DIRECTION.NORTH;
+		default:
+			return DIRECTION.NONE;
+		}
 	}
 
 }
