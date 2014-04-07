@@ -14,15 +14,13 @@ import environment.i.IEnvironment;
 // a grid of tiles, most tiles are valid, some are invalid,
 //  some tiles contain colors, also keep track of which players (agents) are where...
 public class Environment extends Actor implements IEnvironment {
-	private static final Color noResource = new Color(255, 255, 255, 100);
-	private static final Color yesResource = new Color(0, 255, 0, 100);
 	private static final Random random = new Random();
 	
 	private boolean[][] grid = new boolean[Constants.GRID_WIDTH][Constants.GRID_HEIGHT];
 	private List<Cell> m_cells;
 	
 	public Environment() {
-		super(new TileSprite());
+		super(null);
 		m_cells = new ArrayList<>();
 		
 		// layout initial grid
@@ -151,12 +149,8 @@ public class Environment extends Actor implements IEnvironment {
 
 	@Override
 	public void render(Graphics2D context) {
-		for (Cell cell : cells()) {
-			float[] coordinates = cell.coords();
-			TileSprite sprite = new TileSprite();
-			sprite.setColor(cell.containsResource() ? yesResource : noResource);
-			sprite.draw(context, (int)coordinates[0], (int)coordinates[1]);
-		}
+		for (Cell cell : cells())
+			cell.render(context);
 	}
 
 	@Override
