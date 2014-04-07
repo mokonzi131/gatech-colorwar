@@ -17,7 +17,7 @@ public class HumanAgent implements Agent {
 	}
 	
 	@Override
-	public void reward(double r) {
+	public void reward(int a, double r) {
 		observer.displayReward(r);
 	}
 

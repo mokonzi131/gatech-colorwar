@@ -1,0 +1,36 @@
+package agent.reinforcement;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+
+public class BasicRegressor implements Regressor {
+	
+	Map<Integer,Double> evaluation = new HashMap<Integer,Double>();
+	
+	private int m;
+	private double alpha, decay;
+	
+	public BasicRegressor(int m, double a, double d) {
+		this.m = m;
+		this.alpha = a;
+		this.decay = d;
+	}
+	
+	@Override
+	public double[] predict(double[] obs) {
+		int hash = Arrays.hashCode(obs);
+		double[] score = new double[m];
+		for (int i = 0; i < m; i++) 
+			score[i] = evaluation.get(hash + i);
+		return score;
+	}
+
+	@Override
+	public void fit(double[] obs, int a, double update) {
+		int hash = Arrays.hashCode(obs) + a;
+		double score = evaluation.get(hash);
+		score = decay * (update + alpha * (score - update));
+	}
+
+}

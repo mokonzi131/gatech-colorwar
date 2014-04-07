@@ -17,8 +17,9 @@ public interface Agent {
 	/**
 	 * Rewards the agent.  
 	 * Corresponds to the difference in score.  
+	 * @param a The agent index
 	 * @param r The reward
 	 */
-	public void reward(double r);
+	public void reward(int a, double r);
 	
 }

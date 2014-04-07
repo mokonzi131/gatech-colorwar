@@ -22,7 +22,7 @@ public class RandomAgent implements Agent {
 	}
 
 	@Override
-	public void reward(double r) {
+	public void reward(int a, double r) {
 		// TODO Auto-generated method stub
 	}
 
