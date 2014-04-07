@@ -35,10 +35,12 @@ public class ColorScene implements Scene {
 
 	@Override
 	public void initialize() {
+		// setup input reader
 		InputMap imap = null;
 		if (Constants.isHumanPlayable)
 			imap = new InputMap();
 		
+		// setup displays
 		switch(Constants.renderingType) {
 		case DEVELOPER:
 			m_masterDisplay = new Display(
@@ -59,13 +61,13 @@ public class ColorScene implements Scene {
 		
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
-		// create background color star-field
+		// create background color star-field actors
 		for (int i = 0; i < 45; ++i)
 			m_actors.add(new StarActor(-21, 40));
 		for (int i = 0; i < 45; ++i)
 			m_actors.add(new StarActor(-50, 100));
 		
-		// create world map (environment)
+		// create world map (environment) actor
 		Environment environment = new Environment();
 		for (Cell cell : environment.cells()) {
 			float[] coordinates = cell.coords();
@@ -73,7 +75,7 @@ public class ColorScene implements Scene {
 			m_actors.add(tileEnvironment);
 		}
 		
-		// create agents
+		// create agents actors
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			Point2D.Float location = environment.spawnLocation();
 			AgentController controller = (Constants.isHumanPlayable && i == 0) ?
@@ -86,9 +88,11 @@ public class ColorScene implements Scene {
 
 	@Override
 	public void update(double deltaTime) {
+		// update all actors every time
 		for (Actor actor : m_actors)
 			actor.update(deltaTime);
 		
+		// move the agents at 1-second intervals
 		m_agentTimer += deltaTime;
 		if (m_agentTimer > 1.0) {
 			m_agentTimer = 0.0;
@@ -104,8 +108,7 @@ public class ColorScene implements Scene {
 		
 		// render the world
 		Graphics2D worldContext = m_worldImage.createGraphics();
-		background(worldContext, m_worldImage.getWidth(),
-				m_worldImage.getHeight());
+		background(worldContext, m_worldImage.getWidth(), m_worldImage.getHeight());
 		for (Actor actor : m_actors)
 			actor.render(worldContext);
 		
@@ -114,12 +117,14 @@ public class ColorScene implements Scene {
 			// render the developer image from the world
 			viewport(m_worldImage, m_masterDisplay.getContext());
 			
+			// render an image for all the agents
 			for (int i = 1; i < Constants.numAgents; ++i) {
 				Actor agent = m_agentActors.get(i);
 				Point2D location = agent.location();
 				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
 			}
 		case NORMAL:
+			// render the image for the first agents
 			Actor agent = m_agentActors.get(0);
 			Point2D location = agent.location();
 			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
@@ -146,6 +151,7 @@ public class ColorScene implements Scene {
 				x - radius, y - radius, x + radius, y + radius, null);
 	}
 	
+	// move the world scene to the viewport
 	private void viewport(BufferedImage from, BufferedImage to) {
 		Graphics2D graphics = to.createGraphics();
 		graphics.drawImage(from, 0, 0, to.getWidth(), to.getHeight(),
