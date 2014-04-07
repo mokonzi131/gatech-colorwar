@@ -1,4 +1,4 @@
-package environment.colorwar;
+package environment.colorwar.sprites;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 
+import environment.colorwar.Constants;
 import view.engine.Sprite;
 
 public class AgentSprite extends Sprite {

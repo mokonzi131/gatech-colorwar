@@ -1,19 +1,20 @@
-package environment.colorwar;
+package environment.colorwar.sprites;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import environment.colorwar.Constants;
 import view.engine.Sprite;
 
-public class TileSprite extends Sprite {
+public class CellSprite extends Sprite {
 	private static final int TILE_SIZE = Constants.CELL_DISTANCE;
 	private static final int TILE_BUFFER = (int) (TILE_SIZE * 0.10f);
 	
 	private Color m_color;
 	private Rectangle m_bounds;
 	
-	public TileSprite() {
+	public CellSprite() {
 		m_color = Color.WHITE;
 		m_bounds = new Rectangle(TILE_SIZE, TILE_SIZE);
 	}

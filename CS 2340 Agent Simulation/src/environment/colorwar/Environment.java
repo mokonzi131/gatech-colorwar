@@ -1,6 +1,5 @@
 package environment.colorwar;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -9,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import view.engine.Actor;
+import environment.colorwar.controllers.AgentController;
 import environment.i.IEnvironment;
 
 // a grid of tiles, most tiles are valid, some are invalid,
@@ -116,8 +116,7 @@ public class Environment extends Actor implements IEnvironment {
 
 	@Override
 	public int actionRange(int a) {
-		// TODO Auto-generated method stub
-		return 0;
+		return 4;
 	}
 
 	@Override

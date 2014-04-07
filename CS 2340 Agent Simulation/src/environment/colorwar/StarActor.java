@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import environment.colorwar.sprites.StarSprite;
 import view.engine.Actor;
 
 // game entity that has a controller

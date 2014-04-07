@@ -3,16 +3,17 @@ package environment.colorwar;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Float;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import environment.colorwar.controllers.AgentController;
+import environment.colorwar.sprites.AgentSprite;
 import view.engine.Actor;
 
 // game entity that has a controller
 public class AgentActor extends Actor {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
-	private static final float VELOCITY = 4.0f * Constants.CELL_DISTANCE;
+	private static final float VELOCITY = 3.0f * Constants.CELL_DISTANCE;
 	private AgentController m_controller;
 	private Point2D.Float m_position;
 	private Point2D.Float m_velocity;

@@ -1,4 +1,4 @@
-package environment.colorwar;
+package environment.colorwar.controllers;
 
 public abstract class AgentController {
 	public static enum DIRECTION {

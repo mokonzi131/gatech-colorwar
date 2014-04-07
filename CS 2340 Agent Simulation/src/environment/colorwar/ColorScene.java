@@ -8,7 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import agent.random.RandomAgent;
 import environment.colorwar.Constants.RENDERING_TYPE;
+import environment.colorwar.controllers.AgentController;
+import environment.colorwar.controllers.HumanAgentController;
+import environment.colorwar.controllers.IntelligentAgentController;
+import environment.colorwar.controllers.RandomAgentController;
 import view.engine.Actor;
 import view.engine.Scene;
 import view.engine.system.Display;
@@ -74,8 +79,15 @@ public class ColorScene implements Scene {
 		// create agents actors
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			Point2D.Float location = environment.spawnLocation();
-			AgentController controller = (Constants.isHumanPlayable && i == 0) ?
-					new HumanAgentController(imap) : new RandomAgentController();
+			
+			AgentController controller;
+			if (Constants.isHumanPlayable && i == 0)
+				controller = new HumanAgentController(imap);
+			else if (i == 1)
+				controller = new IntelligentAgentController(new RandomAgent(environment));
+			else
+				controller = new RandomAgentController();
+			
 			AgentActor agent = new AgentActor(location.x, location.y, controller, environment);
 			m_actors.add(agent);
 			m_agentActors.add(agent);

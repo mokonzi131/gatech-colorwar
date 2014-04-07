@@ -1,4 +1,4 @@
-package environment.colorwar;
+package environment.colorwar.controllers;
 
 import java.util.Random;
 
