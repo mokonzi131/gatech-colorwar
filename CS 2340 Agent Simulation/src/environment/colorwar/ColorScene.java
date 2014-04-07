@@ -114,17 +114,17 @@ public class ColorScene implements Scene {
 			// render the developer image from the world
 			viewport(m_worldImage, m_masterDisplay.getContext());
 			
-			for (int i = 0; i < Constants.numAgents; ++i) {
+			for (int i = 1; i < Constants.numAgents; ++i) {
 				Actor agent = m_agentActors.get(i);
 				Point2D location = agent.location();
 				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
 			}
-			break;
 		case NORMAL:
-			break;
+			Actor agent = m_agentActors.get(0);
+			Point2D location = agent.location();
+			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
 		case SIMULATED:
 			// TODO is there anything to do here...?
-			break;
 		}
 	}
 	
