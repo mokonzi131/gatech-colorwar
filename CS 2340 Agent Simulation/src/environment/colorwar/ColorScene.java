@@ -6,9 +6,9 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import environment.colorwar.Constants.RENDERING_TYPE;
 import view.engine.Actor;
 import view.engine.Scene;
 import view.engine.system.Display;
@@ -23,14 +23,14 @@ public class ColorScene implements Scene {
 	private List<Actor> m_actors;
 	private List<AgentActor> m_agentActors;
 	private Display m_masterDisplay;
-	private Display m_humanDisplay;
+	private Display[] m_agentDisplays;
 	
 	public ColorScene() {
 		m_agentTimer = 0.0;
 		m_actors = new ArrayList<>();
 		m_agentActors = new ArrayList<>();
 		m_masterDisplay = null;
-		m_humanDisplay = null;
+		m_agentDisplays = new Display[Constants.numAgents];
 	}
 
 	@Override
@@ -45,11 +45,13 @@ public class ColorScene implements Scene {
 					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
 			m_masterDisplay.initialize(null);
 			
-			// TODO also create game views for each AI agent -- one per agent?
+			for (int i = 1; i < Constants.numAgents; ++i) {
+				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+				m_agentDisplays[i].initialize(null);
+			}
 		case NORMAL:
-			m_humanDisplay = new Display(
-					Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-			m_humanDisplay.initialize(imap);
+			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+			m_agentDisplays[0].initialize(imap);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
 			break;
@@ -97,24 +99,33 @@ public class ColorScene implements Scene {
 
 	@Override
 	public void render() {
-		// render the game (//TODO make sure displays and contexts are valid)
-		BufferedImage image0, image1;
-		image0 = m_masterDisplay.getContext();
-		image1 = m_humanDisplay.getContext();
+		if (Constants.renderingType == RENDERING_TYPE.SIMULATED)
+			return;
 		
 		// render the world
 		Graphics2D worldContext = m_worldImage.createGraphics();
-		background(worldContext, m_worldImage.getWidth(), m_worldImage.getHeight());
+		background(worldContext, m_worldImage.getWidth(),
+				m_worldImage.getHeight());
 		for (Actor actor : m_actors)
 			actor.render(worldContext);
 		
-		// render developer image from world image
-		viewport(m_worldImage, image0);
-		
-		// render human image from world image
-		Actor humanAgent = m_agentActors.get(0);
-		Point2D location = humanAgent.location();
-		snapshot(m_worldImage, image1, location);
+		switch(Constants.renderingType) {
+		case DEVELOPER:
+			// render the developer image from the world
+			viewport(m_worldImage, m_masterDisplay.getContext());
+			
+			for (int i = 0; i < Constants.numAgents; ++i) {
+				Actor agent = m_agentActors.get(i);
+				Point2D location = agent.location();
+				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
+			}
+			break;
+		case NORMAL:
+			break;
+		case SIMULATED:
+			// TODO is there anything to do here...?
+			break;
+		}
 	}
 	
 	// clear a graphics context to the background color
