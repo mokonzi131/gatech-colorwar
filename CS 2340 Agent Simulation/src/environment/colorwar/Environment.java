@@ -1,22 +1,28 @@
 package environment.colorwar;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import view.engine.Actor;
 import environment.i.IEnvironment;
 
 // a grid of tiles, most tiles are valid, some are invalid,
 //  some tiles contain colors, also keep track of which players (agents) are where...
-public class Environment implements IEnvironment {
+public class Environment extends Actor implements IEnvironment {
+	private static final Color noResource = new Color(255, 255, 255, 100);
+	private static final Color yesResource = new Color(0, 255, 0, 100);
 	private static final Random random = new Random();
 	
 	private boolean[][] grid = new boolean[Constants.GRID_WIDTH][Constants.GRID_HEIGHT];
 	private List<Cell> m_cells;
 	
 	public Environment() {
+		super(new TileSprite());
 		m_cells = new ArrayList<>();
 		
 		// layout initial grid
@@ -123,14 +129,37 @@ public class Environment implements IEnvironment {
 	}
 
 	@Override
-	public BufferedImage total() {
-		// TODO Auto-generated method stub
-		return null;
+	@Deprecated
+	public BufferedImage total() { return null; }
+
+	@Override
+	@Deprecated
+	public BufferedImage human() { return null; }
+
+	@Override
+	@Deprecated
+	public void initialize() {}
+
+	@Override
+	@Deprecated
+	public void teardown() {}
+
+	@Override
+	public void update(double deltaTime) {
+		// TODO nothing to do for now...
 	}
 
 	@Override
-	public BufferedImage human() {
-		// TODO Auto-generated method stub
-		return null;
+	public void render(Graphics2D context) {
+		for (Cell cell : cells()) {
+			float[] coordinates = cell.coords();
+			TileSprite sprite = new TileSprite();
+			sprite.setColor(cell.containsResource() ? yesResource : noResource);
+			sprite.draw(context, (int)coordinates[0], (int)coordinates[1]);
+		}
 	}
+
+	@Override
+	@Deprecated
+	public Point2D location() { return null; }
 }

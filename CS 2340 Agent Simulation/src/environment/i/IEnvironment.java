@@ -24,8 +24,10 @@ public interface IEnvironment extends StructuredObserver {
 	
 	//public double[] agentLocation(int a); for myself reinforcement agents dont need to know this 
 	
+	@Deprecated
 	public BufferedImage total();
 	
+	@Deprecated
 	public BufferedImage human();
 
 	//public int reward(int a); calculate each agents "score" 

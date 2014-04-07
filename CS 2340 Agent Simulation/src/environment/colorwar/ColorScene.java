@@ -69,11 +69,7 @@ public class ColorScene implements Scene {
 		
 		// create world map (environment) actor
 		Environment environment = new Environment();
-		for (Cell cell : environment.cells()) {
-			float[] coordinates = cell.coords();
-			TileActor tileEnvironment = new TileActor(coordinates[0], coordinates[1], cell.containsResource()); 
-			m_actors.add(tileEnvironment);
-		}
+		m_actors.add(environment);
 		
 		// create agents actors
 		for (int i = 0; i < Constants.numAgents; ++i) {
