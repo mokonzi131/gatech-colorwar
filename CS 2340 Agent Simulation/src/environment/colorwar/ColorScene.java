@@ -19,7 +19,7 @@ import view.engine.Scene;
 import view.engine.system.Display;
 import view.engine.system.InputMap;
 
-public class ColorScene implements Scene {
+public class ColorScene extends Scene {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
 	private double m_agentTimer;

@@ -37,6 +37,10 @@ public class Engine {
 			
 			// render the game
 			m_currentScene.render();
+			
+			// escape
+			if (m_currentScene.finished)
+				stop();
 		}
 	}
 	

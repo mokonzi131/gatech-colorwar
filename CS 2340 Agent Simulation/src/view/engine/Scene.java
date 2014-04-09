@@ -1,6 +1,8 @@
 package view.engine;
 
-public interface Scene {
+public abstract class Scene {
+	public boolean finished;
+	
 	public abstract void initialize();
 	
 	public abstract void update(double deltaTime);
