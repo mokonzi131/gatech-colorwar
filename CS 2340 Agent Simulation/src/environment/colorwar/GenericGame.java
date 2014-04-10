@@ -19,5 +19,7 @@ public class GenericGame implements Runnable {
 		// the main game scene
 		m_engine.setScene(new ColorScene());
 		m_engine.start();
+		
+		System.exit(0);
 	}
 }

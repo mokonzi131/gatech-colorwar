@@ -2,6 +2,8 @@ package environment.colorwar;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import view.engine.Scene;
 import view.engine.system.Display;
 import view.engine.system.InputMap;
 
-public class ColorScene extends Scene {
+public class ColorScene extends Scene implements WindowListener {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
 	private double m_agentTimer;
@@ -51,14 +53,17 @@ public class ColorScene extends Scene {
 			m_masterDisplay = new Display(
 					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
 			m_masterDisplay.initialize(null);
+			m_masterDisplay.setCloseListener(this);
 			
 			for (int i = 1; i < Constants.numAgents; ++i) {
 				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
 				m_agentDisplays[i].initialize(null);
+				m_agentDisplays[i].setCloseListener(this);
 			}
 		case NORMAL:
 			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
 			m_agentDisplays[0].initialize(imap);
+			m_agentDisplays[0].setCloseListener(this);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
 			break;
@@ -165,4 +170,27 @@ public class ColorScene extends Scene {
 		graphics.drawImage(from, 0, 0, to.getWidth(), to.getHeight(),
 				0, 0, from.getWidth(), from.getHeight(), null);
 	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		finished = true;
+	}
+
+	@Override
+	public void windowClosed(WindowEvent e) {}
+
+	@Override
+	public void windowIconified(WindowEvent e) {}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {}
+
+	@Override
+	public void windowActivated(WindowEvent e) {}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {}
 }
