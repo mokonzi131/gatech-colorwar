@@ -21,8 +21,12 @@ public class BasicRegressor implements Regressor {
 	public double[] predict(double[] obs) {
 		int hash = Arrays.hashCode(obs);
 		double[] score = new double[m];
-		for (int i = 0; i < m; i++) 
-			score[i] = evaluation.get(hash + i);
+		for (int i = 0; i < m; i++) {
+			int next = hash + i;
+			if (!evaluation.containsValue(next))
+				evaluation.put(next, 0.0);
+			score[i] = evaluation.get(next);
+		}
 		return score;
 	}
 
@@ -31,6 +35,12 @@ public class BasicRegressor implements Regressor {
 		int hash = Arrays.hashCode(obs) + a;
 		double score = evaluation.get(hash);
 		score = decay * (update + alpha * (score - update));
+		evaluation.put(hash, score);
+	}
+
+	@Override
+	public Regressor copy() {
+		return this;
 	}
 
 }

@@ -19,12 +19,10 @@ public class Main {
 		// settings.properties)
 		// set the rest of the configuration properties as well
 		Properties properties = new Properties();
-		try (InputStream input = Main.class
-				.getResourceAsStream(PROPERTIES_FILENAME)) {
+		try (InputStream input = Main.class.getResourceAsStream(PROPERTIES_FILENAME)) {
 			properties.load(input);
 		} catch (Exception e) {
-			LOGGER.log(Level.SEVERE, "Failed to read properties file: "
-					+ PROPERTIES_FILENAME);
+			LOGGER.log(Level.SEVERE, "Failed to read properties file: " + PROPERTIES_FILENAME);
 			return;
 		}
 

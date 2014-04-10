@@ -6,4 +6,6 @@ public interface Regressor {
 
 	void fit(double[] observation, int a, double max);
 
+	Regressor copy();
+
 }
