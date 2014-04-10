@@ -1,4 +1,4 @@
-package agent.reinforcement;
+package agent.reinforcement.neural;
 
 public class NeuralWeight {
 	

@@ -1,4 +1,4 @@
-package agent.reinforcement;
+package agent.reinforcement.neural;
 
 import java.util.ArrayList;
 import java.util.List;

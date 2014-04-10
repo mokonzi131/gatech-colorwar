@@ -34,8 +34,10 @@ public class Main {
 			Constants.renderingType = Constants.RENDERING_TYPE.DEVELOPER;
 
 		// set num agents
+		// TODO hide behind environment interface
 		Constants.numAgents =
 				Math.max(Integer.parseInt(properties.getProperty(PROPERTY_AGENTS)), Constants.MINIMUM_NUM_AGENTS);
+		Constants.numAgents = Math.min(Constants.numAgents, Constants.MAXIMUM_NUM_AGENTS);
 
 		// set human playable
 		property = properties.getProperty(PROPERTY_PLAYABLE);

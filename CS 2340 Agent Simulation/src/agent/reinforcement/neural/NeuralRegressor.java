@@ -1,4 +1,6 @@
-package agent.reinforcement;
+package agent.reinforcement.neural;
+
+import agent.reinforcement.Regressor;
 
 public class NeuralRegressor implements Regressor {
 	
