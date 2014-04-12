@@ -20,6 +20,7 @@ import environment.colorwar.controllers.HumanAgentController;
 import environment.colorwar.controllers.IntelligentAgentController;
 import environment.colorwar.controllers.RandomAgentController;
 import view.engine.Actor;
+import view.engine.IViewable;
 import view.engine.Scene;
 import view.engine.system.Display;
 import view.engine.system.InputMap;
@@ -30,6 +31,8 @@ public class ColorScene extends Scene implements WindowListener {
 	private double m_agentTimer;
 	
 	BufferedImage m_worldImage;
+	private List<IViewable> m_viewables;
+	
 	private List<Actor> m_actors;
 	private List<AgentActor> m_agentActors;
 	private Display m_masterDisplay;
@@ -80,15 +83,18 @@ public class ColorScene extends Scene implements WindowListener {
 		for (int i = 0; i < 45; ++i)
 			m_actors.add(new StarActor(-50, 100));
 		
-//		// create agents
-//		Agent[] agents = new Agent[Constants.numAgents];
-//		for (int i = 0; i < Constants.numAgents; ++i) {
-//			agents[i] = new RandomAgent(null);
-//		}
+		// create agents
+		Agent[] agents = new Agent[Constants.numAgents];
+		for (int i = 0; i < Constants.numAgents; ++i) {
+			agents[i] = new RandomAgent();
+		}
+		
+		ColorWar environment2 = new ColorWar(agents);
+		for (int i = 0; i < agents.length; ++i)
+			agents[i].setObserver(environment2);
 		
 		// create world map (environment) actor
 		Environment environment = new Environment();
-//		ColorWar environment2 = new ColorWar(agents);
 		m_actors.add(environment);
 		
 		// create agents actors

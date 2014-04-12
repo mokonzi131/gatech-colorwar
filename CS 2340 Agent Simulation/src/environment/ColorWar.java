@@ -22,8 +22,13 @@ public class ColorWar implements IEnvironment, IViewable {
 	public ColorWar(Agent[] a){
 		Lagents=a;
 		e=new Square[gameSize][gameSize]; //creation of environment array
+		for (int i = 0; i < e.length; ++i)
+			for (int j = 0; j < e[0].length; ++j)
+				e[i][j] = new Square();
 		aStats=new Astats[a.length]; //create agent statistics at each index for each agent 
-		for (int i=0; i< a.length; i++){		
+		for (int i = 0; i < aStats.length; ++i)
+			aStats[i] = new Astats();
+		for (int i=0; i< a.length; i++) {
 			int x= r.nextInt(gameSize);
 			int y= r.nextInt(gameSize);
 			setAgentLocation(i,x,y);
