@@ -1,5 +1,6 @@
 package environment.i;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 //import IAgent;
@@ -20,15 +21,17 @@ public interface IEnvironment extends StructuredObserver {
 	
 	//public double[] information(int a); //take output for agent view and concatinate to form new array
 	
-	public void turn(); //trigger environment to increment it, control how quickly it asks for a move 
+	public void update(); //trigger environment to increment it, control how quickly it asks for a move 
+	
+	public double[] score();
 	
 	//public double[] agentLocation(int a); for myself reinforcement agents dont need to know this 
 	
-	@Deprecated
-	public BufferedImage total();
+	public boolean isEnd();
 	
-	@Deprecated
-	public BufferedImage human();
+	public void reset();
+	
+	public void render(Graphics2D g);
 
 	//public int reward(int a); calculate each agents "score" 
 

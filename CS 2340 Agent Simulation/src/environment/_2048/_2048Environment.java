@@ -1,11 +1,10 @@
 package environment._2048;
 
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import agent.i.Agent;
-
 import model.Model;
-
 import environment.i.IEnvironment;
 
 public class _2048Environment implements IEnvironment {
@@ -47,7 +46,7 @@ public class _2048Environment implements IEnvironment {
 	}
 
 	@Override
-	public void turn() {
+	public void update() {
 		int move = agent.move(0);
 		int score = game.getScore();
 		game.move(move);
@@ -56,17 +55,30 @@ public class _2048Environment implements IEnvironment {
 	}
 
 	@Override
-	@Deprecated
-	public BufferedImage total() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isEnd() {
+		int[][] grid = game.getGrid();
+		for (int i = 0; i < m; i++)
+			for (int j = 0; j < n; j++) {
+				int k = grid[i][j];
+				if (k == 0 || i < m-1 && k == grid[i+1][j] || j < n-1 && k == grid[i][j+1])
+					return true;
+			}
+		return false;
 	}
 
 	@Override
-	@Deprecated
-	public BufferedImage human() {
-		// TODO Auto-generated method stub
-		return null;
+	public void reset() {
+		game.reset();
+	}
+	
+	@Override
+	public double[] score() {
+		return new double[] { game.getScore() };
+	}
+
+	@Override
+	public void render(Graphics2D g) {
+		//TODO
 	}
 
 }
