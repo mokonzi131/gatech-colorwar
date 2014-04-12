@@ -1,5 +1,7 @@
 package agent.i;
 
+import environment.i.StructuredObserver;
+
 /**
  * Interface to the agents or the players
  * @author John
@@ -21,5 +23,7 @@ public interface Agent {
 	 * @param r The reward
 	 */
 	public void reward(int a, double r);
+	
+	public void setObserver(StructuredObserver o);
 	
 }

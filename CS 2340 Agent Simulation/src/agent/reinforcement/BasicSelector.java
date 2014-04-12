@@ -2,6 +2,8 @@ package agent.reinforcement;
 
 import java.util.Random;
 
+import environment.i.StructuredObserver;
+
 public class BasicSelector implements Selector {
 	
 	Random r = new Random();
@@ -27,6 +29,12 @@ public class BasicSelector implements Selector {
 	@Override
 	public void reward(int a, double r) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void setObserver(StructuredObserver o) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

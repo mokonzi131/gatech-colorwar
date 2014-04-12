@@ -29,7 +29,7 @@ public class BasicRegressor implements Regressor {
 		}
 		return score;
 	}
-
+	
 	@Override
 	public void fit(double[] obs, int a, double update) {
 		int hash = Arrays.hashCode(obs) + a;
@@ -37,7 +37,7 @@ public class BasicRegressor implements Regressor {
 		score = decay * (update + alpha * (score - update));
 		evaluation.put(hash, score);
 	}
-
+	
 	@Override
 	public Regressor copy() {
 		return this;

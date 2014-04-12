@@ -13,7 +13,7 @@ public class BasicNeuralAgentFactory {
 	
 	public static Agent generateAgent(int in, int out, Observer o) {
 		Regressor r = new NeuralRegressor(.05, .05, .05, new int[] {in,out});
-		Learner l = new BasicLearner(r, o, .05);
+		Learner l = new BasicLearner(r, .05);
 		Selector s = new BasicSelector();
 		return new ReinforcementAgent(l, s);
 	}

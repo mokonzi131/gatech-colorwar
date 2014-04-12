@@ -62,7 +62,7 @@ public class ColorWar implements IEnvironment {
 	}
 
 	@Override
-	public void turn() {
+	public void update() {
 		
 		// TODO Auto-generated method stub
 		

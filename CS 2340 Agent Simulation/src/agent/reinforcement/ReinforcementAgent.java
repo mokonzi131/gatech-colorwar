@@ -1,5 +1,6 @@
 package agent.reinforcement;
 
+import environment.i.StructuredObserver;
 import agent.i.Agent;
 
 public class ReinforcementAgent implements Agent {
@@ -22,6 +23,12 @@ public class ReinforcementAgent implements Agent {
 	public void reward(int a, double r) {
 		learner.reward(a, r);
 		selector.reward(a, r);
+	}
+
+	@Override
+	public void setObserver(StructuredObserver o) {
+		learner.setObserver(o);
+		selector.setObserver(o);
 	}
 	
 }

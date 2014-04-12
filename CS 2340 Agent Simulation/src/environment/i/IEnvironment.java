@@ -1,5 +1,6 @@
 package environment.i;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -22,6 +23,8 @@ public interface IEnvironment extends StructuredObserver {
 	//public double[] information(int a); //take output for agent view and concatinate to form new array
 	
 	public void update(); //trigger environment to increment it, control how quickly it asks for a move 
+	
+	public Dimension dim();
 	
 	public double[] score();
 	

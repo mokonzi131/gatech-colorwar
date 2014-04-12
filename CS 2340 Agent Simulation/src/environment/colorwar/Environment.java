@@ -120,7 +120,7 @@ public class Environment extends Actor implements IEnvironment {
 	}
 
 	@Override
-	public void turn() {
+	public void update() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -1,5 +1,6 @@
 package environment._2048;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -12,12 +13,15 @@ public class _2048Environment implements IEnvironment {
 	private Model game;
 	private Agent agent;
 	private int m, n;
+	private int gridSize;
 	
-	public _2048Environment(Agent a, int m, int n) {
+	public _2048Environment(Agent a, int m, int n, int g) {
 		agent = a;
+		agent.setObserver(this);
 		game = new Model(m, "");
 		this.m = m;
 		this.n = m;
+		gridSize = g;
 	}
 	
 	@Override
@@ -78,7 +82,22 @@ public class _2048Environment implements IEnvironment {
 
 	@Override
 	public void render(Graphics2D g) {
-		//TODO
+		int[][] grid = game.getGrid();
+		for (int i = 0; i < m; i++)
+			for (int j = 0; j < n; j++) {
+				int k = grid[i][j];
+				if (k > 0) {
+					char c = (char) ('0' + k);
+					if (k >= 10)
+						c = (char) ('A' + k - 10);
+					g.drawString(""+c, gridSize*i, gridSize*j);
+				}
+			}
+	}
+
+	@Override
+	public Dimension dim() {
+		return new Dimension(m*gridSize, n*gridSize);
 	}
 
 }

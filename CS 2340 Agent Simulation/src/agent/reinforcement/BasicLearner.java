@@ -1,6 +1,7 @@
 package agent.reinforcement;
 
 import environment.i.Observer;
+import environment.i.StructuredObserver;
 
 public class BasicLearner implements Learner {
 	
@@ -12,10 +13,9 @@ public class BasicLearner implements Learner {
 	private double reward = 0;
 	private double alpha;
 	
-	public BasicLearner(Regressor r, Observer o, double a) {
+	public BasicLearner(Regressor r, double a) {
 		regressor = r;
 		learner = r.copy();
-		observer = o;
 		alpha = a;
 	}
 	
@@ -38,6 +38,11 @@ public class BasicLearner implements Learner {
 	@Override
 	public void reward(int a, double r) {
 		reward += r;
+	}
+
+	@Override
+	public void setObserver(StructuredObserver o) {
+		observer = o;
 	}
 	
 }
