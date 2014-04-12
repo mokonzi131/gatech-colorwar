@@ -3,7 +3,6 @@ package environment;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.image.BufferedImage;
 import java.util.Random;
 
 import view.engine.IViewable;
@@ -82,15 +81,9 @@ public class ColorWar implements IEnvironment, IViewable {
 		return 0;
 	}
 
-	public void update() {
-		
-		// TODO Auto-generated method stub
-		
-	}
-
 	public void update(double deltaTime) {
 		// TODO keep track in a counter and move agents every 1 second
-		// at 1 second, call turn()
+		// at 1 second, call turn() or whatever method moves the agents
 	}
 
 	@Override
@@ -119,6 +112,5 @@ public class ColorWar implements IEnvironment, IViewable {
 	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
-		
 	}
 }
