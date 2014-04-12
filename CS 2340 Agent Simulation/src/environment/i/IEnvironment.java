@@ -35,8 +35,4 @@ public interface IEnvironment extends StructuredObserver {
 	public void render(Graphics2D g);
 	
 	//public int reward(int a); calculate each agents "score" 
-	
 }
-
-
-//0-left, 1-up, 2-right, 3-down -->need method to interpret what it means--ask what agents want to do, construct next state of game and appropriately reward each agent depending on new position (1 reward for each color pickup, -all pixels if eaten, +opponent pixels if eat them)

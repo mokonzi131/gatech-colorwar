@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import environment.Environment;
 import environment.colorwar.controllers.AgentController;
 import environment.colorwar.sprites.AgentSprite;
 import view.engine.Actor;

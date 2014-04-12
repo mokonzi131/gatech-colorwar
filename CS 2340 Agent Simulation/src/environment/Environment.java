@@ -1,18 +1,19 @@
-package environment.colorwar;
+package environment;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import view.engine.Actor;
+import environment.colorwar.Cell;
+import environment.colorwar.Constants;
 import environment.colorwar.controllers.AgentController;
 import environment.i.IEnvironment;
 
-// a grid of tiles, most tiles are valid, some are invalid,
-//  some tiles contain colors, also keep track of which players (agents) are where...
 public class Environment extends Actor implements IEnvironment {
 	private static final Random random = new Random();
 	
@@ -120,6 +121,14 @@ public class Environment extends Actor implements IEnvironment {
 	}
 
 	@Override
+	@Deprecated
+	public void initialize() {}
+
+	@Override
+	@Deprecated
+	public void teardown() {}
+
+	@Override
 	public void update(double deltaTime) {
 		// TODO nothing to do for now...
 	}
@@ -156,16 +165,5 @@ public class Environment extends Actor implements IEnvironment {
 	public void reset() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public void initialize() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void teardown() {
-		// TODO Auto-generated method stub
 	}
 }

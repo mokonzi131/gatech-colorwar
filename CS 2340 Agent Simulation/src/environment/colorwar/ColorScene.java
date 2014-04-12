@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import agent.i.Agent;
 import agent.random.RandomAgent;
+import environment.ColorWar;
+import environment.Environment;
 import environment.colorwar.Constants.RENDERING_TYPE;
 import environment.colorwar.controllers.AgentController;
 import environment.colorwar.controllers.HumanAgentController;
@@ -77,8 +80,15 @@ public class ColorScene extends Scene implements WindowListener {
 		for (int i = 0; i < 45; ++i)
 			m_actors.add(new StarActor(-50, 100));
 		
+//		// create agents
+//		Agent[] agents = new Agent[Constants.numAgents];
+//		for (int i = 0; i < Constants.numAgents; ++i) {
+//			agents[i] = new RandomAgent(null);
+//		}
+		
 		// create world map (environment) actor
 		Environment environment = new Environment();
+//		ColorWar environment2 = new ColorWar(agents);
 		m_actors.add(environment);
 		
 		// create agents actors
@@ -88,8 +98,11 @@ public class ColorScene extends Scene implements WindowListener {
 			AgentController controller;
 			if (Constants.isHumanPlayable && i == 0)
 				controller = new HumanAgentController(imap);
-			else if (i == 1)
-				controller = new IntelligentAgentController(new RandomAgent(environment));
+			else if (i == 1) {
+				RandomAgent ra = new RandomAgent();
+				ra.setObserver(environment);
+				controller = new IntelligentAgentController(ra);
+			}
 			else
 				controller = new RandomAgentController();
 			
