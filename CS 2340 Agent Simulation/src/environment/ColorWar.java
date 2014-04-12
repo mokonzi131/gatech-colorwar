@@ -4,12 +4,14 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import view.engine.IViewable;
 import environment.i.IEnvironment;
 import agent.i.Agent;
 
 public class ColorWar implements IEnvironment, IViewable {
+	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
 	private int gameSize=10; 
 	Random r= new Random();
@@ -87,6 +89,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	}
 
 	public void update(double deltaTime) {
+		LOGGER.info("dt=" + deltaTime);
 		// TODO keep track in a counter and move agents every 1 second
 		// at 1 second, call turn() or whatever method moves the agents
 	}

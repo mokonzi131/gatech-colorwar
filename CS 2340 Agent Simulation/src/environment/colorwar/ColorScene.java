@@ -44,6 +44,7 @@ public class ColorScene extends Scene implements WindowListener {
 		m_agentActors = new ArrayList<>();
 		m_masterDisplay = null;
 		m_agentDisplays = new Display[Constants.numAgents];
+		m_viewables = new ArrayList<>();
 	}
 
 	@Override
@@ -77,21 +78,17 @@ public class ColorScene extends Scene implements WindowListener {
 		
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
-		// create background color star-field actors
-		for (int i = 0; i < 45; ++i)
-			m_actors.add(new StarActor(-21, 40));
-		for (int i = 0; i < 45; ++i)
-			m_actors.add(new StarActor(-50, 100));
-		
-		// create agents
+		// new logic for ColorWar game...
 		Agent[] agents = new Agent[Constants.numAgents];
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			agents[i] = new RandomAgent();
 		}
 		
-		ColorWar environment2 = new ColorWar(agents);
+		ColorWar colorWarEnvironment = new ColorWar(agents);
 		for (int i = 0; i < agents.length; ++i)
-			agents[i].setObserver(environment2);
+			agents[i].setObserver(colorWarEnvironment);
+		
+		m_viewables.add(colorWarEnvironment);
 		
 		// create world map (environment) actor
 		Environment environment = new Environment();
@@ -131,6 +128,10 @@ public class ColorScene extends Scene implements WindowListener {
 			for (AgentActor agent : m_agentActors)
 				agent.move();
 		}
+		
+		// new ColorWar game logic
+		for (IViewable viewable : m_viewables)
+			viewable.update(deltaTime);
 	}
 
 	@Override
