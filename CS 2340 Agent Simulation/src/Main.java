@@ -3,8 +3,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import agent.i.Agent;
+
+import environment._2048._2048Environment;
 import environment.colorwar.Constants;
 import environment.colorwar.GenericGame;
+import environment.i.IEnvironment;
 
 public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Thread
@@ -49,5 +53,17 @@ public class Main {
 		// create game
 		GenericGame game = new GenericGame();
 		new Thread(game, "Generic Game Thread").start();
+	}
+	
+	public void simulate2048(Agent a) {
+		_2048Environment e = new _2048Environment(a,4,4,20);
+		System.out.println(simulate(e)[0]);
+	}
+	
+	public double[] simulate(IEnvironment e) {
+		e.reset();
+		while (!e.isEnd())
+			e.update(1.0);
+		return e.score();
 	}
 }

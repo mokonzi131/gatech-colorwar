@@ -14,6 +14,7 @@ public class _2048Environment implements IEnvironment {
 	private Agent agent;
 	private int m, n;
 	private int gridSize;
+	private double dt0 = 0;
 	
 	public _2048Environment(Agent a, int m, int n, int g) {
 		agent = a;
@@ -50,7 +51,13 @@ public class _2048Environment implements IEnvironment {
 	}
 
 	@Override
-	public void update() {
+	public void update(double dt) {
+		dt0 += dt;
+		while (--dt0 < 1)
+			move();
+	}
+	
+	public void move() {
 		int move = agent.move(0);
 		int score = game.getScore();
 		game.move(move);
