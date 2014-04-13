@@ -31,7 +31,10 @@ public class ColorScene extends Scene implements WindowListener {
 	private double m_agentTimer;
 	
 	BufferedImage m_worldImage;
+	
 	private List<IViewable> m_viewables;
+	private BufferedImage m_colorImage;
+	private Display m_colorDisplay;
 	
 	private List<Actor> m_actors;
 	private List<AgentActor> m_agentActors;
@@ -44,7 +47,9 @@ public class ColorScene extends Scene implements WindowListener {
 		m_agentActors = new ArrayList<>();
 		m_masterDisplay = null;
 		m_agentDisplays = new Display[Constants.numAgents];
+		
 		m_viewables = new ArrayList<>();
+		m_colorDisplay = null;
 	}
 
 	@Override
@@ -62,6 +67,10 @@ public class ColorScene extends Scene implements WindowListener {
 			m_masterDisplay.initialize(null);
 			m_masterDisplay.setCloseListener(this);
 			
+			m_colorDisplay = new Display(Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
+			m_colorDisplay.initialize(null);
+			m_colorDisplay.setCloseListener(this);
+			
 			for (int i = 1; i < Constants.numAgents; ++i) {
 				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
 				m_agentDisplays[i].initialize(null);
@@ -77,6 +86,7 @@ public class ColorScene extends Scene implements WindowListener {
 		}
 		
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+		m_colorImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 		// new logic for ColorWar game...
 		Agent[] agents = new Agent[Constants.numAgents];
@@ -140,27 +150,34 @@ public class ColorScene extends Scene implements WindowListener {
 			return;
 		
 		// render the world
-		Graphics2D worldContext = m_worldImage.createGraphics();
-		background(worldContext, m_worldImage.getWidth(), m_worldImage.getHeight());
-		for (Actor actor : m_actors)
-			actor.render(worldContext);
+//		Graphics2D worldContext = m_worldImage.createGraphics();
+//		background(worldContext, m_worldImage.getWidth(), m_worldImage.getHeight());
+//		for (Actor actor : m_actors)
+//			actor.render(worldContext);
+		
+		// render the colorgame world
+		Graphics2D colorContext = m_colorImage.createGraphics();
+		background(colorContext, m_colorImage.getWidth(), m_colorImage.getHeight());
+		for (IViewable viewable : m_viewables)
+			viewable.render(colorContext);
 		
 		switch(Constants.renderingType) {
 		case DEVELOPER:
 			// render the developer image from the world
-			viewport(m_worldImage, m_masterDisplay.getContext());
+//			viewport(m_worldImage, m_masterDisplay.getContext());
+			viewport(m_colorImage, m_colorDisplay.getContext());
 			
 			// render an image for all the agents
-			for (int i = 1; i < Constants.numAgents; ++i) {
-				Actor agent = m_agentActors.get(i);
-				Point2D location = agent.location();
-				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
-			}
+//			for (int i = 1; i < Constants.numAgents; ++i) {
+//				Actor agent = m_agentActors.get(i);
+//				Point2D location = agent.location();
+//				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
+//			}
 		case NORMAL:
 			// render the image for the first agents
-			Actor agent = m_agentActors.get(0);
-			Point2D location = agent.location();
-			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
+//			Actor agent = m_agentActors.get(0);
+//			Point2D location = agent.location();
+//			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
 		case SIMULATED:
 			// TODO is there anything to do here...?
 		}
