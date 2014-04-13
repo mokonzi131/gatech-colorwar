@@ -81,8 +81,9 @@ public class ColorWar implements IEnvironment, IViewable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 	//@Override
-	public int actionRange(int a) { 
+	public int actionRange(int a) { ///a constant # , largest # of moves that agent will have available 
 		// TODO Auto-generated method stub
 		return 0;
 	}
