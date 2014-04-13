@@ -62,30 +62,30 @@ public class ColorScene extends Scene implements WindowListener {
 		// setup displays
 		switch(Constants.renderingType) {
 		case DEVELOPER:
-			m_masterDisplay = new Display(
-					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
-			m_masterDisplay.initialize(null);
-			m_masterDisplay.setCloseListener(this);
+//			m_masterDisplay = new Display(
+//					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
+//			m_masterDisplay.initialize(null);
+//			m_masterDisplay.setCloseListener(this);
 			
 			m_colorDisplay = new Display(Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
 			m_colorDisplay.initialize(null);
 			m_colorDisplay.setCloseListener(this);
 			
-			for (int i = 1; i < Constants.numAgents; ++i) {
-				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-				m_agentDisplays[i].initialize(null);
-				m_agentDisplays[i].setCloseListener(this);
-			}
+//			for (int i = 1; i < Constants.numAgents; ++i) {
+//				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+//				m_agentDisplays[i].initialize(null);
+//				m_agentDisplays[i].setCloseListener(this);
+//			}
 		case NORMAL:
-			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-			m_agentDisplays[0].initialize(imap);
-			m_agentDisplays[0].setCloseListener(this);
+//			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+//			m_agentDisplays[0].initialize(imap);
+//			m_agentDisplays[0].setCloseListener(this);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
 			break;
 		}
 		
-		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+//		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		m_colorImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 		
 		// new logic for ColorWar game...
@@ -101,43 +101,43 @@ public class ColorScene extends Scene implements WindowListener {
 		m_viewables.add(colorWarEnvironment);
 		
 		// create world map (environment) actor
-		Environment environment = new Environment();
-		m_actors.add(environment);
+//		Environment environment = new Environment();
+//		m_actors.add(environment);
 		
 		// create agents actors
-		for (int i = 0; i < Constants.numAgents; ++i) {
-			Point2D.Float location = environment.spawnLocation();
-			
-			AgentController controller;
-			if (Constants.isHumanPlayable && i == 0)
-				controller = new HumanAgentController(imap);
-			else if (i == 1) {
-				RandomAgent ra = new RandomAgent();
-				ra.setObserver(environment);
-				controller = new IntelligentAgentController(ra);
-			}
-			else
-				controller = new RandomAgentController();
-			
-			AgentActor agent = new AgentActor(location.x, location.y, controller, environment);
-			m_actors.add(agent);
-			m_agentActors.add(agent);
-		}
+//		for (int i = 0; i < Constants.numAgents; ++i) {
+//			Point2D.Float location = environment.spawnLocation();
+//			
+//			AgentController controller;
+//			if (Constants.isHumanPlayable && i == 0)
+//				controller = new HumanAgentController(imap);
+//			else if (i == 1) {
+//				RandomAgent ra = new RandomAgent();
+//				ra.setObserver(environment);
+//				controller = new IntelligentAgentController(ra);
+//			}
+//			else
+//				controller = new RandomAgentController();
+//			
+//			AgentActor agent = new AgentActor(location.x, location.y, controller, environment);
+//			m_actors.add(agent);
+//			m_agentActors.add(agent);
+//		}
 	}
 
 	@Override
 	public void update(double deltaTime) {
 		// update all actors every time
-		for (Actor actor : m_actors)
-			actor.update(deltaTime);
+//		for (Actor actor : m_actors)
+//			actor.update(deltaTime);
 		
 		// move the agents at 1-second intervals
-		m_agentTimer += deltaTime;
-		if (m_agentTimer > 1.0) {
-			m_agentTimer = 0.0;
-			for (AgentActor agent : m_agentActors)
-				agent.move();
-		}
+//		m_agentTimer += deltaTime;
+//		if (m_agentTimer > 1.0) {
+//			m_agentTimer = 0.0;
+//			for (AgentActor agent : m_agentActors)
+//				agent.move();
+//		}
 		
 		// new ColorWar game logic
 		for (IViewable viewable : m_viewables)
