@@ -4,12 +4,14 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Random;
+import java.util.logging.Logger;
 
 import view.engine.IViewable;
 import environment.i.IEnvironment;
 import agent.i.Agent;
 
 public class ColorWar implements IEnvironment, IViewable {
+	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
 	private int gameSize=10; 
 	Random r= new Random();
@@ -22,8 +24,13 @@ public class ColorWar implements IEnvironment, IViewable {
 	public ColorWar(Agent[] a){
 		Lagents=a;
 		e=new Square[gameSize][gameSize]; //creation of environment array
+		for (int i = 0; i < e.length; ++i)
+			for (int j = 0; j < e[0].length; ++j)
+				e[i][j] = new Square();
 		aStats=new Astats[a.length]; //create agent statistics at each index for each agent 
-		for (int i=0; i< a.length; i++){		
+		for (int i = 0; i < aStats.length; ++i)
+			aStats[i] = new Astats();
+		for (int i=0; i< a.length; i++) {
 			int x= r.nextInt(gameSize);
 			int y= r.nextInt(gameSize);
 			setAgentLocation(i,x,y);
@@ -74,14 +81,14 @@ public class ColorWar implements IEnvironment, IViewable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	//@Override
-	public int actionRange(int a) { ///a constant # , largest # of moves that agent will have available 
+	public int actionRange(int a) { 
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	public void update(double deltaTime) {
+		LOGGER.info("dt=" + deltaTime);
 		// TODO keep track in a counter and move agents every 1 second
 		// at 1 second, call turn() or whatever method moves the agents
 	}
