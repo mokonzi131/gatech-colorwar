@@ -72,13 +72,13 @@ public class ColorWar implements IEnvironment, IViewable {
 				setAgentLocation(i, aStats[i].x-1, aStats[i].y);	
 			}
 			if (agentMove==1){
-				setAgentLocation(i, aStats[i].x, aStats[i].y+1);
+				setAgentLocation(i, aStats[i].x, aStats[i].y-1);
 			}
 			if (agentMove==2){
 				setAgentLocation(i, aStats[i].x+1, aStats[i].y);
 			}
 			if (agentMove==3){
-				setAgentLocation(i, aStats[i].x, aStats[i].y-1);
+				setAgentLocation(i, aStats[i].x, aStats[i].y+1);
 			}
 			if (agentMove==4){
 				setAgentLocation(i, aStats[i].x, aStats[i].y);

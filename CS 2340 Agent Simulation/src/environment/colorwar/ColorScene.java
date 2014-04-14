@@ -9,6 +9,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
+import agent.human.HumanAgent;
 import agent.i.Agent;
 import agent.random.RandomAgent;
 import environment.ColorWar;
@@ -63,13 +64,14 @@ public class ColorScene extends Scene implements WindowListener {
 		// setup ColorWar game components
 		Agent[] agents = new Agent[Constants.numAgents];
 		for (int i = 0; i < Constants.numAgents; ++i) {
-			agents[i] = new RandomAgent();
+			if (Constants.isHumanPlayable && i == 0)
+				agents[i] = new HumanAgent(imap);
+			else
+				agents[i] = new RandomAgent();
 		}
 		
 		ColorWar colorWarEnvironment = new ColorWar(agents);
 		for (int i = 0; i < agents.length; ++i) {
-			if (Constants.isHumanPlayable && i == 0)
-				;// TODO create human agent @ i0
 			agents[i].setObserver(colorWarEnvironment);
 		}
 		
