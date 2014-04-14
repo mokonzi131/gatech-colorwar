@@ -1,7 +1,6 @@
 package agent.human;
 
 import view.engine.system.InputMap;
-import environment.colorwar.controllers.AgentController.DIRECTION;
 import environment.i.GraphicalObserver;
 import environment.i.StructuredObserver;
 import agent.i.Agent;

@@ -1,21 +1,18 @@
-package environment.colorwar;
+package view.engine;
 
+import environment.colorwar.ColorScene;
 import view.engine.Engine;
 
 // describe a set of scenes, and their transitions, and general resources
-public class GenericGame implements Runnable {
+public class Game implements Runnable {
 	private Engine m_engine;
 	
-	public GenericGame() {
+	public Game() {
 		m_engine = new Engine();
 	}
 
 	@Override
 	public void run() {
-//		// intro scene
-//		m_engine.setScene(new SplashScene());
-//		m_engine.start();
-		
 		// the main game scene
 		m_engine.setScene(new ColorScene());
 		m_engine.start();

@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import view.engine.IViewable;
-import environment.colorwar.Constants;
+import environment.Constants;
 import environment.i.IEnvironment;
 import agent.i.Agent;
 

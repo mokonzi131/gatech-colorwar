@@ -13,7 +13,7 @@ import agent.human.HumanAgent;
 import agent.i.Agent;
 import agent.random.RandomAgent;
 import environment.ColorWar;
-import environment.colorwar.Constants.RENDERING_TYPE;
+import environment.Constants;
 import view.engine.Scene;
 import view.engine.system.Display;
 import view.engine.system.InputMap;
@@ -44,17 +44,17 @@ public class ColorScene extends Scene implements WindowListener {
 		switch(Constants.renderingType) {
 		case DEVELOPER:
 			m_masterDisplay = new Display(Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
-			m_masterDisplay.initialize(null);
+			m_masterDisplay.initialize(null, Constants.GAME_NAME);
 			m_masterDisplay.setCloseListener(this);
 			
 			for (int i = 1; i < Constants.numAgents; ++i) {
 				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-				m_agentDisplays[i].initialize(null);
+				m_agentDisplays[i].initialize(null, Constants.GAME_NAME);
 				m_agentDisplays[i].setCloseListener(this);
 			}
 		case NORMAL:
 			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-			m_agentDisplays[0].initialize(imap);
+			m_agentDisplays[0].initialize(imap, Constants.GAME_NAME);
 			m_agentDisplays[0].setCloseListener(this);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
@@ -86,7 +86,7 @@ public class ColorScene extends Scene implements WindowListener {
 
 	@Override
 	public void render() {
-		if (Constants.renderingType == RENDERING_TYPE.SIMULATED)
+		if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED)
 			return;
 		
 		// render the complete world

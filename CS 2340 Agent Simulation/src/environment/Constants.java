@@ -1,4 +1,4 @@
-package environment.colorwar;
+package environment;
 
 public class Constants {
 	// pre-defined constants
