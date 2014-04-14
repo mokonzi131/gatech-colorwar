@@ -14,7 +14,8 @@ public class Game implements Runnable {
 	@Override
 	public void run() {
 		// the main game scene
-		m_engine.setScene(new ColorScene());
+		ColorScene scene = new ColorScene();
+		m_engine.setScene(scene);
 		m_engine.start();
 		
 		System.exit(0);

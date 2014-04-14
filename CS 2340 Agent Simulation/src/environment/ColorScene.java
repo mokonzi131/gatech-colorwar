@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 import agent.human.HumanAgent;
 import agent.i.Agent;
 import agent.random.RandomAgent;
-import environment.ColorWar;
 import environment.Constants;
+import environment.i.IEnvironment;
 import view.engine.Scene;
 import view.engine.system.Display;
 import view.engine.system.InputMap;
@@ -24,17 +24,14 @@ public class ColorScene extends Scene implements WindowListener {
 	private Display m_masterDisplay;
 	private Display[] m_agentDisplays;
 	BufferedImage m_worldImage;
-	private ColorWar m_colorWar;
+	private IEnvironment m_colorWar;
 	
 	public ColorScene() {
 		m_colorWar = null;
 		m_masterDisplay = null;
 		m_agentDisplays = new Display[Constants.numAgents];
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-	}
-
-	@Override
-	public void initialize() {
+		
 		// setup input reader
 		InputMap imap = null;
 		if (Constants.isHumanPlayable)
@@ -57,7 +54,6 @@ public class ColorScene extends Scene implements WindowListener {
 			m_agentDisplays[0].initialize(imap, Constants.GAME_NAME);
 			m_agentDisplays[0].setCloseListener(this);
 		case SIMULATED:
-			// TODO implement text-based resources to help observe agent-training...
 			break;
 		}
 		
@@ -70,13 +66,13 @@ public class ColorScene extends Scene implements WindowListener {
 				agents[i] = new RandomAgent();
 		}
 		
-		ColorWar colorWarEnvironment = new ColorWar(agents);
+		m_colorWar = new ColorWar(agents);
 		for (int i = 0; i < agents.length; ++i) {
-			agents[i].setObserver(colorWarEnvironment);
+			agents[i].setObserver(m_colorWar);
 		}
-		
-		m_colorWar = colorWarEnvironment;
 	}
+
+	@Override public void initialize() {}
 
 	@Override
 	public void update(double deltaTime) {
@@ -84,7 +80,16 @@ public class ColorScene extends Scene implements WindowListener {
 		if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED)
 			m_colorWar.update(1.0);
 		else
-			m_colorWar.update(deltaTime);
+			m_colorWar.update(1.0);//deltaTime); TODO undo
+		
+		if (m_colorWar.isEnd()) {
+			double[] score = m_colorWar.score();
+			String scoreString = "";
+			for (int i = 0; i < score.length; ++i)
+				scoreString += score[i] + ", ";
+			LOGGER.info(scoreString);
+			finished = true;
+		}
 	}
 
 	@Override
@@ -102,19 +107,19 @@ public class ColorScene extends Scene implements WindowListener {
 			// render the developer image from the complete world
 			viewport(m_worldImage, m_masterDisplay.getContext());
 			
-			// render an image for all the agents
-			for (int i = 1; i < Constants.numAgents; ++i) {
-				Point location = m_colorWar.getAgentLocation(i);
-				location = new Point(m_colorWar.gridToPixel(location.x), m_colorWar.gridToPixel(location.y));
-				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
-			}
+			// render an image for all the agents // TODO fix this
+//			for (int i = 1; i < Constants.numAgents; ++i) {
+//				Point location = m_colorWar.getAgentLocation(i);
+//				location = new Point(m_colorWar.gridToPixel(location.x), m_colorWar.gridToPixel(location.y));
+//				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
+//			}
 		case NORMAL:
 			// render the image for the first agents
-			Point location = m_colorWar.getAgentLocation(0);
-			location = new Point(m_colorWar.gridToPixel(location.x), m_colorWar.gridToPixel(location.y));
-			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
+//			Point location = m_colorWar.getAgentLocation(0);
+//			location = new Point(m_colorWar.gridToPixel(location.x), m_colorWar.gridToPixel(location.y));
+//			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
 		case SIMULATED:
-			// TODO is there anything to do here...?
+			// shouldn't ever render a simulation
 		}
 	}
 	

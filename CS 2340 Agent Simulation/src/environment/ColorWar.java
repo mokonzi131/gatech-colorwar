@@ -223,7 +223,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	@Override
 	public double[] score() {
 		double [] s = new double[aStats.length];
-		for (int i=0; i<aStats.length; i++){
+		for (int i=0; i<aStats.length; i++) {
 			s[i]=aStats[i].score;
 		}
 		// TODO Auto-generated method stub
