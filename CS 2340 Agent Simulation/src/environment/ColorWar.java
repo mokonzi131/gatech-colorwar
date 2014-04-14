@@ -25,6 +25,9 @@ public class ColorWar implements IEnvironment, IViewable {
 	Agent[] Lagents;
 	Astats[] aStats;
 	private double m_moveCounter;
+	int totalC=0;
+	int rView=3;
+	int cView=3;
 	
 	public ColorWar(Agent[] a){
 		Lagents=a;
@@ -33,6 +36,9 @@ public class ColorWar implements IEnvironment, IViewable {
 			for (int j = 0; j < e[0].length; ++j) {
 				e[i][j] = new Square();
 				e[i][j].setColor(r.nextInt(100) > 33 ? true : false);
+				if(e[i][j].getColor()==true){
+					totalC+=1;
+				}
 			}
 		aStats=new Astats[a.length]; //create agent statistics at each index for each agent 
 		for (int i = 0; i < aStats.length; ++i)
@@ -87,17 +93,102 @@ public class ColorWar implements IEnvironment, IViewable {
 	}
 	
 	//@Override
-	public double[][][] observeStructure(int a) {
-		
-		// TODO Auto-generated method stub
-		//x,y location with information about that specific block (color, available, other agent on it?)
-		return null;
+	
+	public double[][][] observeStructure(int a){
+		double[][][] state = new double[rView][cView][3]; 
+		int x= aStats[a].x;
+		int y= aStats[a].y;
+		int leftx=x+cView/2;
+		int lefty=y+rView/2; //correct round?
+		for (int i=0; i<rView; i++){
+			for (int j=0; j<cView; j++){
+				state[i][j][0]=e[leftx+i][lefty+j].getAvailability();
+				state[i][j][1]=e[leftx+i][lefty+j].getColor() ? 1 : 0;
+				state[i][j][2]=e[leftx+i][lefty+j].getAgent();
+			}
+		}
+		return state;
 	}
+	
+	/*public double[][][] observeStructure(int a) {
+		int x= aStats[a].x;
+		int y= aStats[a].y;
+		
+		Point p1=new Point();
+		
+		
+		double[][][] state = new double[rView][cView][3]; //[available, color, agent]
+		state[0][0]=null;
+		state[0][2]=null;
+		state[2][0]=null;
+		state[2][2]=null;
+		
+
+		double[] s= new double[3];
+		//left
+		s[0]=e[x-1][y].getAvailability();
+		boolean color= e[x-1][y].getColor();
+		int c=0;
+		if (color==true){
+			 c=1;
+		}
+		s[1]=c;
+		s[2]=e[x-1][y].getAgent();
+		state[1][0]=s;
+		
+		//right
+		s[0]=e[x+1][y].getAvailability();
+		color= e[x+1][y].getColor();
+		c=0;
+		if (color==true){
+			 c=1;
+		}
+		s[1]=c;
+		s[2]=e[x+1][y].getAgent();
+		state[2][1]=s;
+		
+		//up
+		s[0]=e[x][y+1].getAvailability();
+		color= e[x][y+1].getColor();
+		c=0;
+		if (color==true){
+			 c=1;
+		}
+		s[1]=c;
+		s[2]=e[x][y+1].getAgent();
+		state[0][1]=s;
+		
+		//down
+		s[0]=e[x][y-1].getAvailability();
+		color= e[x][y-1].getColor();
+		c=0;
+		if (color==true){
+			 c=1;
+		}
+		s[1]=c;
+		s[2]=e[x][y-1].getAgent();
+		state[0][1]=s;
+		
+		return state;
+	}*/
 
 	//@Override
 	public double[] observe(int a) { //take every array in observed structure and concatinate it end to end 
-		// TODO Auto-generated method stub
-		return null;
+		double[] state = new double[rView*cView];
+		double[][][] s = observeStructure(a);
+		int count=0;
+		for (int i = 0; i < rView; i++){
+			for (int j = 0; j < cView; j++){
+				if (s[i][j]!=null){
+					count++;
+					state[count] = s[i][j][0];
+					state[count] = s[i][j][1];
+					state[count] = s[i][j][2];
+				}
+				
+			}	
+		}	
+		return state;
 	}
 
 	//@Override
@@ -178,12 +269,24 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	@Override
 	public double[] score() {
+		double [] s = new double[aStats.length];
+		for (int i=0; i<aStats.length; i++){
+			s[i]=aStats[i].score;
+		}
 		// TODO Auto-generated method stub
-		return null;
+		return s;
 	}
 
 	@Override
 	public boolean isEnd() {
+		double [] score= score();
+		double total=0;
+		for (int i=0; i<score.length; i++){
+			total+=score[i];
+		}
+		if (total==totalC){
+			return true;
+		}
 		// TODO Auto-generated method stub
 		return false;
 	}
