@@ -81,7 +81,10 @@ public class ColorScene extends Scene implements WindowListener {
 	@Override
 	public void update(double deltaTime) {
 		// update ColorWar game elements
-		m_colorWar.update(deltaTime);
+		if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED)
+			m_colorWar.update(1.0);
+		else
+			m_colorWar.update(deltaTime);
 	}
 
 	@Override

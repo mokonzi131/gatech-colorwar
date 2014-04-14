@@ -107,7 +107,7 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	public void update(double deltaTime) {
 		m_moveCounter += deltaTime;
-		if (m_moveCounter > 1.0) {
+		if (m_moveCounter >= 1.0) {
 			m_moveCounter = 0.0;
 			turn();
 		}
