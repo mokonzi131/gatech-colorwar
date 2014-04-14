@@ -59,7 +59,7 @@ public class ColorWar implements IEnvironment, IViewable {
 		
 		aStats[a].x=x;
 		aStats[a].y=y; 	
-		e[x][y].setAgent(a); //sets the agent to that agent number on the block
+		e[x][y].setAgent(aStats[a].score); //sets the agent to that agent number on the block
 		if (e[x][y].getColor()==true) {
 			aStats[a].score=aStats[a].score+1;
 			e[x][y].setColor(false); //no color anymore on that block 
@@ -95,7 +95,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	//@Override
 	
 	public double[][][] observeStructure(int a){
-		double[][][] state = new double[rView][cView][3]; 
+		double[][][] state = new double[rView][cView][3]; //[availability, color, agentScore or 0]
 		int x= aStats[a].x;
 		int y= aStats[a].y;
 		int leftx=x+cView/2;
@@ -107,6 +107,11 @@ public class ColorWar implements IEnvironment, IViewable {
 				state[i][j][2]=e[leftx+i][lefty+j].getAgent();
 			}
 		}
+		//set corners to null
+		state[0][0]=null;
+		state[0][cView]=null;
+		state[rView][0]=null;
+		state[cView][rView]=null;
 		return state;
 	}
 	
@@ -157,7 +162,7 @@ public class ColorWar implements IEnvironment, IViewable {
 		s[1]=c;
 		s[2]=e[x][y+1].getAgent();
 		state[0][1]=s;
-		
+
 		//down
 		s[0]=e[x][y-1].getAvailability();
 		color= e[x][y-1].getColor();
