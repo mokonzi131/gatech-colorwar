@@ -248,6 +248,12 @@ public class ColorWar implements IEnvironment, IViewable {
 	public void reset() {
 		// TODO Auto-generated method stub
 	}
+
+	@Override
+	public Dimension dim(int a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	/*public double[][][] observeStructure(int a) {
 	int x= aStats[a].x;
