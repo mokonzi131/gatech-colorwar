@@ -30,5 +30,11 @@ public class ReinforcementAgent implements Agent {
 		learner.setObserver(o);
 		selector.setObserver(o);
 	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

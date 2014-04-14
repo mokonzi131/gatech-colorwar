@@ -28,4 +28,10 @@ public class RandomAgent implements Agent {
 		o = o0;
 	}
 
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
