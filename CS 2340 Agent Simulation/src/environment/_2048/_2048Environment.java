@@ -1,5 +1,6 @@
 package environment._2048;
 
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
@@ -52,16 +53,22 @@ public class _2048Environment implements IEnvironment {
 	@Override
 	public void update(double dt) {
 		dt0 += dt;
-		while (--dt0 < 1)
+		while (dt0 > 1) 
 			move();
 	}
 	
 	public void move() {
 		int move = agent.move(0);
 		int score = game.getScore();
+//		int[][] grid0 = game.getGrid();
 		game.move(move);
-		int reward = game.getScore() - score;
-		agent.reward(0, reward);
+//		int[][] grid1 = game.getGrid();
+//		boolean change = false;
+//		for (int i = 0; i < m; i++)
+//			for (int j = 0; j < n; j++)
+//				change |= grid0[i][j] != grid1[i][j];
+		agent.reward(0, game.getScore() - score);
+		dt0--;
 	}
 
 	@Override
@@ -96,7 +103,7 @@ public class _2048Environment implements IEnvironment {
 					char c = (char) ('0' + k);
 					if (k >= 10)
 						c = (char) ('A' + k - 10);
-					g.drawString(""+c, gridSize*i, gridSize*j);
+					g.drawString(""+c, gridSize*i, gridSize*(j+1));
 				}
 			}
 	}
@@ -104,6 +111,12 @@ public class _2048Environment implements IEnvironment {
 	@Override
 	public Dimension dim() {
 		return new Dimension(m*gridSize, n*gridSize);
+	}
+
+	@Override
+	public Dimension dim(int a) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -24,7 +24,7 @@ public class NeuralWeight {
 		return w.weight * input;
 	}
 
-	public void backpropagate(double delta) {
+	public synchronized void backpropagate(double delta) {
 		w.weight += input * alpha * delta; // weight, decay, momentum
 		node.addDelta(delta * w.weight);
 	}

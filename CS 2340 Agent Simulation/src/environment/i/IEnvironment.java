@@ -24,6 +24,8 @@ public interface IEnvironment extends StructuredObserver {
 	
 	public Dimension dim();
 	
+	public Dimension dim(int a);
+	
 	public double[] score();
 	
 	//public double[] agentLocation(int a); for myself reinforcement agents dont need to know this 
@@ -33,6 +35,6 @@ public interface IEnvironment extends StructuredObserver {
 	public void reset();
 	
 	public void render(Graphics2D g);
-	
 	//public int reward(int a); calculate each agents "score" 
+	
 }
