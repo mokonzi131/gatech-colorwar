@@ -60,6 +60,10 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 	}
 	
+	public Point getAgentLocation(int a) {
+		return new Point(aStats[a].x, aStats[a].y);
+	}
+	
 	public void turn() {
 		for (int i=0; i<Lagents.length; i++){
 			int agentMove=Lagents[i].move(i);
@@ -161,7 +165,7 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 	}
 	
-	private int gridToPixel(int i) {
+	public int gridToPixel(int i) {
 		return (int) (i * Constants.CELL_DISTANCE + Constants.CELL_DISTANCE / 2 + Constants.GRID_BUFFER);
 	}
 

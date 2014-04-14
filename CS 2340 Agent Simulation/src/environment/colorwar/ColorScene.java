@@ -2,25 +2,17 @@ package environment.colorwar;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 import agent.i.Agent;
 import agent.random.RandomAgent;
 import environment.ColorWar;
-import environment.Environment;
 import environment.colorwar.Constants.RENDERING_TYPE;
-import environment.colorwar.controllers.AgentController;
-import environment.colorwar.controllers.HumanAgentController;
-import environment.colorwar.controllers.IntelligentAgentController;
-import environment.colorwar.controllers.RandomAgentController;
-import view.engine.Actor;
-import view.engine.IViewable;
 import view.engine.Scene;
 import view.engine.system.Display;
 import view.engine.system.InputMap;
@@ -28,28 +20,16 @@ import view.engine.system.InputMap;
 public class ColorScene extends Scene implements WindowListener {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
-//	private double m_agentTimer;
-	
-//	BufferedImage m_worldImage;
-	
-	private List<IViewable> m_viewables;
-	private BufferedImage m_colorImage;
-	private Display m_colorDisplay;
-	
-//	private List<Actor> m_actors;
-//	private List<AgentActor> m_agentActors;
-//	private Display m_masterDisplay;
-//	private Display[] m_agentDisplays;
+	private Display m_masterDisplay;
+	private Display[] m_agentDisplays;
+	BufferedImage m_worldImage;
+	private ColorWar m_colorWar;
 	
 	public ColorScene() {
-//		m_agentTimer = 0.0;
-//		m_actors = new ArrayList<>();
-//		m_agentActors = new ArrayList<>();
-//		m_masterDisplay = null;
-//		m_agentDisplays = new Display[Constants.numAgents];
-		
-		m_viewables = new ArrayList<>();
-		m_colorDisplay = null;
+		m_colorWar = null;
+		m_masterDisplay = null;
+		m_agentDisplays = new Display[Constants.numAgents];
+		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 	}
 
 	@Override
@@ -62,86 +42,44 @@ public class ColorScene extends Scene implements WindowListener {
 		// setup displays
 		switch(Constants.renderingType) {
 		case DEVELOPER:
-//			m_masterDisplay = new Display(
-//					Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
-//			m_masterDisplay.initialize(null);
-//			m_masterDisplay.setCloseListener(this);
+			m_masterDisplay = new Display(Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
+			m_masterDisplay.initialize(null);
+			m_masterDisplay.setCloseListener(this);
 			
-			m_colorDisplay = new Display(Constants.DEV_VIEW_WIDTH, Constants.DEV_VIEW_HEIGHT);
-			m_colorDisplay.initialize(null);
-			m_colorDisplay.setCloseListener(this);
-			
-//			for (int i = 1; i < Constants.numAgents; ++i) {
-//				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-//				m_agentDisplays[i].initialize(null);
-//				m_agentDisplays[i].setCloseListener(this);
-//			}
+			for (int i = 1; i < Constants.numAgents; ++i) {
+				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+				m_agentDisplays[i].initialize(null);
+				m_agentDisplays[i].setCloseListener(this);
+			}
 		case NORMAL:
-//			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-//			m_agentDisplays[0].initialize(imap);
-//			m_agentDisplays[0].setCloseListener(this);
+			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+			m_agentDisplays[0].initialize(imap);
+			m_agentDisplays[0].setCloseListener(this);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
 			break;
 		}
 		
-//		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		m_colorImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		
-		// new logic for ColorWar game...
+		// setup ColorWar game components
 		Agent[] agents = new Agent[Constants.numAgents];
 		for (int i = 0; i < Constants.numAgents; ++i) {
 			agents[i] = new RandomAgent();
 		}
 		
 		ColorWar colorWarEnvironment = new ColorWar(agents);
-		for (int i = 0; i < agents.length; ++i)
+		for (int i = 0; i < agents.length; ++i) {
+			if (Constants.isHumanPlayable && i == 0)
+				;// TODO create human agent @ i0
 			agents[i].setObserver(colorWarEnvironment);
+		}
 		
-		m_viewables.add(colorWarEnvironment);
-		
-		// create world map (environment) actor
-//		Environment environment = new Environment();
-//		m_actors.add(environment);
-		
-		// create agents actors
-//		for (int i = 0; i < Constants.numAgents; ++i) {
-//			Point2D.Float location = environment.spawnLocation();
-//			
-//			AgentController controller;
-//			if (Constants.isHumanPlayable && i == 0)
-//				controller = new HumanAgentController(imap);
-//			else if (i == 1) {
-//				RandomAgent ra = new RandomAgent();
-//				ra.setObserver(environment);
-//				controller = new IntelligentAgentController(ra);
-//			}
-//			else
-//				controller = new RandomAgentController();
-//			
-//			AgentActor agent = new AgentActor(location.x, location.y, controller, environment);
-//			m_actors.add(agent);
-//			m_agentActors.add(agent);
-//		}
+		m_colorWar = colorWarEnvironment;
 	}
 
 	@Override
 	public void update(double deltaTime) {
-		// update all actors every time
-//		for (Actor actor : m_actors)
-//			actor.update(deltaTime);
-		
-		// move the agents at 1-second intervals
-//		m_agentTimer += deltaTime;
-//		if (m_agentTimer > 1.0) {
-//			m_agentTimer = 0.0;
-//			for (AgentActor agent : m_agentActors)
-//				agent.move();
-//		}
-		
-		// new ColorWar game logic
-		for (IViewable viewable : m_viewables)
-			viewable.update(deltaTime);
+		// update ColorWar game elements
+		m_colorWar.update(deltaTime);
 	}
 
 	@Override
@@ -149,35 +87,27 @@ public class ColorScene extends Scene implements WindowListener {
 		if (Constants.renderingType == RENDERING_TYPE.SIMULATED)
 			return;
 		
-		// render the world
-//		Graphics2D worldContext = m_worldImage.createGraphics();
-//		background(worldContext, m_worldImage.getWidth(), m_worldImage.getHeight());
-//		for (Actor actor : m_actors)
-//			actor.render(worldContext);
-		
-		// render the colorgame world
-		Graphics2D colorContext = m_colorImage.createGraphics();
-		background(colorContext, m_colorImage.getWidth(), m_colorImage.getHeight());
-		for (IViewable viewable : m_viewables)
-			viewable.render(colorContext);
+		// render the complete world
+		Graphics2D context = m_worldImage.createGraphics();
+		background(context, m_worldImage.getWidth(), m_worldImage.getHeight());
+		m_colorWar.render(context);
 		
 		switch(Constants.renderingType) {
 		case DEVELOPER:
-			// render the developer image from the world
-//			viewport(m_worldImage, m_masterDisplay.getContext());
-			viewport(m_colorImage, m_colorDisplay.getContext());
+			// render the developer image from the complete world
+			viewport(m_worldImage, m_masterDisplay.getContext());
 			
 			// render an image for all the agents
-//			for (int i = 1; i < Constants.numAgents; ++i) {
-//				Actor agent = m_agentActors.get(i);
-//				Point2D location = agent.location();
-//				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
-//			}
+			for (int i = 1; i < Constants.numAgents; ++i) {
+				Point location = m_colorWar.getAgentLocation(i);
+				location = new Point(m_colorWar.gridToPixel(location.x), m_colorWar.gridToPixel(location.y));
+				snapshot(m_worldImage, m_agentDisplays[i].getContext(), location);
+			}
 		case NORMAL:
 			// render the image for the first agents
-//			Actor agent = m_agentActors.get(0);
-//			Point2D location = agent.location();
-//			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
+			Point location = m_colorWar.getAgentLocation(0);
+			location = new Point(m_colorWar.gridToPixel(location.x), m_colorWar.gridToPixel(location.y));
+			snapshot(m_worldImage, m_agentDisplays[0].getContext(), location);
 		case SIMULATED:
 			// TODO is there anything to do here...?
 		}
