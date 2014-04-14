@@ -28,25 +28,25 @@ import view.engine.system.InputMap;
 public class ColorScene extends Scene implements WindowListener {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
-	private double m_agentTimer;
+//	private double m_agentTimer;
 	
-	BufferedImage m_worldImage;
+//	BufferedImage m_worldImage;
 	
 	private List<IViewable> m_viewables;
 	private BufferedImage m_colorImage;
 	private Display m_colorDisplay;
 	
-	private List<Actor> m_actors;
-	private List<AgentActor> m_agentActors;
-	private Display m_masterDisplay;
-	private Display[] m_agentDisplays;
+//	private List<Actor> m_actors;
+//	private List<AgentActor> m_agentActors;
+//	private Display m_masterDisplay;
+//	private Display[] m_agentDisplays;
 	
 	public ColorScene() {
-		m_agentTimer = 0.0;
-		m_actors = new ArrayList<>();
-		m_agentActors = new ArrayList<>();
-		m_masterDisplay = null;
-		m_agentDisplays = new Display[Constants.numAgents];
+//		m_agentTimer = 0.0;
+//		m_actors = new ArrayList<>();
+//		m_agentActors = new ArrayList<>();
+//		m_masterDisplay = null;
+//		m_agentDisplays = new Display[Constants.numAgents];
 		
 		m_viewables = new ArrayList<>();
 		m_colorDisplay = null;
@@ -208,26 +208,11 @@ public class ColorScene extends Scene implements WindowListener {
 				0, 0, from.getWidth(), from.getHeight(), null);
 	}
 
-	@Override
-	public void windowOpened(WindowEvent e) {}
-
-	@Override
-	public void windowClosing(WindowEvent e) {
-		finished = true;
-	}
-
-	@Override
-	public void windowClosed(WindowEvent e) {}
-
-	@Override
-	public void windowIconified(WindowEvent e) {}
-
-	@Override
-	public void windowDeiconified(WindowEvent e) {}
-
-	@Override
-	public void windowActivated(WindowEvent e) {}
-
-	@Override
-	public void windowDeactivated(WindowEvent e) {}
+	@Override public void windowOpened(WindowEvent e) {}
+	@Override public void windowClosing(WindowEvent e) { finished = true; }
+	@Override public void windowClosed(WindowEvent e) {}
+	@Override public void windowIconified(WindowEvent e) {}
+	@Override public void windowDeiconified(WindowEvent e) {}
+	@Override public void windowActivated(WindowEvent e) {}
+	@Override public void windowDeactivated(WindowEvent e) {}
 }
