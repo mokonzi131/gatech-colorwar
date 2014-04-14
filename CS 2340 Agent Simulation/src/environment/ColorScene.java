@@ -2,16 +2,12 @@ package environment;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
-import agent.human.HumanAgent;
-import agent.i.Agent;
-import agent.random.RandomAgent;
 import environment.Constants;
 import environment.i.IEnvironment;
 import view.engine.Scene;
@@ -22,20 +18,15 @@ public class ColorScene extends Scene implements WindowListener {
 	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
 	private Display m_masterDisplay;
-	private Display[] m_agentDisplays;
+//	private Display[] m_agentDisplays;
 	BufferedImage m_worldImage;
-	private IEnvironment m_colorWar;
+	private IEnvironment m_environment;
 	
-	public ColorScene() {
-		m_colorWar = null;
+	public ColorScene(IEnvironment environment, InputMap imap) {
+		m_environment = environment;
 		m_masterDisplay = null;
-		m_agentDisplays = new Display[Constants.numAgents];
+//		m_agentDisplays = new Display[Constants.numAgents];
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
-		
-		// setup input reader
-		InputMap imap = null;
-		if (Constants.isHumanPlayable)
-			imap = new InputMap();
 		
 		// setup displays
 		switch(Constants.renderingType) {
@@ -44,31 +35,17 @@ public class ColorScene extends Scene implements WindowListener {
 			m_masterDisplay.initialize(null, Constants.GAME_NAME);
 			m_masterDisplay.setCloseListener(this);
 			
-			for (int i = 1; i < Constants.numAgents; ++i) {
-				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-				m_agentDisplays[i].initialize(null, Constants.GAME_NAME);
-				m_agentDisplays[i].setCloseListener(this);
-			}
+//			for (int i = 1; i < Constants.numAgents; ++i) {
+//				m_agentDisplays[i] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+//				m_agentDisplays[i].initialize(null, Constants.GAME_NAME);
+//				m_agentDisplays[i].setCloseListener(this);
+//			}
 		case NORMAL:
-			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
-			m_agentDisplays[0].initialize(imap, Constants.GAME_NAME);
-			m_agentDisplays[0].setCloseListener(this);
+//			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
+//			m_agentDisplays[0].initialize(imap, Constants.GAME_NAME);
+//			m_agentDisplays[0].setCloseListener(this);
 		case SIMULATED:
 			break;
-		}
-		
-		// setup ColorWar game components
-		Agent[] agents = new Agent[Constants.numAgents];
-		for (int i = 0; i < Constants.numAgents; ++i) {
-			if (Constants.isHumanPlayable && i == 0)
-				agents[i] = new HumanAgent(imap);
-			else
-				agents[i] = new RandomAgent();
-		}
-		
-		m_colorWar = new ColorWar(agents);
-		for (int i = 0; i < agents.length; ++i) {
-			agents[i].setObserver(m_colorWar);
 		}
 	}
 
@@ -78,12 +55,12 @@ public class ColorScene extends Scene implements WindowListener {
 	public void update(double deltaTime) {
 		// update ColorWar game elements
 		if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED)
-			m_colorWar.update(1.0);
+			m_environment.update(1.0);
 		else
-			m_colorWar.update(1.0);//deltaTime); TODO undo
+			m_environment.update(deltaTime);
 		
-		if (m_colorWar.isEnd()) {
-			double[] score = m_colorWar.score();
+		if (m_environment.isEnd()) {
+			double[] score = m_environment.score();
 			String scoreString = "";
 			for (int i = 0; i < score.length; ++i)
 				scoreString += score[i] + ", ";
@@ -100,7 +77,7 @@ public class ColorScene extends Scene implements WindowListener {
 		// render the complete world
 		Graphics2D context = m_worldImage.createGraphics();
 		background(context, m_worldImage.getWidth(), m_worldImage.getHeight());
-		m_colorWar.render(context);
+		m_environment.render(context);
 		
 		switch(Constants.renderingType) {
 		case DEVELOPER:
