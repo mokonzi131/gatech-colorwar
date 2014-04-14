@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.logging.Logger;
 
 import view.engine.IViewable;
-import environment.colorwar.Constants;
+import environment.Constants;
 import environment.i.IEnvironment;
 import agent.i.Agent;
 
@@ -24,6 +24,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	int n;
 	Agent[] Lagents;
 	Astats[] aStats;
+	private double m_moveCounter;
 	
 	public ColorWar(Agent[] a){
 		Lagents=a;
@@ -41,19 +42,29 @@ public class ColorWar implements IEnvironment, IViewable {
 			int y= r.nextInt(gameSize);
 			setAgentLocation(i,x,y);
 		}
+		
+		m_moveCounter = 0.0;
 	}
 	
 	public void setAgentLocation(int a, int x, int y){
+		// don't allow movement to an invalid location
+		if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1)
+			return;
+		
 		aStats[a].x=x;
 		aStats[a].y=y; 	
 		e[x][y].setAgent(a); //sets the agent to that agent number on the block
-		if (e[x][y].getColor()==true){
+		if (e[x][y].getColor()==true) {
 			aStats[a].score=aStats[a].score+1;
 			e[x][y].setColor(false); //no color anymore on that block 
 		}
 	}
 	
-	public void turn(int a, Point p){
+	public Point getAgentLocation(int a) {
+		return new Point(aStats[a].x, aStats[a].y);
+	}
+	
+	public void turn() {
 		for (int i=0; i<Lagents.length; i++){
 			int agentMove=Lagents[i].move(i);
 			//0-left, 1-up, 2-right, 3-down, 4-none
@@ -61,13 +72,13 @@ public class ColorWar implements IEnvironment, IViewable {
 				setAgentLocation(i, aStats[i].x-1, aStats[i].y);	
 			}
 			if (agentMove==1){
-				setAgentLocation(i, aStats[i].x, aStats[i].y+1);
+				setAgentLocation(i, aStats[i].x, aStats[i].y-1);
 			}
 			if (agentMove==2){
 				setAgentLocation(i, aStats[i].x+1, aStats[i].y);
 			}
 			if (agentMove==3){
-				setAgentLocation(i, aStats[i].x, aStats[i].y-1);
+				setAgentLocation(i, aStats[i].x, aStats[i].y+1);
 			}
 			if (agentMove==4){
 				setAgentLocation(i, aStats[i].x, aStats[i].y);
@@ -92,13 +103,15 @@ public class ColorWar implements IEnvironment, IViewable {
 	//@Override
 	public int actionRange(int a) { ///a constant # , largest # of moves that agent will have available 
 		// TODO Auto-generated method stub
-		return 0;
+		return 4;
 	}
 
 	public void update(double deltaTime) {
-		LOGGER.info("dt=" + deltaTime);
-		// TODO keep track in a counter and move agents every 1 second
-		// at 1 second, call turn() or whatever method moves the agents
+		m_moveCounter += deltaTime;
+		if (m_moveCounter >= 1.0) {
+			m_moveCounter = 0.0;
+			turn();
+		}
 	}
 
 	@Override
@@ -153,7 +166,7 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 	}
 	
-	private int gridToPixel(int i) {
+	public int gridToPixel(int i) {
 		return (int) (i * Constants.CELL_DISTANCE + Constants.CELL_DISTANCE / 2 + Constants.GRID_BUFFER);
 	}
 

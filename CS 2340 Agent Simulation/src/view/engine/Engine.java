@@ -1,6 +1,6 @@
 package view.engine;
 
-import environment.colorwar.Constants;
+import environment.Constants;
 
 public class Engine {
 	private static final float NANOS_PER_SECOND = 1000000000f;

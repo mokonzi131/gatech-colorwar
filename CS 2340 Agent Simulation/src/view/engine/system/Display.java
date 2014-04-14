@@ -7,8 +7,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-import environment.colorwar.Constants;
-
 public class Display {
 	private int m_width;
 	private int m_height;
@@ -29,16 +27,14 @@ public class Display {
 		m_frame.addWindowListener(listener);
 	}
 	
-	public void initialize(InputMap imap) {
+	public void initialize(InputMap imap, String title) {
 		m_component = new DisplayComponent(m_width, m_height, imap);
 		m_component.initialize();
 		
-		m_frame = new JFrame(Constants.GAME_NAME);
+		m_frame = new JFrame(title);
 		m_frame.setContentPane(m_component);
 		m_frame.setResizable(true);
 		m_frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		// TODO make windows closeable, currently there is an error when window closes before app shuts down,
-		//  so window closing has been temporarily disabled...
 		m_frame.pack();
 
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

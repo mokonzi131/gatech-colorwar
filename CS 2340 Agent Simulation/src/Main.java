@@ -3,16 +3,14 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import view.engine.Game;
 import agent.i.Agent;
-
 import environment._2048._2048Environment;
-import environment.colorwar.Constants;
-import environment.colorwar.GenericGame;
+import environment.Constants;
 import environment.i.IEnvironment;
 
 public class Main {
-	private static final Logger LOGGER = Logger.getLogger(Thread
-			.currentThread().getStackTrace()[0].getClassName());
+	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 	private static final String PROPERTIES_FILENAME = "settings.properties";
 	private static final String PROPERTY_RENDERING = "rendering";
 	private static final String PROPERTY_AGENTS = "agents";
@@ -51,7 +49,7 @@ public class Main {
 			Constants.isHumanPlayable = false;
 
 		// create game
-		GenericGame game = new GenericGame();
+		Game game = new Game();
 		new Thread(game, "Generic Game Thread").start();
 	}
 	
