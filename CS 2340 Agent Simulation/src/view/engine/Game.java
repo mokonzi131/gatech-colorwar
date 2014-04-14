@@ -1,6 +1,6 @@
 package view.engine;
 
-import environment.colorwar.ColorScene;
+import environment.ColorScene;
 import view.engine.Engine;
 
 // describe a set of scenes, and their transitions, and general resources

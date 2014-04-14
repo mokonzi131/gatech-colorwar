@@ -1,4 +1,4 @@
-package environment.colorwar;
+package environment;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
