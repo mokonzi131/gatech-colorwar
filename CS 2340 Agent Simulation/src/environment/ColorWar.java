@@ -77,6 +77,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	
 	//@Override
 	public double[][][] observeStructure(int a) {
+		
 		// TODO Auto-generated method stub
 		//x,y location with information about that specific block (color, available, other agent on it?)
 		return null;
