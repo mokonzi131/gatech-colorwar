@@ -10,7 +10,7 @@ import environment.Constants;
 import environment.i.IEnvironment;
 
 public class Main {
-	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
+	private static final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[1].getClassName());
 	private static final String PROPERTIES_FILENAME = "settings.properties";
 	private static final String PROPERTY_RENDERING = "rendering";
 	private static final String PROPERTY_AGENTS = "agents";

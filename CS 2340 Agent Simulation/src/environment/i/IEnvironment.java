@@ -34,7 +34,8 @@ public interface IEnvironment extends StructuredObserver {
 	
 	public void reset();
 	
-	public void render(Graphics2D g);
+	public void render(BufferedImage target);
+	public void renderAgentFromWorld(int i, BufferedImage world, BufferedImage target);
 	//public int reward(int a); calculate each agents "score" 
 	
 }

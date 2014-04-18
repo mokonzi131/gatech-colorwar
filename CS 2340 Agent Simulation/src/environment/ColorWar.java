@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
+import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -177,7 +178,11 @@ public class ColorWar implements IEnvironment, IViewable {
 	}
 
 	@Override
-	public void render(Graphics2D context) {
+	public void render(BufferedImage target) {
+		// get the graphics object
+		Graphics2D context = target.createGraphics();
+		background(context, target.getWidth(), target.getHeight());
+		
 		// environment background
 		final Color background = new Color(255, 0, 255, 50);
 		context.setColor(background);
@@ -228,6 +233,25 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 	}
 	
+	@Override
+	public void renderAgentFromWorld(int i, BufferedImage world, BufferedImage target) {
+		Graphics2D graphics = target.createGraphics();
+		background(graphics, target.getWidth(), target.getHeight());
+		
+		int x = gridToPixel(aStats[i].x);
+		int y = gridToPixel(aStats[i].y);
+		int radius = (Constants.AGENT_RANGE * Constants.CELL_DISTANCE) / 2;
+		
+		graphics.drawImage(world, 0, 0, target.getWidth(), target.getHeight(),
+				x - radius, y - radius, x + radius, y + radius, null);
+	}
+	
+	// clear a graphics context to the background color
+	private void background(Graphics2D context, int width, int height) {
+		context.setColor(Color.BLACK);
+		context.fillRect(0, 0, width, height);
+	}
+	
 	public int gridToPixel(int i) {
 		return (int) (i * Constants.CELL_DISTANCE + Constants.CELL_DISTANCE / 2 + Constants.GRID_BUFFER);
 	}
@@ -266,6 +290,9 @@ public class ColorWar implements IEnvironment, IViewable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
+	@Override
+	public void render(Graphics2D context) {
+		// TODO Auto-generated method stub
+	}
 }

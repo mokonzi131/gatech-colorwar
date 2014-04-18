@@ -3,6 +3,7 @@ package environment._2048;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import agent.i.Agent;
 import model.Model;
@@ -94,7 +95,9 @@ public class _2048Environment implements IEnvironment {
 	}
 
 	@Override
-	public void render(Graphics2D g) {
+	public void render(BufferedImage target) {
+		Graphics2D g = target.createGraphics();
+		
 		int[][] grid = game.getGrid();
 		for (int i = 0; i < m; i++)
 			for (int j = 0; j < n; j++) {
@@ -117,6 +120,11 @@ public class _2048Environment implements IEnvironment {
 	public Dimension dim(int a) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void renderAgentFromWorld(int i, BufferedImage world, BufferedImage target) {
+		// TODO Auto-generated method stub
 	}
 
 }
