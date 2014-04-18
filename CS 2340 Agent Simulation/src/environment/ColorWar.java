@@ -164,8 +164,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	}
 
 	//@Override
-	public int actionRange(int a) { ///a constant # , largest # of moves that agent will have available 
-		// TODO Auto-generated method stub
+	public int actionRange(int a) { ///a constant # , largest # of moves that agent will have available
 		return 4;
 	}
 
@@ -244,6 +243,14 @@ public class ColorWar implements IEnvironment, IViewable {
 		
 		graphics.drawImage(world, 0, 0, target.getWidth(), target.getHeight(),
 				x - radius, y - radius, x + radius, y + radius, null);
+		
+		// draw the mask
+		graphics.setColor(Color.BLACK);
+		graphics.fillRect(0, 0, Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
+		graphics.fillRect(0 + 2 * Constants.CELL_DISTANCE, 0, Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
+		graphics.fillRect(0, 0 + 2 * Constants.CELL_DISTANCE, Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
+		graphics.fillRect(0 + 2 * Constants.CELL_DISTANCE, 0 + 2 * Constants.CELL_DISTANCE,
+				Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
 	}
 	
 	// clear a graphics context to the background color
@@ -258,7 +265,6 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	@Override
 	public Dimension dim() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -268,7 +274,6 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i=0; i<aStats.length; i++) {
 			s[i]=aStats[i].score;
 		}
-		// TODO Auto-generated method stub
 		return s;
 	}
 
@@ -281,18 +286,13 @@ public class ColorWar implements IEnvironment, IViewable {
 	public void reset() {
 		//call reset on all agents
 		//create board
-		
-		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public Dimension dim(int a) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void render(Graphics2D context) {
-		// TODO Auto-generated method stub
-	}
+	public void render(Graphics2D context) {}
 }
