@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 import agent.human.HumanAgent;
 import agent.i.Agent;
 import agent.random.RandomAgent;
+import agent.reinforcement.ReinforcementAgent;
+import agent.reinforcement.neural.BasicNeuralAgentFactory;
 import environment.ColorWar;
 import environment.Constants;
 import view.engine.Scene;
@@ -25,6 +27,10 @@ public class ColorScene extends Scene implements WindowListener {
 	private Display[] m_agentDisplays;
 	BufferedImage m_worldImage;
 	private ColorWar m_colorWar;
+
+	private String filename = "BasicNeuralAgent.dat";
+	private ReinforcementAgent neuralAgent;
+	private int count = 0;
 	
 	public ColorScene() {
 		m_colorWar = null;
@@ -56,18 +62,20 @@ public class ColorScene extends Scene implements WindowListener {
 			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
 			m_agentDisplays[0].initialize(imap, Constants.GAME_NAME);
 			m_agentDisplays[0].setCloseListener(this);
+			neuralAgent = BasicNeuralAgentFactory.loadAgent(filename);
 		case SIMULATED:
 			// TODO implement text-based resources to help observe agent-training...
+			neuralAgent = BasicNeuralAgentFactory.generateAgent(15, 4);
 			break;
 		}
 		
 		// setup ColorWar game components
 		Agent[] agents = new Agent[Constants.numAgents];
 		for (int i = 0; i < Constants.numAgents; ++i) {
-			if (Constants.isHumanPlayable && i == 0)
+			if (Constants.isHumanPlayable && i == 0 && Constants.renderingType != Constants.renderingType.SIMULATED)
 				agents[i] = new HumanAgent(imap);
 			else
-				agents[i] = new RandomAgent();
+				agents[i] = neuralAgent;
 		}
 		
 		ColorWar colorWarEnvironment = new ColorWar(agents);
@@ -81,9 +89,11 @@ public class ColorScene extends Scene implements WindowListener {
 	@Override
 	public void update(double deltaTime) {
 		// update ColorWar game elements
-		if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED)
+		if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED) {
 			m_colorWar.update(1.0);
-		else
+			if (++count%1000==0)
+				BasicNeuralAgentFactory.saveAgent(neuralAgent, "BasicNeuralAgent.dat");
+		} else
 			m_colorWar.update(deltaTime);
 	}
 

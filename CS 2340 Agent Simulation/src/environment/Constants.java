@@ -3,7 +3,7 @@ package environment;
 public class Constants extends environment.i.Constants {
 	// pre-defined constants
 	public static final String GAME_NAME = "Color War";
-	public static final int MINIMUM_NUM_AGENTS = 2;
+	public static final int MINIMUM_NUM_AGENTS = 1;
 	public static final int MAXIMUM_NUM_AGENTS = 1200;
 	public static final int FPS = 24;
 	
