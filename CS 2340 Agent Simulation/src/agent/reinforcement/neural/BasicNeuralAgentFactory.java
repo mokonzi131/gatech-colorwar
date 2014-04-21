@@ -19,7 +19,8 @@ import agent.reinforcement.Selector;
 public class BasicNeuralAgentFactory {
 
 	public static ReinforcementAgent generateAgent(int in, int out) {
-		Regressor r = new NeuralRegressor(.05, .05, 0, new int[] { in, out });
+		// Regressor r = new NeuralRegressor(.05, .05, 0, new int[] { in, out });
+		Regressor r = new NeuralRegressorAdapter(new int[] { in, out });
 		Learner l = new BasicLearner(r, .05);
 		Selector s = new BasicSelector();
 		return new ReinforcementAgent(l, s);
