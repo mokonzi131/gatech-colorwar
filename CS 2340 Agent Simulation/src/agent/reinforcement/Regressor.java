@@ -1,6 +1,8 @@
 package agent.reinforcement;
 
-public interface Regressor {
+import java.io.Serializable;
+
+public interface Regressor extends Serializable {
 
 	double[] predict(double[] obs);
 

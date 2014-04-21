@@ -3,49 +3,60 @@ package agent.reinforcement.neural;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NeuralNode {
-	
+import java.io.Serializable;
+
+public class NeuralNode implements Serializable {
+
 	private List<NeuralWeight> weights;
-	
+
 	private double input = 0, output = 0, delta = 0;
-	
-	private double alpha;
-	
-	public NeuralNode(double a) {
+
+	private double alpha, decay, momentum;
+
+	public NeuralNode(double a, double d, double m) {
 		alpha = a;
+		decay = d;
+		momentum = m;
 		weights = new ArrayList<NeuralWeight>();
 	}
 
-	public NeuralNode(List<NeuralWeight> w, double a) {
+	public NeuralNode(List<NeuralWeight> w, double a, double d, double m) {
 		weights = w;
 		alpha = a;
+		decay = d;
+		momentum = m;
 	}
 
-	public void addWeight(NeuralNode[] layer) {
+	public void addWeight(NeuralNode[] layer, boolean recurant) {
 		for (NeuralNode node : layer)
-			addWeight(node);
+			addWeight(node, recurant);
+	}
+
+	public void addWeight(NeuralNode node, boolean recurant) {
+		weights.add(new NeuralWeight(node, alpha, decay, momentum, recurant));
+	}
+
+	public double getOutput() {
+		return output;
 	}
 	
-	public void addWeight(NeuralNode node) {
-		weights.add(new NeuralWeight(node, alpha));
-	}
-
-	public double output() {
-		return output;
+	public void setOutput(double d) {
+		output = d;
 	}
 
 	public void propagate() {
-		double sum = 0;
+		alpha = 1;
+		input = 0;
 		for (NeuralWeight w : weights)
-			sum += w.output();
-		output = g(sum);
+			input += w.output();
+		output = g(input);
 		delta = 0;
 	}
-	
+
 	public void addDelta(double d) {
 		delta += d;
 	}
-	
+
 	public void setErr(double expected) {
 		delta += (expected - output) * dg(input);
 	}
@@ -56,11 +67,11 @@ public class NeuralNode {
 			w.backpropagate(d);
 		delta = 0;
 	}
-	
+
 	private double g(double s) {
-		return 1/(1+Math.exp(-s));
+		return 1 / (1 + Math.exp(-s));
 	}
-	
+
 	private double dg(double s) {
 		double g = g(s);
 		return g * (1 - g);
@@ -76,7 +87,15 @@ public class NeuralNode {
 		List<NeuralWeight> w = new ArrayList<NeuralWeight>(weights.size());
 		for (NeuralWeight w0 : weights)
 			w.add(w0.copy());
-		return new NeuralNode(weights, alpha);
+		return new NeuralNode(w, alpha, decay, momentum);
+	}
+
+	@Override
+	public String toString() {
+		String s = "";
+		for (NeuralWeight w : weights)
+			s += w.toString() + ", ";
+		return s;
 	}
 
 }

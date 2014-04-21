@@ -16,6 +16,7 @@ public class HumanAgent implements Agent {
 	@Override
 	public int move(int a) {
 		int key = m_inputMap.getLastKey();
+		System.out.println(System.currentTimeMillis());
 		
 		switch(key) {
 		case InputMap.KEY_LEFT:
@@ -39,6 +40,12 @@ public class HumanAgent implements Agent {
 	@Override
 	public void setObserver(StructuredObserver o) {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

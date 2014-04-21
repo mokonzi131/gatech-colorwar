@@ -7,7 +7,7 @@ public class BasicLearner implements Learner {
 	
 	private Regressor regressor;
 	private Regressor learner;
-	private Observer observer;
+	private transient Observer observer;
 	
 	private double[] o0;
 	private double reward = 0;
@@ -20,16 +20,16 @@ public class BasicLearner implements Learner {
 	}
 	
 	@Override
-	public double[] score(int a) {
+	public double[] score(int a, int move) {
 		double[] o1 = observer.observe(a);
 		double[] score = regressor.predict(o1);
-		double m = -Double.NEGATIVE_INFINITY;
+		double m = Double.NEGATIVE_INFINITY;
 		for (double s : score)
 			if (s > m)
 				m = s;
 		double delta = reward + alpha * m;
 		if (o0 != null)
-			learner.fit(o0, a, delta);
+			learner.fit(o0, move, delta);
 		o0 = o1;
 		reward = 0;
 		return score;

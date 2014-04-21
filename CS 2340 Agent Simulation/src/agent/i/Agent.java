@@ -26,4 +26,6 @@ public interface Agent {
 	
 	public void setObserver(StructuredObserver o);
 	
+	public void reset();
+	
 }
