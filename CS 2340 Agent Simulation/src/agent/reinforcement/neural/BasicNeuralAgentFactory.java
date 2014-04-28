@@ -1,6 +1,7 @@
 package agent.reinforcement.neural;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -26,23 +27,15 @@ public class BasicNeuralAgentFactory {
 		return new ReinforcementAgent(l, s);
 	}
 
-	public static ReinforcementAgent loadAgent(String f) {
+	public static ReinforcementAgent loadAgent(String f) throws Exception {
 		ReinforcementAgent e = null;
-		try
-		{
-			FileInputStream fileIn = new FileInputStream(f);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-			e = (ReinforcementAgent) in.readObject();
-			in.close();
-			fileIn.close();
-		} catch (IOException i)
-		{
-			i.printStackTrace();
-		} catch (ClassNotFoundException c)
-		{
-			System.out.println("Agent class not found");
-			c.printStackTrace();
-		}
+		
+		FileInputStream fileIn = new FileInputStream(f);
+		ObjectInputStream in = new ObjectInputStream(fileIn);
+		e = (ReinforcementAgent) in.readObject();
+		in.close();
+		fileIn.close();
+		
 		return e;
 	}
 

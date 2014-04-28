@@ -1,10 +1,8 @@
 package agent.reinforcement;
 
-import java.io.Serializable;
-
 import environment.i.StructuredObserver;
 
-public interface Selector extends Serializable {
+public interface Selector {
 
 	int select(double[] score);
 

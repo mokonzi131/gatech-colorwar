@@ -1,11 +1,13 @@
 package agent.reinforcement;
 
+import java.io.Serializable;
 import java.util.Random;
 
 import environment.i.StructuredObserver;
 
-public class BasicSelector implements Selector {
-
+public class BasicSelector implements Selector, Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	Random r = new Random();
 
 	@Override

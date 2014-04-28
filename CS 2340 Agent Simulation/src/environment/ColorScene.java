@@ -6,11 +6,6 @@ import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.util.logging.Logger;
 
-import agent.human.HumanAgent;
-import agent.i.Agent;
-import agent.random.RandomAgent;
-import agent.reinforcement.ReinforcementAgent;
-import agent.reinforcement.neural.BasicNeuralAgentFactory;
 import environment.ColorWar;
 import environment.Constants;
 import environment.i.IEnvironment;
@@ -26,13 +21,9 @@ public class ColorScene extends Scene implements WindowListener {
 	BufferedImage m_worldImage;
 
 	private ColorWar m_colorWar;
-
-	private String filename = "BasicNeuralAgent.dat";
-	private ReinforcementAgent neuralAgent;
-	private int count = 0;
 	
 	public ColorScene(IEnvironment environment, InputMap imap) {
-		m_colorWar = (ColorWar)environment;
+		m_colorWar = (ColorWar) environment;
 		m_masterDisplay = null;
 		m_agentDisplays = new Display[Constants.numAgents];
 		m_worldImage = new BufferedImage(Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT, BufferedImage.TYPE_INT_ARGB);
@@ -53,28 +44,13 @@ public class ColorScene extends Scene implements WindowListener {
 			m_agentDisplays[0] = new Display(Constants.AGENT_VIEW_WIDTH, Constants.AGENT_VIEW_HEIGHT);
 			m_agentDisplays[0].initialize(imap, Constants.GAME_NAME);
 			m_agentDisplays[0].setCloseListener(this);
-			neuralAgent = BasicNeuralAgentFactory.loadAgent(filename);
 		case SIMULATED:
-			// TODO implement text-based resources to help observe agent-training...
-			neuralAgent = BasicNeuralAgentFactory.generateAgent(15, 4);
 			break;
 		}
-		
-		// setup ColorWar game components
-		Agent[] agents = new Agent[Constants.numAgents];
-		for (int i = 0; i < Constants.numAgents; ++i) {
-			if (Constants.isHumanPlayable && i == 0 && Constants.renderingType != Constants.renderingType.SIMULATED)
-				agents[i] = new HumanAgent(imap);
-			else
-				agents[i] = neuralAgent;
-		}
-		
-		ColorWar colorWarEnvironment = new ColorWar(agents);
-		for (int i = 0; i < agents.length; ++i) {
-			agents[i].setObserver(colorWarEnvironment);
-		}
-		
-		m_colorWar = colorWarEnvironment;
+	}
+	
+	public void reset() {
+		finished = false;
 	}
 
 	@Override public void initialize() {}
@@ -84,10 +60,8 @@ public class ColorScene extends Scene implements WindowListener {
 		// update ColorWar game elements
 		if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED) {
 			m_colorWar.update(1.0);
-			if (++count%1000==0)
-				BasicNeuralAgentFactory.saveAgent(neuralAgent, "BasicNeuralAgent.dat");
 		} else
-			m_colorWar.update(deltaTime);
+			m_colorWar.update(1.0);//deltaTime);
 		
 		if (m_colorWar.isEnd()) {
 			double[] score = m_colorWar.score();

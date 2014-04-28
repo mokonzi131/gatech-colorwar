@@ -1,11 +1,8 @@
 package agent.reinforcement;
 
-import java.io.Serializable;
-
 import environment.i.StructuredObserver;
-import environment.i.SymmetryBasedObserver;
 
-public interface Learner extends Serializable {
+public interface Learner {
 
 	double[] score(int a, int move);
 

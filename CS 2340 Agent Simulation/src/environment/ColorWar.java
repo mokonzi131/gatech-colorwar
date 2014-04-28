@@ -39,6 +39,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	
 	@Override
 	public void reset() {
+		turns = 0;
 		for (Agent agent : Lagents)
 			agent.reset();
 		e = new Square[gameSize][gameSize]; //creation of environment array
