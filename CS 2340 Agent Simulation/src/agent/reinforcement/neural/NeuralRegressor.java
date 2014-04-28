@@ -1,5 +1,6 @@
 package agent.reinforcement.neural;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
 import agent.reinforcement.Regressor;
@@ -8,8 +9,9 @@ import agent.reinforcement.neural.net.NeuralConfig;
 import agent.reinforcement.neural.net.NeuralNet;
 import agent.reinforcement.neural.net.NeuralNode;
 
-public class NeuralRegressor implements Regressor {
-
+public class NeuralRegressor implements Regressor, Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	NeuralNet n;
 	NeuralNode bias;
 	

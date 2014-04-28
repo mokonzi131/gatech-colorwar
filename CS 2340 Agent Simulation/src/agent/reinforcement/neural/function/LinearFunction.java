@@ -1,6 +1,9 @@
 package agent.reinforcement.neural.function;
 
-public class LinearFunction implements Function {
+import java.io.Serializable;
+
+public class LinearFunction implements Function, Serializable {
+	private static final long serialVersionUID = 1L;
 
 	@Override
 	public double g(double x) {

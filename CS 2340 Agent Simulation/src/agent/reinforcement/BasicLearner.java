@@ -1,9 +1,12 @@
 package agent.reinforcement;
 
+import java.io.Serializable;
+
 import environment.i.Observer;
 import environment.i.StructuredObserver;
 
-public class BasicLearner implements Learner {
+public class BasicLearner implements Learner, Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private Regressor regressor;
 	private Regressor learner;
