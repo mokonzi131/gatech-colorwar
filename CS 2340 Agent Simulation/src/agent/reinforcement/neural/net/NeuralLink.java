@@ -3,7 +3,8 @@ package agent.reinforcement.neural.net;
 import java.io.Serializable;
 
 public class NeuralLink implements Serializable {
-
+	private static final long serialVersionUID = 1L;
+	
 	private NeuralNode n;
 	private Weight w = new Weight();
 	
@@ -38,6 +39,8 @@ public class NeuralLink implements Serializable {
 	}
 
 	public class Weight implements Serializable {
+		private static final long serialVersionUID = 1L;
+		
 		public double w = (Math.random() - .5) / 2;
 	}
 

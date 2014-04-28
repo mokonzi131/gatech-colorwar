@@ -9,6 +9,7 @@ import agent.reinforcement.neural.function.Function;
 import agent.reinforcement.neural.function.LogisticSigmoidFunction;
 
 public class NeuralNode implements Serializable {
+	private static final long serialVersionUID = 1L;
 
 	private List<NeuralLink> l = new ArrayList<NeuralLink>();
 

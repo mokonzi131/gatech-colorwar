@@ -61,15 +61,13 @@ public class Game implements Runnable {
 		ColorScene scene = new ColorScene(colorWar, imap);
 		for (int i = 0; i < 10; ++i) {
 			colorWar.reset();
-			
 			scene.reset();
 			m_engine.setScene(scene);
 			m_engine.start();
-		}		
+		}
 		
 		// finish game - save agent, etc.
-		// TODO this stuff isn't serializable...
-//		BasicNeuralAgentFactory.saveAgent(neuralAgent, filename);
+		BasicNeuralAgentFactory.saveAgent(neuralAgent, filename);
 		
 		System.exit(0);
 	}

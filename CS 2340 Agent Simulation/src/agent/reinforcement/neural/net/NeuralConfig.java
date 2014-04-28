@@ -3,7 +3,8 @@ package agent.reinforcement.neural.net;
 import java.io.Serializable;
 
 public class NeuralConfig implements Serializable {
-
+	private static final long serialVersionUID = 1L;
+	
 	public double a = 1;
 	public double d = 0;
 	public double m = 0;

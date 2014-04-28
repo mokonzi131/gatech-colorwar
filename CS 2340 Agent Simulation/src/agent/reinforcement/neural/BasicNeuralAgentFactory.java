@@ -1,15 +1,12 @@
 package agent.reinforcement.neural;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import java.util.logging.Logger;
 
-import environment.i.Observer;
-import agent.i.Agent;
 import agent.reinforcement.BasicLearner;
 import agent.reinforcement.BasicSelector;
 import agent.reinforcement.Learner;
@@ -18,6 +15,7 @@ import agent.reinforcement.ReinforcementAgent;
 import agent.reinforcement.Selector;
 
 public class BasicNeuralAgentFactory {
+	private static final Logger LOGGER = Logger.getLogger(BasicNeuralAgentFactory.class.getName());
 
 	public static ReinforcementAgent generateAgent(int in, int out) {
 		Regressor r = new NeuralRegressor(new int[] { in, out }, .05/(in+out), 0, 0);
@@ -47,7 +45,7 @@ public class BasicNeuralAgentFactory {
 			out.writeObject(e);
 			out.close();
 			fileOut.close();
-			System.out.println("Serialized data is saved in "+f);
+			LOGGER.info("Serialized data is saved in " + f);
 		} catch (IOException i)
 		{
 			i.printStackTrace();

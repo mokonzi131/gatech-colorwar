@@ -7,6 +7,7 @@ import java.util.List;
 import agent.reinforcement.neural.function.Function;
 
 public class NeuralLayer implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private List<NeuralNode> n;
 	private NeuralNode b;
