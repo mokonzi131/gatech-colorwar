@@ -34,7 +34,7 @@ public class NeuralRegressorAdapterTest {
 		int[] h = new int[]{4,4};
 		nr = new NeuralRegressorAdapter(h);
 		double[] input = new double[4];
-		for (int i = 0; i < 4*4*100; i++) {
+		for (int i = 0; i < 4*4*1000; i++) {
 			for (int j = 0; j < input.length; j++)
 				input[j] = r.nextInt(2);
 			int a = r.nextInt(input.length);

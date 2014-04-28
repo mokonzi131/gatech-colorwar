@@ -39,6 +39,12 @@ public class BasicRegressor implements Regressor {
 	}
 	
 	@Override
+	public void fit(double[] x, double[] y) {
+		for (int a = 0; a < y.length; a++) 
+			fit(x,a,y[a]);
+	}
+	
+	@Override
 	public Regressor copy() {
 		return this;
 	}

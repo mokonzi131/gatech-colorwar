@@ -31,7 +31,7 @@ public class NeuralRegressorTest {
 	@Test
 	public void testFit() {
 		int[] h = new int[]{4,4};
-		nr = new NeuralRegressor(.2,0,.1,h);
+		nr = new NeuralRegressor(h,.2,0,.1);
 		double[] input = new double[4];
 		for (int i = 0; i < 4*4*100; i++) {
 			for (int j = 0; j < input.length; j++)
@@ -54,9 +54,9 @@ public class NeuralRegressorTest {
 	public void testFitLogic() {
 		int s = 3;
 		int[] h = new int[]{s*s,1};
-		nr = new NeuralRegressor(.2,0,.1,h);
+		nr = new NeuralRegressor(h,.01,0,0);
 		double[] input = new double[s*s];
-		for (int i = 0; i < s*s*1000; i++) {
+		for (int i = 0; i < s*s*100000; i++) {
 			boolean k = true;
 			for (int j = 0; j < input.length; j++) {
 				input[j] = r.nextInt(2);
@@ -82,9 +82,9 @@ public class NeuralRegressorTest {
 	@Test
 	public void testFitAdvanced() {
 		int[] h = new int[]{4,5,1};
-		nr = new NeuralRegressor(.2,0,.1,h);
+		nr = new NeuralRegressor(h,.01,0,0);
 		double[] input = new double[4];
-		for (int i = 0; i < 4*4*1000; i++) {
+		for (int i = 0; i < 4*4*10000; i++) {
 			boolean k = false;
 			for (int j = 0; j < input.length; j++) {
 				input[j] = r.nextInt(2);

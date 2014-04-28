@@ -25,6 +25,12 @@ public class NeuralRegressorAdapter implements Regressor {
 		for (int i = 0; i < v.size(); i++) r[i] = v.get(i);
 		return r;
 	}
+	
+	@Override
+	public void fit(double[] x, double[] y) {
+		for (int a = 0; a < y.length; a++) 
+			fit(x,a,y[a]);
+	}
 
 	@Override
 	public void fit(double[] obs, int a, double score) {

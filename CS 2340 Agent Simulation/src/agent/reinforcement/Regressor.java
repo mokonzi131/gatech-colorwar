@@ -6,7 +6,9 @@ public interface Regressor extends Serializable {
 
 	double[] predict(double[] obs);
 
-	void fit(double[] observation, int a, double max);
+	void fit(double[] x, int a, double val);
+	
+	void fit(double[] x, double[] y);
 
 	Regressor copy();
 
