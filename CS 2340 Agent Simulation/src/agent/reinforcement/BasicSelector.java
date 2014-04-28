@@ -1,6 +1,7 @@
 package agent.reinforcement;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Random;
 
 import environment.i.StructuredObserver;
@@ -10,12 +11,14 @@ public class BasicSelector implements Selector, Serializable {
 	
 	Random r = new Random();
 	
-	double a = 1.e-5, g = 1.0001;
+	double a = 1.e-1, g = 1.0005;
 
 	@Override
 	public int select(double[] score) {
 		double m = 0;
 		a *= g;
+//		System.out.println(a);
+//		System.out.println(Arrays.toString(score));
 		double max = Double.NEGATIVE_INFINITY;
 		for (double s : score)
 			if (s > max)

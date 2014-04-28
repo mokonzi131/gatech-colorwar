@@ -25,15 +25,18 @@ public class Engine {
 		// run the game
 		long lastTime = System.nanoTime();
 		while (m_running) {
-			// throttle update-loop timing to FPS
-			long elapsedTime = System.nanoTime() - lastTime;
-			while (elapsedTime < FRAME_FREQUENCY_NANOS)
-				elapsedTime = System.nanoTime() - lastTime;
-			lastTime += elapsedTime;
-			double  deltaTime = elapsedTime / NANOS_PER_SECOND;
-			
 			// update game
-			m_currentScene.update(deltaTime);
+//			if (Constants.renderingType == Constants.RENDERING_TYPE.SIMULATED) {
+				m_currentScene.update(1.0);
+//			} else {
+//				// throttle update-loop timing to FPS
+//				long elapsedTime = System.nanoTime() - lastTime;
+//				while (elapsedTime < FRAME_FREQUENCY_NANOS)
+//					elapsedTime = System.nanoTime() - lastTime;
+//				lastTime += elapsedTime;
+//				double  deltaTime = elapsedTime / NANOS_PER_SECOND;
+//				m_currentScene.update(deltaTime);
+//			}
 			
 			// render the game
 			m_currentScene.render();
