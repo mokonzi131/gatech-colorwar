@@ -6,6 +6,7 @@ import environment.i.StructuredObserver;
 import agent.i.Agent;
 
 public class ReinforcementAgent implements Agent, Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	private Learner learner;
 	private Selector selector;

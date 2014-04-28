@@ -1,5 +1,7 @@
 package agent.reinforcement.neural;
 
+import java.io.Serializable;
+
 import util.linalg.DenseVector;
 import util.linalg.Vector;
 import func.nn.activation.LogisticSigmoid;
@@ -7,8 +9,10 @@ import func.nn.backprop.BackPropagationNetwork;
 import func.nn.backprop.BackPropagationNetworkFactory;
 import agent.reinforcement.Regressor;
 
-public class NeuralRegressorAdapter implements Regressor {
+public class NeuralRegressorAdapter implements Regressor, Serializable {
+	private static final long serialVersionUID = 1L;
 	
+	// TODO figure out how to serialize these objects...
 	BackPropagationNetworkFactory bnf = new BackPropagationNetworkFactory();
 	BackPropagationNetwork bn;
 

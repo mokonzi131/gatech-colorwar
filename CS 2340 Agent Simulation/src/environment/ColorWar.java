@@ -26,6 +26,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	Agent[] Lagents;
 	Astats[] aStats;
 	private double m_moveCounter;
+	int fullC;
 	int totalC; //total colored squares
 	int turns;
 	int rView = 3;
@@ -38,6 +39,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	
 	@Override
 	public void reset() {
+		turns = 0;
 		for (Agent agent : Lagents)
 			agent.reset();
 		e = new Square[gameSize][gameSize]; //creation of environment array
@@ -60,6 +62,7 @@ public class ColorWar implements IEnvironment, IViewable {
 			//make sure there is a check for initially setting agent
 		}
 
+		fullC = totalC;
 		m_moveCounter = 0.0;
 	}
 	
@@ -185,7 +188,7 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	public void update(double deltaTime) {
 		m_moveCounter += deltaTime;
-		if (m_moveCounter >= 2.0) {
+		if (m_moveCounter >= 1.0) {
 			m_moveCounter = 0.0;
 			turn();
 		}
@@ -223,12 +226,11 @@ public class ColorWar implements IEnvironment, IViewable {
 		final int AGENT_RADIUS = Constants.CELL_DISTANCE / 2 - 4;
 		final Stroke stroke = new BasicStroke(2.0f);
 		final Color ringColor = new Color(255, 255, 0, 255);
-		final Color agentColor = new Color(0, 0, 255, 50);
 		for (int i = 0; i < aStats.length; ++i) {
 			int x = gridToPixel(aStats[i].x);
 			int y = gridToPixel(aStats[i].y);
 			
-			context.setColor(agentColor);
+			context.setColor(aStats[i].color(fullC));
 			context.fillOval(
 					x - (AGENT_RADIUS) + 2,
 					y - (AGENT_RADIUS) + 2,

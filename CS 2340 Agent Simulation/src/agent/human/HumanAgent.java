@@ -1,7 +1,6 @@
 package agent.human;
 
 import view.engine.system.InputMap;
-import environment.i.GraphicalObserver;
 import environment.i.StructuredObserver;
 import agent.i.Agent;
 
@@ -16,7 +15,6 @@ public class HumanAgent implements Agent {
 	@Override
 	public int move(int a) {
 		int key = m_inputMap.getLastKey();
-		System.out.println(System.currentTimeMillis());
 		
 		switch(key) {
 		case InputMap.KEY_LEFT:
