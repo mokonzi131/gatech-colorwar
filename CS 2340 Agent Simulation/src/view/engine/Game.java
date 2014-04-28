@@ -43,12 +43,12 @@ public class Game implements Runnable {
 		// setup the agents
 		Agent[] agents = new Agent[Constants.numAgents];
 		for (int i = 0; i < Constants.numAgents; ++i) {
-			if (i == 0)
-				if (Constants.isHumanPlayable)
-					agents[i] = new HumanAgent(imap);
-				else
-					agents[i] = new RandomAgent();
-			else
+//			if (i == 0)
+//				if (Constants.isHumanPlayable)
+//					agents[i] = new HumanAgent(imap);
+//				else
+//					agents[i] = new RandomAgent();
+//			else
 				agents[i] = neuralAgent;
 		}
 		
@@ -59,7 +59,7 @@ public class Game implements Runnable {
 		
 		// run the iterations
 		ColorScene scene = new ColorScene(colorWar, imap);
-		for (int i = 0; i < 10; ++i) {
+		for (int i = 0; i < 100; ++i) {
 			colorWar.reset();
 			scene.reset();
 			m_engine.setScene(scene);
