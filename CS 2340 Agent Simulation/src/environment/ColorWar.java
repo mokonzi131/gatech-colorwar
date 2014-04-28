@@ -29,8 +29,8 @@ public class ColorWar implements IEnvironment, IViewable {
 	int fullC;
 	int totalC; //total colored squares
 	int turns;
-	int rView = 5;
-	int cView = 5;
+	int rView = 3;
+	int cView = 3;
 
 	public ColorWar(Agent[] a) {
 		Lagents = a;
@@ -92,25 +92,36 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	public void turn() {
 		if (isEnd()) reset();
+		Point[] move=new Point[Lagents.length];
+		Point l=new Point();
 		for (int i = 0; i < Lagents.length; i++) {
 			int agentMove = Lagents[i].move(i);
 			//0-left, 1-up, 2-right, 3-down, 4-none
 			if (agentMove == 0) {
-				setAgentLocation(i, aStats[i].x - 1, aStats[i].y);
+				l.x=aStats[i].x - 1;
+				l.y=aStats[i].y;
 			}
 			if (agentMove == 1) {
-				setAgentLocation(i, aStats[i].x, aStats[i].y - 1);
+				l.x=aStats[i].x;
+				l.y=aStats[i].y - 1;
 			}
 			if (agentMove == 2) {
-				setAgentLocation(i, aStats[i].x + 1, aStats[i].y);
+				l.x=aStats[i].x + 1;
+				l.y=aStats[i].y;
 			}
 			if (agentMove == 3) {
-				setAgentLocation(i, aStats[i].x, aStats[i].y + 1);
+				l.x=aStats[i].x;
+				l.y=aStats[i].y + 1;
 			}
 			if (agentMove == 4) {
-				setAgentLocation(i, aStats[i].x, aStats[i].y);
+				l.x=aStats[i].x;
+				l.y=aStats[i].y;
 			}
+			setAgentLocation(i, l.x, l.y); //take out when implement same square check 
+			move[i]=l;
 		}
+		//sameSquareCheck(move);
+
 		for (int i = 0; i < Lagents.length; i++) {
 			Astats a = aStats[i];
 			int r = a.newScore - a.score;
@@ -118,6 +129,44 @@ public class ColorWar implements IEnvironment, IViewable {
 			Lagents[i].reward(i, r);
 		}
 		turns++;
+	}
+	
+	public void sameSquareCheck(Point[] move){
+		
+		for (int j=0; j<move.length; j++){
+			int ind=e[move[j].x][move[j].y].numWant;
+			e[move[j].x][move[j].y].amove[ind]=j;
+			e[move[j].x][move[j].y].numWant++;
+		}
+		
+		for (int j=0; j<move.length; j++){
+			if (e[move[j].x][move[j].y].numWant==1){
+				setAgentLocation(j, move[j].x, move[j].y);
+			}
+			
+			else{
+				int highest=0;
+				int a=0;
+				for (int i=0; i<e[move[j].x][move[j].y].amove.length ;i++){
+					if (aStats[i].score>highest){
+						highest=aStats[i].score;
+						a=e[move[j].x][move[j].y].amove[i];
+					}
+					//if same score both destroyed 
+				}
+				setAgentLocation(a, move[a].x, move[a].y);
+				//set everything else to 0
+				
+				
+				
+			}
+		}
+		
+		//reset to 0 
+		for (int j=0; j<move.length; j++){
+			e[move[j].x][move[j].y].amove=null;
+			e[move[j].x][move[j].y].numWant=0;
+		}
 	}
 
 	//@Override
@@ -142,8 +191,8 @@ public class ColorWar implements IEnvironment, IViewable {
 					state[i][j][1] = e[xval][yval].Color ? 1 : 0;
 					state[i][j][2] = e[xval][yval].agentScore;
 				}
-				int distance = Math.abs(x - xval) + Math.abs(y - yval);
-				if (distance > cView / 2)
+				int distance = Math.abs(x-xval) + Math.abs(y-yval);
+				if(distance > cView / 2)
 					state[i][j] = null;
 			}
 		}
