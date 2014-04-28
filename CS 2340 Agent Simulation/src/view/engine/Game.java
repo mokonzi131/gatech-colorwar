@@ -32,7 +32,7 @@ public class Game implements Runnable {
 			neuralAgent = BasicNeuralAgentFactory.loadAgent(filename);
 		} catch (Exception e) {
 			LOGGER.info("Generating a new Neural Agent");
-			neuralAgent = BasicNeuralAgentFactory.generateAgent(15, 4);
+			neuralAgent = BasicNeuralAgentFactory.generateAgent(63, 4);
 		}
 		
 		// setup input reader, and the scene

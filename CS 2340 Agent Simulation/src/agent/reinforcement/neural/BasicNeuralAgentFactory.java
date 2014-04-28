@@ -18,9 +18,9 @@ public class BasicNeuralAgentFactory {
 	private static final Logger LOGGER = Logger.getLogger(BasicNeuralAgentFactory.class.getName());
 
 	public static ReinforcementAgent generateAgent(int in, int out) {
-		Regressor r = new NeuralRegressor(new int[] { in, out }, .01/(in+out), 0, 0);
+		Regressor r = new NeuralRegressor(new int[] { in, in + out, out }, .01/(in+out), 0, 0);
 		// Regressor r = new NeuralRegressorAdapter(new int[] { in, out });
-		Learner l = new BasicLearner(r, .05);
+		Learner l = new BasicLearner(r, .6);
 		Selector s = new BasicSelector();
 		return new ReinforcementAgent(l, s);
 	}

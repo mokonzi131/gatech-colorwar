@@ -29,8 +29,8 @@ public class ColorWar implements IEnvironment, IViewable {
 	int fullC;
 	int totalC; //total colored squares
 	int turns;
-	int rView = 3;
-	int cView = 3;
+	int rView = 5;
+	int cView = 5;
 
 	public ColorWar(Agent[] a) {
 		Lagents = a;
@@ -142,14 +142,12 @@ public class ColorWar implements IEnvironment, IViewable {
 					state[i][j][1] = e[xval][yval].Color ? 1 : 0;
 					state[i][j][2] = e[xval][yval].agentScore;
 				}
+				int distance = Math.abs(x - xval) + Math.abs(y - yval);
+				if (distance > cView / 2)
+					state[i][j] = null;
 			}
 		}
 		//set corners to null
-		//what is viewed based on manhattan distance
-		state[0][0] = null;
-		state[0][cView - 1] = null;
-		state[rView - 1][0] = null;
-		state[rView - 1][cView - 1] = null;
 		return state;
 	}
 
