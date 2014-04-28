@@ -15,7 +15,7 @@ public class NeuralRegressor implements Regressor, Serializable {
 	NeuralNet n;
 	NeuralNode bias;
 	
-	double en = 0, u = .99;
+	double en = 0, u = .999, un = 0;
 	
 	boolean verbose = false;
 	
@@ -65,7 +65,8 @@ public class NeuralRegressor implements Regressor, Serializable {
 //		System.out.println("Output : " + Arrays.toString(y0));
 //		System.out.println("Goal : " + k + " " + yk);
 		en = u * en + (1 - u) * e[k] * e[k];
-		System.out.println("Error : " + (e[k] * e[k]) + " : " + en);
+		un = u * un + (1 - u);
+		System.out.println("Error : " + (e[k] * e[k]) + " : " + en + " : " + un);
 		n.addError(e);
 		n.backpropagate();
 	}
