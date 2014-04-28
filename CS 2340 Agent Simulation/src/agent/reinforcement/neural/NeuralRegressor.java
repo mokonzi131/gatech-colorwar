@@ -58,6 +58,9 @@ public class NeuralRegressor implements Regressor {
 		double[] y0 = predict(x);
 		double[] e = new double[y0.length];
 		e[k] = yk - y0[k];
+		System.out.println("Output : " + Arrays.toString(y0));
+		System.out.println("Goal : " + k + " " + yk);
+		System.out.println("Error : " + (e[k] * e[k]));
 		n.addError(e);
 		n.backpropagate();
 	}
