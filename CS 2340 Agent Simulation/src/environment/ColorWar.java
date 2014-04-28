@@ -47,9 +47,12 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i = 0; i < e.length; ++i)
 			for (int j = 0; j < e[0].length; ++j) {
 				e[i][j] = new Square();
-				e[i][j].Color = r.nextInt(3) > 0;
-				if (e[i][j].Color == true) 
-					totalC++;
+				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
+					e[i][j].Color = r.nextInt(3) > 0;
+					if (e[i][j].Color == true) 
+						totalC++;
+					e[i][j].available=true;
+				}	
 			}
 		aStats = new Astats[Lagents.length]; //create agent statistics at each index for each agent 
 		for (int i = 0; i < aStats.length; ++i)
@@ -57,10 +60,11 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i = 0; i < Lagents.length; i++) {
 			int x = r.nextInt(gameSize);
 			int y = r.nextInt(gameSize);
-			while(e[x][y].agent!=-1 || !e[x][y].available){
+			while(e[x][y].agent!=-1 || !e[x][y].available ||(x+y)%2==0) {
 				x = r.nextInt(gameSize);
 				y = r.nextInt(gameSize);
 			}
+			
 			setAgentLocation(i, x, y);
 		}
 		fullC = totalC;
@@ -196,8 +200,8 @@ public class ColorWar implements IEnvironment, IViewable {
 						}
 					}
 					else{
-						e[move[win].x][move[win].y].available=false;
-						e[move[win].x][move[win].y].Color=false;
+						s.available=false;
+						s.Color=false;
 					}
 					for (int i=0; i<s.amove.size() ;i++){
 						int agent=s.amove.get(i);
@@ -212,7 +216,9 @@ public class ColorWar implements IEnvironment, IViewable {
 		
 		//reset to 0 
 		for (int j=0; j<move.length; j++){
-			e[move[j].x][move[j].y].amove.clear();
+			if(move[j]!=null){
+				e[move[j].x][move[j].y].amove.clear();
+			}
 		}
 	}
 

@@ -7,7 +7,7 @@ public class Astats {
 	public int y;
 	public int score;
 	public int newScore;
-	public boolean alive;
+	public boolean alive=true;
 	
 	public Color color(int scale) {
 		float intensity = (float) score / scale * 255;
