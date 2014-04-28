@@ -9,16 +9,22 @@ public class BasicSelector implements Selector, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	Random r = new Random();
+	
+	double a = 1.e-5, g = 1.0001;
 
 	@Override
 	public int select(double[] score) {
 		double m = 0;
-		double a = 1;
-		for (int i = 0; i < score.length; i++)
-			m += Math.exp(a*score[i]);
+		a *= g;
+		double max = Double.NEGATIVE_INFINITY;
+		for (double s : score)
+			if (s > max)
+				max = s;
+		for (double s : score)
+			m += Math.exp(a*(s-max));
 		double m0 = m * r.nextDouble();
 		for (int i = 0; i < score.length; i++) {
-			m -= Math.exp(a*score[i]);
+			m -= Math.exp(a*(score[i]-max));
 			if (m <= m0)
 				return i;
 		}

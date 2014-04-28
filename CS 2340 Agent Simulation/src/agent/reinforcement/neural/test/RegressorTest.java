@@ -13,7 +13,7 @@ public class RegressorTest {
 
 	@Before
 	public void setUp() throws Exception {
-		int i = (4*10+1)*3, o = 4, n = i+o, k = 10000;
+		int i = (4*1+1)*3, o = 4, n = i+o, k = 100;
 		int[] h = new int[] { i, i+o, o };
 		r = new NeuralRegressor(h,1.0/n,0,0);
 		d = new IdentityData(o,i-o,1,1,false);
