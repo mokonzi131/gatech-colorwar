@@ -64,9 +64,9 @@ public class NeuralRegressor implements Regressor, Serializable {
 		e[k] = yk - y0[k];
 //		System.out.println("Output : " + Arrays.toString(y0));
 //		System.out.println("Goal : " + k + " " + yk);
-		en = u * en + (1 - u) * e[k] * e[k];
-		un = u * un + (1 - u);
-		System.out.println("Error : " + (e[k] * e[k]) + " : " + en + " : " + un);
+//		en = u * en + (1 - u) * e[k] * e[k];
+//		un = u * un + (1 - u);
+//		System.out.println("Error : " + (e[k] * e[k]) + " : " + en + " : " + un);
 		n.addError(e);
 		n.backpropagate();
 	}
