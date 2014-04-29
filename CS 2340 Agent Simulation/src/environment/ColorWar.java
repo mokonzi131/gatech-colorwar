@@ -72,14 +72,15 @@ public class ColorWar implements IEnvironment, IViewable {
 	
 	public void setAgentLocation(int a, int x, int y) {
 		// don't allow movement to an invalid location
-		if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1){
-			System.out.println("agent tried to move off map");
+		if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1)
 			return;
-		}
-		if (e[x][y].agent!=-1){
-			System.out.printf("agent %d on square already\n", e[x][y].agent);
-		}
-		if (e[x][y].agent==-1 && e[x][y].available) {
+		
+		// don't allow movement to already taken location
+//		if (e[x][y].agent != -1)
+//			return;
+//			System.out.printf("agent %d on square already\n", e[x][y].agent);
+			
+		if (e[x][y].agent==-1) {// && e[x][y].available) {
 			removeAgentLocation(a);
 			aStats[a].x = x;
 			aStats[a].y = y;
@@ -91,9 +92,9 @@ public class ColorWar implements IEnvironment, IViewable {
 			}
 			e[x][y].agentScore = aStats[a].score; //sets the agent to that agent number on the block
 		}
-		else{
-			lose(a);
-		}
+//		else{
+//			lose(a);
+//		}
 
 	}
 	
@@ -112,48 +113,41 @@ public class ColorWar implements IEnvironment, IViewable {
 	}
 
 	public void turn() {
-		if (isEnd()) reset();
-		Point[] move=new Point[Lagents.length];
-		for (int i = 0; i < Lagents.length; i++) {
-			Point l=new Point();
-			int agentMove=-1;
-			if (aStats[i].alive){
+		// tell all of the agents to move...
+		Point[] moves = new Point[Lagents.length];
+		for (int i = 0; i < Lagents.length; ++i) {
+			// get a desired move (for alive agents only)
+			int agentMove = -1;
+			if (aStats[i].alive)
 				agentMove = Lagents[i].move(i);
-			}
-			else{
-				l=null;
-			}
-			//0-left, 1-up, 2-right, 3-down, 4-none
-			if (agentMove == 0) {
-				l.x=aStats[i].x - 1;
-				l.y=aStats[i].y;
-			}
-			if (agentMove == 1) {
-				l.x=aStats[i].x;
-				l.y=aStats[i].y - 1;
-			}
-			if (agentMove == 2) {
-				l.x=aStats[i].x + 1;
-				l.y=aStats[i].y;
-			}
-			if (agentMove == 3) {
-				l.x=aStats[i].x;
-				l.y=aStats[i].y + 1;
-			}
-			if (agentMove == 4) {
-				l.x=aStats[i].x;
-				l.y=aStats[i].y;
-			}
-			//setAgentLocation(i, l.x, l.y); //take out when implement same square check 
-			move[i]=l;
+			
+			// get the point for that desired move
+			// -1 = null, 0 = left, 1 = up, 2 = right, 3 = down, 4 = none
+			Point point;
+			if (agentMove == -1)
+				point = null;
+			else if (agentMove == 0)
+				point = new Point(aStats[i].x - 1, aStats[i].y);
+			else if (agentMove == 1)
+				point = new Point(aStats[i].x, aStats[i].y - 1);
+			else if (agentMove == 2)
+				point = new Point(aStats[i].x + 1, aStats[i].y);
+			else if (agentMove == 3)
+				point = new Point(aStats[i].x, aStats[i].y + 1);
+			else
+				point = new Point(aStats[i].x, aStats[i].y);
+			
+			// attempt to move to that desired
+			moves[i] = point;
+			if (point != null)
+				setAgentLocation(i, point.x, point.y); //take out when implement same square check
 		}
-		sameSquareCheck(move);
-
+//		sameSquareCheck(moves);
 		for (int i = 0; i < Lagents.length; i++) {
-			Astats a = aStats[i];
-			int r = a.newScore - a.score;
-			a.score = a.newScore;
-			Lagents[i].reward(i, r);
+			Astats stats = aStats[i];
+			int reward = stats.newScore - stats.score;
+			stats.score = stats.newScore;
+			Lagents[i].reward(i, reward);
 		}
 		turns++;
 	}

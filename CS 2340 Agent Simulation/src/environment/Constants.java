@@ -5,7 +5,7 @@ public class Constants extends environment.i.Constants {
 	public static final String GAME_NAME = "Color War";
 	public static final int MINIMUM_NUM_AGENTS = 1;
 	public static final int MAXIMUM_NUM_AGENTS = 1200;
-	public static final int FPS = 24;
+	public static final int FPS = 30;
 	
 	// world definitions
 	public static final int CELL_DISTANCE = 50;
