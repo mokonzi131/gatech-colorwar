@@ -375,6 +375,10 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 	}
 
+	private float lerp(int x0, int x1, float z) {
+		return (1-z)*x0-z*x1;
+	}
+
 	public void renderAgentFromWorld(int i, BufferedImage world, BufferedImage target) {
 		Graphics2D graphics = target.createGraphics();
 		background(graphics, target.getWidth(), target.getHeight());
@@ -406,8 +410,8 @@ public class ColorWar implements IEnvironment, IViewable {
 		context.fillRect(0, 0, width, height);
 	}
 
-	public int gridToPixel(int i) {
-		return (int) (i * Constants.CELL_DISTANCE + Constants.CELL_DISTANCE / 2 + Constants.GRID_BUFFER);
+	public int gridToPixel(float f) {
+		return (int) (f * Constants.CELL_DISTANCE + Constants.CELL_DISTANCE / 2 + Constants.GRID_BUFFER);
 	}
 
 	@Override
