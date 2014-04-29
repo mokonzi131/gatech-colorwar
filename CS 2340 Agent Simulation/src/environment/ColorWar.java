@@ -353,8 +353,8 @@ public class ColorWar implements IEnvironment, IViewable {
 			if (!aStats[i].alive)
 				continue;
 			
-			int x = gridToPixel(aStats[i].x);
-			int y = gridToPixel(aStats[i].y);
+			int x = gridToPixel(lerp(aStats[i].x0, aStats[i].x, Math.min((float) m_moveCounter * 3, 1f)));
+			int y = gridToPixel(lerp(aStats[i].y0, aStats[i].y, Math.min((float) m_moveCounter * 3, 1f)));
 			
 			context.setColor(aStats[i].color(fullC));
 			context.fillOval(
@@ -379,8 +379,8 @@ public class ColorWar implements IEnvironment, IViewable {
 		Graphics2D graphics = target.createGraphics();
 		background(graphics, target.getWidth(), target.getHeight());
 
-		int x = gridToPixel(aStats[i].x);
-		int y = gridToPixel(aStats[i].y);
+		int x = gridToPixel(lerp(aStats[i].x0, aStats[i].x, Math.min((float) m_moveCounter * 3, 1f)));
+		int y = gridToPixel(lerp(aStats[i].y0, aStats[i].y, Math.min((float) m_moveCounter * 3, 1f)));
 		int radius = (Constants.AGENT_RANGE * Constants.CELL_DISTANCE) / 2;
 
 		graphics.drawImage(world, 0, 0, target.getWidth(), target.getHeight(),
