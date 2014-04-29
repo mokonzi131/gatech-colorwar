@@ -48,11 +48,11 @@ public class ColorWar implements IEnvironment, IViewable {
 			for (int j = 0; j < e[0].length; ++j) {
 				e[i][j] = new Square();
 				e[i][j].available = true;
-				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
+//				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
 					e[i][j].Color = r.nextInt(3) > 0;
 					if (e[i][j].Color == true) 
 						totalC++;
-				}	
+//				}	
 			}
 		aStats = new Astats[Lagents.length]; //create agent statistics at each index for each agent 
 		for (int i = 0; i < aStats.length; ++i)
