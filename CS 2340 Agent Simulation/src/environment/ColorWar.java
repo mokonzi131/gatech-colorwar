@@ -129,8 +129,12 @@ public class ColorWar implements IEnvironment, IViewable {
 		Point[] moves = new Point[Lagents.length];
 		for (int i = 0; i < Lagents.length; ++i) {
 			// get a desired move (for alive agents only)
+			Astats a = aStats[i];
+			a.x0 = a.x;
+			a.y0 = a.y;
+			
 			int agentMove = -1;
-			if (aStats[i].alive)
+			if (a.alive)
 				agentMove = Lagents[i].move(i);
 			
 			// get the point for that desired move
@@ -139,23 +143,26 @@ public class ColorWar implements IEnvironment, IViewable {
 			if (agentMove == -1)
 				point = null;
 			else if (agentMove == 0)
-				point = new Point(aStats[i].x - 1, aStats[i].y);
+				point = new Point(a.x - 1, a.y);
 			else if (agentMove == 1)
-				point = new Point(aStats[i].x, aStats[i].y - 1);
+				point = new Point(a.x, a.y - 1);
 			else if (agentMove == 2)
-				point = new Point(aStats[i].x + 1, aStats[i].y);
+				point = new Point(a.x + 1, a.y);
 			else if (agentMove == 3)
-				point = new Point(aStats[i].x, aStats[i].y + 1);
+				point = new Point(a.x, a.y + 1);
 			else
-				point = new Point(aStats[i].x, aStats[i].y);
+				point = new Point(a.x, a.y);
 			
 			// attempt to move to that desired
 			moves[i] = point;
 //			if (point != null)
 //				setAgentLocation(i, point.x, point.y); //take out when implement same square check
 		}
-		for (int i = 0; i < aStats.length; i++)
+		for (int i = 0; i < aStats.length; i++) {
 			removeAgentLocation(i);
+			aStats[i].x = moves[i].x;
+			aStats[i].y = moves[i].y;
+		}
 		for (int i = 0; i < aStats.length; i++)
 			if (!available(moves[i]) && aStats[i].alive) {
 				lose(i);
