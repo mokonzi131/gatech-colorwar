@@ -15,5 +15,5 @@ public class Astats {
 		return new Color(255, 0, 0, (int) intensity);
 	}
 	
-	public Point2D.Float oldLocation = null, newLocation = null;
+	public Point2D.Float oldLocation = null;
 }

@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -68,7 +67,6 @@ public class ColorWar implements IEnvironment, IViewable {
 			}
 			setAgentLocation(i, x, y);
 			aStats[i].oldLocation = new Point2D.Float(x, y);
-			aStats[i].newLocation = new Point2D.Float(x, y);
 		}
 		fullC = totalC;
 		m_moveCounter = 0.0;
@@ -86,7 +84,6 @@ public class ColorWar implements IEnvironment, IViewable {
 			
 		if (e[x][y].agent==-1) {// && e[x][y].available) {
 			removeAgentLocation(a);
-			aStats[a].newLocation = new Point2D.Float(x, y);
 			aStats[a].x = x;
 			aStats[a].y = y;
 			e[x][y].agent = a;
@@ -122,7 +119,7 @@ public class ColorWar implements IEnvironment, IViewable {
 		Point[] moves = new Point[Lagents.length];
 		for (int i = 0; i < Lagents.length; ++i) {
 			// rendering hack
-			aStats[i].oldLocation = aStats[i].newLocation;
+			aStats[i].oldLocation = new Point2D.Float(aStats[i].x, aStats[i].y);
 			
 			// get a desired move (for alive agents only)
 			int agentMove = -1;
@@ -344,8 +341,8 @@ public class ColorWar implements IEnvironment, IViewable {
 			if (!aStats[i].alive)
 				continue;
 			
-			int x = gridToPixel(lerp(aStats[i].oldLocation.x, aStats[i].newLocation.x, Math.min((float) m_moveCounter * 3, 1f)));
-			int y = gridToPixel(lerp(aStats[i].oldLocation.y, aStats[i].newLocation.y, Math.min((float) m_moveCounter * 3, 1f)));
+			int x = gridToPixel(lerp(aStats[i].oldLocation.x, aStats[i].x, Math.min((float) m_moveCounter * 3, 1f)));
+			int y = gridToPixel(lerp(aStats[i].oldLocation.y, aStats[i].y, Math.min((float) m_moveCounter * 3, 1f)));
 			
 			context.setColor(aStats[i].color(fullC));
 			context.fillOval(
@@ -370,8 +367,8 @@ public class ColorWar implements IEnvironment, IViewable {
 		Graphics2D graphics = target.createGraphics();
 		background(graphics, target.getWidth(), target.getHeight());
 
-		int x = gridToPixel(lerp(aStats[i].oldLocation.x, aStats[i].newLocation.x, Math.min((float) m_moveCounter * 3, 1f)));
-		int y = gridToPixel(lerp(aStats[i].oldLocation.y, aStats[i].newLocation.y, Math.min((float) m_moveCounter * 3, 1f)));
+		int x = gridToPixel(lerp(aStats[i].oldLocation.x, aStats[i].x, Math.min((float) m_moveCounter * 3, 1f)));
+		int y = gridToPixel(lerp(aStats[i].oldLocation.y, aStats[i].y, Math.min((float) m_moveCounter * 3, 1f)));
 		int radius = (Constants.AGENT_RANGE * Constants.CELL_DISTANCE) / 2;
 
 		graphics.drawImage(world, 0, 0, target.getWidth(), target.getHeight(),
