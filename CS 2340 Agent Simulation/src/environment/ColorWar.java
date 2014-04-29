@@ -47,9 +47,12 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i = 0; i < e.length; ++i)
 			for (int j = 0; j < e[0].length; ++j) {
 				e[i][j] = new Square();
-				e[i][j].Color = r.nextInt(3) > 0;
-				if (e[i][j].Color == true) 
-					totalC++;
+				e[i][j].available = true;
+				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
+					e[i][j].Color = r.nextInt(3) > 0;
+					if (e[i][j].Color == true) 
+						totalC++;
+				}	
 			}
 		aStats = new Astats[Lagents.length]; //create agent statistics at each index for each agent 
 		for (int i = 0; i < aStats.length; ++i)
@@ -57,22 +60,27 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i = 0; i < Lagents.length; i++) {
 			int x = r.nextInt(gameSize);
 			int y = r.nextInt(gameSize);
+			while(e[x][y].agent!=-1 || !e[x][y].available ||(x+y)%2==0) {
+				x = r.nextInt(gameSize);
+				y = r.nextInt(gameSize);
+			}
 			setAgentLocation(i, x, y);
-
-			//make sure there is a check for initially setting agent
 		}
-
 		fullC = totalC;
 		m_moveCounter = 0.0;
 	}
 	
 	public void setAgentLocation(int a, int x, int y) {
 		// don't allow movement to an invalid location
-		if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1)
+		if (x < 0 || x > gameSize - 1 || y < 0 || y > gameSize - 1){
+			System.out.println("agent tried to move off map");
 			return;
-		if (e[x][y].agent == -1) {
-			e[aStats[a].x][aStats[a].y].agent = -1;
-			e[aStats[a].x][aStats[a].y].agentScore = 0;
+		}
+		if (e[x][y].agent!=-1){
+			System.out.printf("agent %d on square already\n", e[x][y].agent);
+		}
+		if (e[x][y].agent==-1 && e[x][y].available) {
+			removeAgentLocation(a);
 			aStats[a].x = x;
 			aStats[a].y = y;
 			e[x][y].agent = a;
@@ -83,7 +91,20 @@ public class ColorWar implements IEnvironment, IViewable {
 			}
 			e[x][y].agentScore = aStats[a].score; //sets the agent to that agent number on the block
 		}
+		else{
+			lose(a);
+		}
 
+	}
+	
+	public void removeAgentLocation(int a){
+		e[aStats[a].x][aStats[a].y].agent = -1;
+		e[aStats[a].x][aStats[a].y].agentScore = 0;
+	}
+	
+	public void lose(int a){
+		aStats[a].newScore=0;
+		aStats[a].alive=false;	
 	}
 
 	public Point getAgentLocation(int a) {
@@ -92,25 +113,42 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	public void turn() {
 		if (isEnd()) reset();
+		Point[] move=new Point[Lagents.length];
 		for (int i = 0; i < Lagents.length; i++) {
-			int agentMove = Lagents[i].move(i);
+			Point l=new Point();
+			int agentMove=-1;
+			if (aStats[i].alive){
+				agentMove = Lagents[i].move(i);
+			}
+			else{
+				l=null;
+			}
 			//0-left, 1-up, 2-right, 3-down, 4-none
 			if (agentMove == 0) {
-				setAgentLocation(i, aStats[i].x - 1, aStats[i].y);
+				l.x=aStats[i].x - 1;
+				l.y=aStats[i].y;
 			}
 			if (agentMove == 1) {
-				setAgentLocation(i, aStats[i].x, aStats[i].y - 1);
+				l.x=aStats[i].x;
+				l.y=aStats[i].y - 1;
 			}
 			if (agentMove == 2) {
-				setAgentLocation(i, aStats[i].x + 1, aStats[i].y);
+				l.x=aStats[i].x + 1;
+				l.y=aStats[i].y;
 			}
 			if (agentMove == 3) {
-				setAgentLocation(i, aStats[i].x, aStats[i].y + 1);
+				l.x=aStats[i].x;
+				l.y=aStats[i].y + 1;
 			}
 			if (agentMove == 4) {
-				setAgentLocation(i, aStats[i].x, aStats[i].y);
+				l.x=aStats[i].x;
+				l.y=aStats[i].y;
 			}
+			//setAgentLocation(i, l.x, l.y); //take out when implement same square check 
+			move[i]=l;
 		}
+		sameSquareCheck(move);
+
 		for (int i = 0; i < Lagents.length; i++) {
 			Astats a = aStats[i];
 			int r = a.newScore - a.score;
@@ -118,6 +156,69 @@ public class ColorWar implements IEnvironment, IViewable {
 			Lagents[i].reward(i, r);
 		}
 		turns++;
+	}
+	
+	public void sameSquareCheck(Point[] move){
+		for (int j=0; j<move.length; j++){
+			if(move[j]!=null){
+//				if (move[j].x < 0 ||move[j].x > gameSize - 1 || move[j].y < 0 || move[j].y > gameSize - 1)
+//					return;
+				Square s= e[move[j].x][move[j].y];
+				s.amove.add(j);
+			}
+
+		}
+		
+		for (int j=0; j<move.length; j++){
+			if(move[j]!=null){
+				Square s= e[move[j].x][move[j].y];
+				if (s.amove.size()==1){
+					setAgentLocation(j, move[j].x, move[j].y);
+				}
+				
+				else{
+					int highest=Integer.MIN_VALUE;
+					int win=0;
+					for (int i=0; i<s.amove.size();i++){
+						int agent=s.amove.get(i);
+						if (aStats[agent].score>highest){
+							highest=aStats[agent].score;
+							win=agent;
+						}
+						else if (aStats[agent].score==highest){
+							win=-1;
+						}
+						//if same score both destroyed 
+					}
+					if (win!=-1){
+						setAgentLocation(win, move[win].x, move[win].y);
+						for (int agent : s.amove){
+							if (agent!=win){
+								aStats[win].newScore+=aStats[agent].score;
+							}
+						}
+					}
+					else{
+						s.available=false;
+						s.Color=false;
+					}
+					for (int i=0; i<s.amove.size() ;i++){
+						int agent=s.amove.get(i);
+						if (agent!=win){
+							lose(agent);
+						}
+					}
+	
+				}
+			}
+		}
+		
+		//reset to 0 
+		for (int j=0; j<move.length; j++){
+			if(move[j]!=null){
+				e[move[j].x][move[j].y].amove.clear();
+			}
+		}
 	}
 
 	//@Override
@@ -140,10 +241,10 @@ public class ColorWar implements IEnvironment, IViewable {
 				else {
 					state[i][j][0] = e[xval][yval].available ? 1 : 0;
 					state[i][j][1] = e[xval][yval].Color ? 1 : 0;
-					state[i][j][2] = e[xval][yval].agentScore;
+					state[i][j][2] = e[xval][yval].agentScore/(gameSize*gameSize);
 				}
-				int distance = Math.abs(x - xval) + Math.abs(y - yval);
-				if (distance > cView / 2)
+				int distance = Math.abs(x-xval) + Math.abs(y-yval);
+				if(distance > cView / 2)
 					state[i][j] = null;
 			}
 		}
@@ -208,6 +309,11 @@ public class ColorWar implements IEnvironment, IViewable {
 		final int TILE_BUFFER = (int) (Constants.CELL_DISTANCE * (0.1));
 		for (int i = 0; i < e.length; ++i)
 			for (int j = 0; j < e[0].length; ++j) {
+				// don't draw un-available cells
+				if (!e[i][j].available)
+					continue;
+				
+				// draw cell according to it's color
 				final Color noResource = new Color(155, 155, 155, 200);
 				final Color yesResource = new Color(0, 255, 0, 200);
 				context.setColor(e[i][j].Color ? yesResource : noResource);
@@ -225,6 +331,9 @@ public class ColorWar implements IEnvironment, IViewable {
 		final Stroke stroke = new BasicStroke(2.0f);
 		final Color ringColor = new Color(255, 255, 0, 255);
 		for (int i = 0; i < aStats.length; ++i) {
+			if (!aStats[i].alive)
+				continue;
+			
 			int x = gridToPixel(aStats[i].x);
 			int y = gridToPixel(aStats[i].y);
 			
