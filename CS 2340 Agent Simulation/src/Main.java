@@ -16,6 +16,7 @@ public class Main {
 	private static final String PROPERTY_AGENTS = "agents";
 	private static final String PROPERTY_PLAYABLE = "human";
 	private static final String PROPERTY_SPEED = "speed";
+	private static final String PROPERTY_ITER = "iterations";
 
 	public static void main(String[] args) {
 		// figure out what kind of rendering stack to use (see
@@ -37,7 +38,6 @@ public class Main {
 			Constants.renderingType = Constants.RENDERING_TYPE.DEVELOPER;
 
 		// set num agents
-		// TODO hide behind environment interface
 		Constants.numAgents =
 				Math.max(Integer.parseInt(properties.getProperty(PROPERTY_AGENTS)), Constants.MINIMUM_NUM_AGENTS);
 		Constants.numAgents = Math.min(Constants.numAgents, Constants.MAXIMUM_NUM_AGENTS);
@@ -55,6 +55,10 @@ public class Main {
 			Constants.speed = Constants.SPEED.HIGH;
 		else
 			Constants.speed = Constants.SPEED.LOW;
+		
+		// set play-through iterations
+		property = properties.getProperty(PROPERTY_ITER);
+		Constants.iterations = Math.max(Integer.parseInt(property), 1);
 
 		// create game
 		Game game = new Game();

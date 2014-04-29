@@ -40,6 +40,7 @@ public class Constants extends environment.i.Constants {
 	public static int numAgents = 10;
 	public static boolean isHumanPlayable = true;
 	public static SPEED speed = SPEED.LOW;	
+	public static int iterations = 1;
 	
 	public static int getInBounds() {
 		int seed = AGENT_RANGE;

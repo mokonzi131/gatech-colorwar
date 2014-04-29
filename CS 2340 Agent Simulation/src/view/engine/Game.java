@@ -59,7 +59,7 @@ public class Game implements Runnable {
 		
 		// run the iterations
 		ColorScene scene = new ColorScene(colorWar, imap);
-		for (int i = 0; i < 5000; ++i) {
+		for (int i = 0; i < Constants.iterations; ++i) {
 			colorWar.reset();
 			scene.reset();
 			m_engine.setScene(scene);
