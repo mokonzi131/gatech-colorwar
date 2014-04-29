@@ -29,8 +29,8 @@ public class ColorWar implements IEnvironment, IViewable {
 	int fullC;
 	int totalC; //total colored squares
 	int turns;
-	int rView = 5;
-	int cView = 5;
+	int rView = Constants.AGENT_RANGE;
+	int cView = Constants.AGENT_RANGE;
 
 	public ColorWar(Agent[] a) {
 		Lagents = a;
@@ -260,11 +260,16 @@ public class ColorWar implements IEnvironment, IViewable {
 
 		// draw the mask
 		graphics.setColor(Color.BLACK);
-		graphics.fillRect(0, 0, Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
-		graphics.fillRect(0 + 2 * Constants.CELL_DISTANCE, 0, Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
-		graphics.fillRect(0, 0 + 2 * Constants.CELL_DISTANCE, Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
-		graphics.fillRect(0 + 2 * Constants.CELL_DISTANCE, 0 + 2 * Constants.CELL_DISTANCE,
-				Constants.CELL_DISTANCE, Constants.CELL_DISTANCE);
+		float adjustedCellDistance = (int) Math.round((float) target.getWidth() / Constants.AGENT_RANGE);
+		float gridDistance = Constants.AGENT_RANGE / 2;
+		for (int a = 0; a < Constants.AGENT_RANGE; ++a) {
+			for (int b = 0; b < Constants.AGENT_RANGE; ++b) {
+				float distance =  Math.abs(gridDistance - a) + Math.abs(gridDistance - b);
+				if (distance > gridDistance) {
+					graphics.fillRect(a * (int) adjustedCellDistance, b * (int) adjustedCellDistance, (int) adjustedCellDistance, (int) adjustedCellDistance);
+				}
+			}
+		}
 	}
 
 	// clear a graphics context to the background color

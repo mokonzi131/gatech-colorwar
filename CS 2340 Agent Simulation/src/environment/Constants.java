@@ -9,7 +9,7 @@ public class Constants extends environment.i.Constants {
 	
 	// world definitions
 	public static final int CELL_DISTANCE = 50;
-	public static final int AGENT_RANGE = 3;
+	public static int AGENT_RANGE = 5;
 	public static final int GRID_SIZE = 10;
 	public static final int GRID_WIDTH = 10;
 	public static final int GRID_HEIGHT = 10;
@@ -34,4 +34,12 @@ public class Constants extends environment.i.Constants {
 	public static RENDERING_TYPE renderingType = RENDERING_TYPE.NORMAL;
 	public static int numAgents = 10;
 	public static boolean isHumanPlayable = true;
+	
+	public static int getInBounds() {
+		int seed = AGENT_RANGE;
+		int total = seed;
+		for (seed -= 2; seed > 0; seed -= 2)
+			total += 2 * seed;
+		return total;
+	}
 }
