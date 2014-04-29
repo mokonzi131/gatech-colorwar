@@ -15,6 +15,7 @@ public class Main {
 	private static final String PROPERTY_RENDERING = "rendering";
 	private static final String PROPERTY_AGENTS = "agents";
 	private static final String PROPERTY_PLAYABLE = "human";
+	private static final String PROPERTY_SPEED = "speed";
 
 	public static void main(String[] args) {
 		// figure out what kind of rendering stack to use (see
@@ -47,6 +48,13 @@ public class Main {
 			Constants.isHumanPlayable = true;
 		else
 			Constants.isHumanPlayable = false;
+		
+		// set speed
+		property = properties.getProperty(PROPERTY_SPEED);
+		if (property.equalsIgnoreCase("HIGH"))
+			Constants.speed = Constants.SPEED.HIGH;
+		else
+			Constants.speed = Constants.SPEED.LOW;
 
 		// create game
 		Game game = new Game();
