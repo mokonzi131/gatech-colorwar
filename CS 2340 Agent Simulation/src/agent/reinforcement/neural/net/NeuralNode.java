@@ -75,4 +75,14 @@ public class NeuralNode implements Serializable {
 		return s;
 	}
 
+	public void rootTransfer(NeuralNode n0) {
+		List<NeuralLink> l0 = n0.getLinkList();
+		for (int i = 0; i < l.size(); i++) 
+			l.get(i).rootTransfer(l0.get(i));
+	}
+
+	private List<NeuralLink> getLinkList() {
+		return l;
+	}
+
 }

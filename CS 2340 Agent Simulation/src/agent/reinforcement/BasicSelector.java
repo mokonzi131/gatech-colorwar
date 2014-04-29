@@ -11,12 +11,12 @@ public class BasicSelector implements Selector, Serializable {
 	
 	Random r = new Random();
 	
-	double a = 1.e-1, g = 1.0005;
+	double a = 0, g = .0001;
 
 	@Override
 	public int select(double[] score) {
 		double m = 0;
-		a *= g;
+		a += g;
 //		System.out.println(a);
 //		System.out.println(Arrays.toString(score));
 		double max = Double.NEGATIVE_INFINITY;

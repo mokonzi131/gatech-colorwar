@@ -44,4 +44,12 @@ public class NeuralLink implements Serializable {
 		public double w = (Math.random() - .5) / 2;
 	}
 
+	public void rootTransfer(NeuralLink l0) {
+		w = l0.getWeight();
+	}
+
+	private Weight getWeight() {
+		return w;
+	}
+
 }

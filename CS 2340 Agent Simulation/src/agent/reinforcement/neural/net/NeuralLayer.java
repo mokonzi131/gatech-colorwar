@@ -43,14 +43,14 @@ public class NeuralLayer implements Serializable {
 	
 	public void addError(double[] e0) {
 		if (e0.length != n.size())
-			System.out.println("Neural Net Output Array Mismatch: "+e0.length+" "+n.size());
+			System.err.println("Neural Net Output Array Mismatch: "+e0.length+" "+n.size());
 		for (int i = 0; i < e0.length; i++) 
 			n.get(i).addError(e0[i]);
 	}
 	
 	public void setOutput(double[] o0) {
 		if (o0.length != n.size())
-			System.out.println("Neural Net Output Array Mismatch: "+o0.length+" "+n.size());
+			System.err.println("Neural Net Output Array Mismatch: "+o0.length+" "+n.size());
 		for (int i = 0; i < o0.length; i++) 
 			n.get(i).setOutput(o0[i]);
 	}
@@ -87,6 +87,12 @@ public class NeuralLayer implements Serializable {
 		for (NeuralNode n0 : n) 
 			s += n0.toString() + "\n";
 		return s;
+	}
+
+	public void rootTransfer(NeuralLayer l0) {
+		List<NeuralNode> n0 = l0.getNodeList();
+		for (int i = 0; i < n.size(); i++) 
+			n.get(i).rootTransfer(n0.get(i));
 	}
 
 }

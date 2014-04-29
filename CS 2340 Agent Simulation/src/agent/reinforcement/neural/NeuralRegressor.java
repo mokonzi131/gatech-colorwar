@@ -3,17 +3,17 @@ package agent.reinforcement.neural;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import util.ObjectCloner;
+
 import agent.reinforcement.Regressor;
 import agent.reinforcement.neural.function.LinearFunction;
 import agent.reinforcement.neural.net.NeuralConfig;
 import agent.reinforcement.neural.net.NeuralNet;
-import agent.reinforcement.neural.net.NeuralNode;
 
 public class NeuralRegressor implements Regressor, Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	NeuralNet n;
-	NeuralNode bias;
 	
 	double en = 0, u = .999, un = 0;
 	
@@ -32,11 +32,19 @@ public class NeuralRegressor implements Regressor, Serializable {
 		n.setConfig(new NeuralConfig(a, d, m));
 	}
 
+	public NeuralRegressor(NeuralNet n0) {
+		n = n0;
+	}
+
 	@Override
 	public double[] predict(double[] x) {
 		n.setInput(x);
 		n.propagate();
-		return n.getOutput();
+		double[] o = n.getOutput();
+		double e = 0;
+		for (double o0 : o) e += o0 * o0;
+		if (e > 10e8) System.err.println("Neural Network Overflow Error: "+e);
+		return o;
 	}
 	
 	@Override
@@ -77,7 +85,14 @@ public class NeuralRegressor implements Regressor, Serializable {
 
 	@Override
 	public Regressor copy() {
-		//TODO try this.serialize.unserialize
+		try {
+			NeuralNet n0 = (NeuralNet) ObjectCloner.deepCopy(n);
+			n0.rootTransfer(n);
+			return new NeuralRegressor(n0);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return this;
 	}
 

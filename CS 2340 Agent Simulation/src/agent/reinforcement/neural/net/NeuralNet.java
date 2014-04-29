@@ -67,5 +67,15 @@ public class NeuralNet implements Serializable {
 		}
 		return s;
 	}
+	
+	public void rootTransfer(NeuralNet n0) {
+		List<NeuralLayer> l0 = n0.getLayerList();
+		for (int i = 0; i < l.size(); i++) 
+			l.get(i).rootTransfer(l0.get(i));
+	}
+
+	private List<NeuralLayer> getLayerList() {
+		return l;
+	}
 
 }
