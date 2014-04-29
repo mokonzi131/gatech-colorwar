@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Stroke;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Float;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 import java.util.logging.Logger;
@@ -65,6 +67,8 @@ public class ColorWar implements IEnvironment, IViewable {
 				y = r.nextInt(gameSize);
 			}
 			setAgentLocation(i, x, y);
+			aStats[i].oldLocation = new Point2D.Float(x, y);
+			aStats[i].newLocation = new Point2D.Float(x, y);
 		}
 		fullC = totalC;
 		m_moveCounter = 0.0;
@@ -82,6 +86,7 @@ public class ColorWar implements IEnvironment, IViewable {
 			
 		if (e[x][y].agent==-1) {// && e[x][y].available) {
 			removeAgentLocation(a);
+			aStats[a].newLocation = new Point2D.Float(x, y);
 			aStats[a].x = x;
 			aStats[a].y = y;
 			e[x][y].agent = a;
@@ -116,6 +121,9 @@ public class ColorWar implements IEnvironment, IViewable {
 		// tell all of the agents to move...
 		Point[] moves = new Point[Lagents.length];
 		for (int i = 0; i < Lagents.length; ++i) {
+			// rendering hack
+			aStats[i].oldLocation = aStats[i].newLocation;
+			
 			// get a desired move (for alive agents only)
 			int agentMove = -1;
 			if (aStats[i].alive)
@@ -287,6 +295,11 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 	}
 	
+	// Precise method which guarantees v = v1 when t = 1.
+	static float lerp(float v0, float v1, float t) {
+	  return (1-t)*v0 + t*v1;
+	}
+	
 	@Override
 	public void render(BufferedImage target) {
 		// get the graphics object
@@ -294,7 +307,10 @@ public class ColorWar implements IEnvironment, IViewable {
 		background(context, target.getWidth(), target.getHeight());
 		
 		// environment background
-		final Color background = new Color(255, 0, 255, 50);
+		int alpha = (int) lerp(40.f, 70.f, (float) m_moveCounter * 3);
+		int beta = (int) lerp(70.f, 40.f, (float)m_moveCounter);
+		int value = Math.min(alpha, beta);
+		final Color background = new Color(255, 0, 255, value);
 		context.setColor(background);
 		context.fillRect(0, 0, Constants.WORLD_WIDTH, Constants.WORLD_HEIGHT);
 		
@@ -328,8 +344,8 @@ public class ColorWar implements IEnvironment, IViewable {
 			if (!aStats[i].alive)
 				continue;
 			
-			int x = gridToPixel(aStats[i].x);
-			int y = gridToPixel(aStats[i].y);
+			int x = gridToPixel(lerp(aStats[i].oldLocation.x, aStats[i].newLocation.x, Math.min((float) m_moveCounter * 3, 1f)));
+			int y = gridToPixel(lerp(aStats[i].oldLocation.y, aStats[i].newLocation.y, Math.min((float) m_moveCounter * 3, 1f)));
 			
 			context.setColor(aStats[i].color(fullC));
 			context.fillOval(
@@ -354,8 +370,8 @@ public class ColorWar implements IEnvironment, IViewable {
 		Graphics2D graphics = target.createGraphics();
 		background(graphics, target.getWidth(), target.getHeight());
 
-		int x = gridToPixel(aStats[i].x);
-		int y = gridToPixel(aStats[i].y);
+		int x = gridToPixel(lerp(aStats[i].oldLocation.x, aStats[i].newLocation.x, Math.min((float) m_moveCounter * 3, 1f)));
+		int y = gridToPixel(lerp(aStats[i].oldLocation.y, aStats[i].newLocation.y, Math.min((float) m_moveCounter * 3, 1f)));
 		int radius = (Constants.AGENT_RANGE * Constants.CELL_DISTANCE) / 2;
 
 		graphics.drawImage(world, 0, 0, target.getWidth(), target.getHeight(),
@@ -381,7 +397,7 @@ public class ColorWar implements IEnvironment, IViewable {
 		context.fillRect(0, 0, width, height);
 	}
 
-	public int gridToPixel(int i) {
+	public int gridToPixel(float i) {
 		return (int) (i * Constants.CELL_DISTANCE + Constants.CELL_DISTANCE / 2 + Constants.GRID_BUFFER);
 	}
 
