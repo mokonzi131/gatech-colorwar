@@ -42,8 +42,7 @@ public class ReinforcementAgent implements Agent, Serializable {
 
 	@Override
 	public void reset() {
-		// TODO Auto-generated method stub
-		
+		learner.reset(move);
 	}
 	
 }

@@ -47,12 +47,12 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i = 0; i < e.length; ++i)
 			for (int j = 0; j < e[0].length; ++j) {
 				e[i][j] = new Square();
-				e[i][j].available = true;
-//				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
-					e[i][j].Color = r.nextInt(3) > 0;
-					if (e[i][j].Color == true) 
-						totalC++;
-//				}	
+				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
+						e[i][j].available = true;
+						e[i][j].Color = r.nextInt(3) > 0;
+						if (e[i][j].Color == true) 
+							totalC++;
+					}	
 			}
 		aStats = new Astats[Lagents.length]; //create agent statistics at each index for each agent 
 		for (int i = 0; i < aStats.length; ++i)
@@ -98,18 +98,30 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	}
 	
-	public void removeAgentLocation(int a){
-		e[aStats[a].x][aStats[a].y].agent = -1;
-		e[aStats[a].x][aStats[a].y].agentScore = 0;
+	public void removeAgentLocation(int i){
+		Astats a = aStats[i];
+		Square s = e[a.x][a.y];
+		s.agent = -1;
+		s.agentScore = 0;
 	}
 	
-	public void lose(int a){
-		aStats[a].newScore=0;
-		aStats[a].alive=false;	
+	public void lose(int i){
+		Astats a = aStats[i];
+		a.newScore=0;
+		a.alive=false;
+		reward(i);
 	}
 
-	public Point getAgentLocation(int a) {
-		return new Point(aStats[a].x, aStats[a].y);
+	private void reward(int i) {
+		Astats a = aStats[i];
+		int reward = a.newScore - a.score;
+		a.score = a.newScore;
+		Lagents[i].reward(i, reward);
+	}
+
+	public Point getAgentLocation(int i) {
+		Astats a = aStats[i];
+		return new Point(a.x, a.y);
 	}
 
 	public void turn() {
@@ -139,78 +151,84 @@ public class ColorWar implements IEnvironment, IViewable {
 			
 			// attempt to move to that desired
 			moves[i] = point;
-			if (point != null)
-				setAgentLocation(i, point.x, point.y); //take out when implement same square check
+//			if (point != null)
+//				setAgentLocation(i, point.x, point.y); //take out when implement same square check
 		}
-//		sameSquareCheck(moves);
+		for (int i = 0; i < aStats.length; i++)
+			removeAgentLocation(i);
+		for (int i = 0; i < aStats.length; i++)
+			if (!available(moves[i]) && aStats[i].alive) {
+				lose(i);
+				moves[i] = null;
+			}
+		sameSquareCheck(moves);
 		for (int i = 0; i < Lagents.length; i++) {
-			Astats stats = aStats[i];
-			int reward = stats.newScore - stats.score;
-			stats.score = stats.newScore;
-			Lagents[i].reward(i, reward);
+			Astats a = aStats[i];
+			if (a.alive) {
+				reward(i);
+			}
 		}
 		turns++;
 	}
 	
-	public void sameSquareCheck(Point[] move){
-		for (int j=0; j<move.length; j++){
-			if(move[j]!=null){
-//				if (move[j].x < 0 ||move[j].x > gameSize - 1 || move[j].y < 0 || move[j].y > gameSize - 1)
-//					return;
-				Square s= e[move[j].x][move[j].y];
-				s.amove.add(j);
-			}
+	private boolean available(Point p) {
+		if (p != null) return available(p.x,p.y);
+		else return false;
+	}
 
+	private boolean available(int x, int y) {
+		if (x < 0 || x >= gameSize || y < 0 || y >= gameSize) return false;
+		else return e[x][y].available;
+	}
+
+	public void sameSquareCheck(Point[] move){
+		for (int j=0; j<move.length; j++) {
+			Point m = move[j];
+			if(m!=null)
+				e[m.x][m.y].amove.add(j);
 		}
 		
 		for (int j=0; j<move.length; j++){
-			if(move[j]!=null){
-				Square s= e[move[j].x][move[j].y];
-				if (s.amove.size()==1){
-					setAgentLocation(j, move[j].x, move[j].y);
-				}
+			Point m = move[j];
+			if(m!=null){
+				Square s= e[m.x][m.y];
 				
-				else{
-					int highest=Integer.MIN_VALUE;
-					int win=0;
-					for (int i=0; i<s.amove.size();i++){
-						int agent=s.amove.get(i);
-						if (aStats[agent].score>highest){
-							highest=aStats[agent].score;
-							win=agent;
-						}
-						else if (aStats[agent].score==highest){
-							win=-1;
-						}
-						//if same score both destroyed 
+				int highest=Integer.MIN_VALUE;
+				int win=-1;
+				for (int i=0; i<s.amove.size();i++){
+					int agent=s.amove.get(i);
+					Astats a = aStats[agent];
+					if (a.score>highest){
+						highest=a.score;
+						win=agent;
 					}
-					if (win!=-1){
-						setAgentLocation(win, move[win].x, move[win].y);
-						for (int agent : s.amove){
-							if (agent!=win){
-								aStats[win].newScore+=aStats[agent].score;
-							}
-						}
+					else if (a.score==highest){
+						win=-1;
 					}
-					else{
-						s.available=false;
-						s.Color=false;
-					}
-					for (int i=0; i<s.amove.size() ;i++){
-						int agent=s.amove.get(i);
-						if (agent!=win){
-							lose(agent);
-						}
-					}
-	
+					//if same score both destroyed 
 				}
-			}
-		}
-		
-		//reset to 0 
-		for (int j=0; j<move.length; j++){
-			if(move[j]!=null){
-				e[move[j].x][move[j].y].amove.clear();
+				if (win!=-1){
+					Point m0 = move[win];
+					setAgentLocation(win, m0.x, m0.y);
+					for (int agent : s.amove){
+						if (agent!=win){
+							aStats[win].newScore+=aStats[agent].score;
+						}
+					}
+				}
+				else{
+					s.available=false;
+					s.Color=false;
+				}
+				for (int i=0; i<s.amove.size() ;i++){
+					int agent=s.amove.get(i);
+					if (agent!=win)
+						lose(agent);
+				}
+				for (int m0 : s.amove)
+					move[m0] = null;
+				
+				s.amove.clear();
 			}
 		}
 	}
@@ -401,7 +419,7 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	@Override
 	public boolean isEnd() {
-		return totalC == 0 || turns == gameSize*gameSize*2/Lagents.length;
+		return turns == gameSize*gameSize*2/Lagents.length; // totalC == 0 || 
 	}
 
 	@Override

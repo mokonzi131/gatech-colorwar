@@ -27,14 +27,10 @@ public class BasicLearner implements Learner, Serializable {
 		double[] o1 = observer.observe(a);
 		double[] score = regressor.predict(o1);
 		double m = Double.NEGATIVE_INFINITY;
-		for (double s : score)
-			if (s > m)
-				m = s;
+		for (double s : score) if (s > m) m = s;
 		double delta = reward + alpha * m;
-		if (o0 != null)
-			learner.fit(o0, move, delta);
+		update(move,delta);
 		o0 = o1;
-		reward = 0;
 		return score;
 	}
 	
@@ -42,10 +38,21 @@ public class BasicLearner implements Learner, Serializable {
 	public void reward(int a, double r) {
 		reward += r;
 	}
+	
+	public void update(int move, double delta) {
+		if (o0 != null)
+			learner.fit(o0, move, delta);
+		reward = 0;
+	}
 
 	@Override
 	public void setObserver(StructuredObserver o) {
 		observer = o;
+	}
+	
+	public void reset(int m) {
+		update(m, 0);
+		o0 = null;
 	}
 	
 }
