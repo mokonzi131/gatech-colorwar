@@ -54,5 +54,19 @@ public class BasicLearner implements Learner, Serializable {
 		update(m, 0);
 		o0 = null;
 	}
+
+	@Override
+	public void rootTransfer(Learner l) {
+		regressor.rootTransfer(((BasicLearner) l).getRegressor());
+		learner.rootTransfer(((BasicLearner) l).getLearner());
+	}
+
+	public Regressor getRegressor() {
+		return regressor;
+	}
+	
+	public Regressor getLearner() {
+		return learner;
+	}
 	
 }

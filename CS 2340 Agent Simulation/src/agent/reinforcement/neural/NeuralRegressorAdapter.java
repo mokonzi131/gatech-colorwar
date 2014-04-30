@@ -58,4 +58,10 @@ public class NeuralRegressorAdapter implements Regressor, Serializable {
 		return bn.toString();
 	}
 
+	@Override
+	public void rootTransfer(Regressor regressor) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

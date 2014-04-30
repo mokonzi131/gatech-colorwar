@@ -130,7 +130,8 @@ public class ColorWar implements IEnvironment, IViewable {
 		int[] count= new int[1];
 		for (int i = 0; i < Lagents.length; ++i) {
 			// get a desired move (for alive agents only)
-			Thread thread = new Thread(new AgentMoveSelectionThread(count, moves ,i ,aStats[i], Lagents[i]));
+			AgentMoveSelectionThread runnable = new AgentMoveSelectionThread(count, moves ,i ,aStats[i], Lagents[i]);
+			Thread thread = new Thread(runnable);
 			thread.start();
 		}
 		while(count[0]!=Lagents.length){

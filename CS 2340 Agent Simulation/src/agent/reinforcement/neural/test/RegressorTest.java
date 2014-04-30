@@ -1,5 +1,7 @@
 package agent.reinforcement.neural.test;
 
+import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,12 +22,31 @@ public class RegressorTest {
 //		d = new XorData(i-z,z);
 		DataFactory.train(r,d,k);
 	}
+	
+	@Test
+	public void testXorCopy() {
+		int[] h = new int[] { 2, 5, 1 };
+		Regressor r = new NeuralRegressor(h,.1,0,0);
+		DataFactory d = new IdentityData(2,0,1,1,false);
+		Regressor r0 = r.copy();
+		DataFactory.train(r,d,10000);
+		double err = DataFactory.test(r,d,1000);
+		System.out.println("Error: "+err);
+		if (err > .1)
+			fail("Error: "+err);
+		err = DataFactory.test(r0,d,1000);
+		System.out.println("Error Copy: "+err);
+		if (err > .1)
+			fail("Error Copy: "+err);
+	}
 
 	@Test
 	public void testSquareError() {
 		int k = 1000;
 		double err = DataFactory.test(r,d,k);
 		System.out.println("Error: "+err);
+		if (err > .1)
+			fail("Error: "+err);
 	}
 
 }

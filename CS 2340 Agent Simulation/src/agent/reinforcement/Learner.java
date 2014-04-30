@@ -21,5 +21,7 @@ public interface Learner {
 	 * @param m The last move made
 	 */
 	void reset(int m);
+
+	void rootTransfer(Learner learner);
 	
 }

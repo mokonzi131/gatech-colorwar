@@ -49,4 +49,10 @@ public class BasicRegressor implements Regressor {
 		return this;
 	}
 
+	@Override
+	public void rootTransfer(Regressor regressor) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

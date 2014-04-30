@@ -3,8 +3,12 @@ package agent.reinforcement;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import util.ObjectCloner;
+
 import environment.i.StructuredObserver;
 import agent.i.Agent;
+import agent.reinforcement.neural.NeuralRegressor;
+import agent.reinforcement.neural.net.NeuralNet;
 
 public class ReinforcementAgent implements Agent, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -43,6 +47,26 @@ public class ReinforcementAgent implements Agent, Serializable {
 	@Override
 	public void reset() {
 		learner.reset(move);
+	}
+	
+	public ReinforcementAgent copy() {
+		try {
+			ReinforcementAgent ra = (ReinforcementAgent) ObjectCloner.deepCopy(this);
+			ra.rootTransfer(this);
+			return ra;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return this;
+	}
+
+	private void rootTransfer(ReinforcementAgent ra) {
+		learner.rootTransfer(ra.getLearner());
+	}
+
+	private Learner getLearner() {
+		return learner;
 	}
 	
 }

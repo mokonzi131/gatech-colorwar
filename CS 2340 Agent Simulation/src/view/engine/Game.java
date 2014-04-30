@@ -49,7 +49,7 @@ public class Game implements Runnable {
 				else
 					agents[i] = new RandomAgent();
 			else
-				agents[i] = neuralAgent;
+				agents[i] = neuralAgent.copy();
 		}
 		
 		// setup the environment
