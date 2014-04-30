@@ -337,7 +337,7 @@ public class ColorWar implements IEnvironment, IViewable {
 					c++;
 				if (!available(i, j - 1))
 					c++;
-				if (r.nextInt(4) < c) {
+				if (r.nextInt(16) < c) {
 					sq.add(s);
 				}
 			}
