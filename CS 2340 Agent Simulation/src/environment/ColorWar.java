@@ -117,7 +117,7 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	public void lose(int i) {
 		Astats a = aStats[i];
-		a.newScore = -1;
+		a.newScore = a.score-1;
 		a.alive = false;
 		reward(i);
 	}
@@ -222,7 +222,7 @@ public class ColorWar implements IEnvironment, IViewable {
 					setAgentLocation(win, m0.x, m0.y);
 					for (int agent : s.amove) {
 						if (agent != win) {
-							aStats[win].newScore += aStats[agent].score;
+							aStats[win].newScore += 1; //aStats[agent].score;
 						}
 					}
 				} else {
@@ -335,13 +335,15 @@ public class ColorWar implements IEnvironment, IViewable {
 				if (!available(i, j - 1))
 					c++;
 				if (r.nextInt(8) < c) {
-					sq.add(s);
+					if(!s.Color){
+						sq.add(s);
+					}
 				}
 			}
 		}
 		for (Square s: sq){
-			s.available=false;
-			s.Color=false;
+				s.available=false;
+
 		}
 
 	}
