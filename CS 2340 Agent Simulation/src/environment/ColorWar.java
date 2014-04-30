@@ -26,6 +26,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	Agent[] Lagents;
 	Astats[] aStats;
 	private double m_moveCounter;
+	private double dCounter;
 	int fullC;
 	int totalC; //total colored squares
 	int turns;
@@ -70,7 +71,9 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 		fullC = totalC;
 		m_moveCounter = 0.0;
+		dCounter=0.0;
 	}
+	
 	
 	public void setAgentLocation(int a, int x, int y) {
 		// don't allow movement to an invalid location
@@ -297,6 +300,20 @@ public class ColorWar implements IEnvironment, IViewable {
 		}
 	}
 	
+	public void decay (double deltaTime){
+		dCounter += deltaTime;
+		int count=0;
+		if (dCounter >= 30.0 && count<gameSize) {
+			dCounter = 0.0;
+			for (int i=0; i<gameSize; i++){
+				e[count][i].available=false;
+			}
+			count++;
+		}
+		
+	}
+
+	
 	@Override
 	public void render(BufferedImage target) {
 		// get the graphics object
@@ -415,7 +432,7 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	@Override
 	public boolean isEnd() {
-		return turns == gameSize*gameSize*2/Lagents.length; // totalC == 0 || 
+		return turns == gameSize*gameSize*2/Lagents.length; 
 	}
 
 	@Override
