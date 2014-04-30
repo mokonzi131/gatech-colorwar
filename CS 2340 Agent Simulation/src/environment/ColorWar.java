@@ -127,36 +127,19 @@ public class ColorWar implements IEnvironment, IViewable {
 	public void turn() {
 		// tell all of the agents to move...
 		Point[] moves = new Point[Lagents.length];
+		int[] count= new int[1];
 		for (int i = 0; i < Lagents.length; ++i) {
 			// get a desired move (for alive agents only)
-			Astats a = aStats[i];
-			a.x0 = a.x;
-			a.y0 = a.y;
-			
-			int agentMove = -1;
-			if (a.alive)
-				agentMove = Lagents[i].move(i);
-			
-			// get the point for that desired move
-			// -1 = null, 0 = left, 1 = up, 2 = right, 3 = down, 4 = none
-			Point point;
-			if (agentMove == -1)
-				point = null;
-			else if (agentMove == 0)
-				point = new Point(a.x - 1, a.y);
-			else if (agentMove == 1)
-				point = new Point(a.x, a.y - 1);
-			else if (agentMove == 2)
-				point = new Point(a.x + 1, a.y);
-			else if (agentMove == 3)
-				point = new Point(a.x, a.y + 1);
-			else
-				point = new Point(a.x, a.y);
-			
-			// attempt to move to that desired
-			moves[i] = point;
-//			if (point != null)
-//				setAgentLocation(i, point.x, point.y); //take out when implement same square check
+			Thread thread = new Thread(new AgentMoveSelectionThread(count, moves ,i ,aStats[i], Lagents[i]));
+			thread.start();
+		}
+		while(count[0]!=Lagents.length){
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		for (int i = 0; i < aStats.length; i++) {
 			removeAgentLocation(i);
