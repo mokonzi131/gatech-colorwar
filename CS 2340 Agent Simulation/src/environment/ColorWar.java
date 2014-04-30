@@ -47,12 +47,12 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i = 0; i < e.length; ++i)
 			for (int j = 0; j < e[0].length; ++j) {
 				e[i][j] = new Square();
-				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
-						e[i][j].available = true;
+				e[i][j].available = true;
+//				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1) {
 						e[i][j].Color = r.nextInt(3) > 0;
 						if (e[i][j].Color == true) 
 							totalC++;
-					}	
+//				}
 			}
 		aStats = new Astats[Lagents.length]; //create agent statistics at each index for each agent 
 		for (int i = 0; i < aStats.length; ++i)
@@ -65,6 +65,8 @@ public class ColorWar implements IEnvironment, IViewable {
 				y = r.nextInt(gameSize);
 			}
 			setAgentLocation(i, x, y);
+			aStats[i].x0 = x;
+			aStats[i].y0 = y;
 		}
 		fullC = totalC;
 		m_moveCounter = 0.0;
@@ -143,6 +145,7 @@ public class ColorWar implements IEnvironment, IViewable {
 			}
 		}
 		for (int i = 0; i < aStats.length; i++) {
+			if (!aStats[i].alive) continue;
 			removeAgentLocation(i);
 			aStats[i].x = moves[i].x;
 			aStats[i].y = moves[i].y;
@@ -360,7 +363,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	}
 
 	private float lerp(int x0, int x1, float z) {
-		return (1-z)*x0-z*x1;
+		return (1-z)*x0 + z*x1;
 	}
 
 	public void renderAgentFromWorld(int i, BufferedImage world, BufferedImage target) {
