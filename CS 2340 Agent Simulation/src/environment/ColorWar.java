@@ -337,7 +337,8 @@ public class ColorWar implements IEnvironment, IViewable {
 		final Stroke stroke = new BasicStroke(2.0f);
 		final Color ringColor = new Color(255, 255, 0, 255);
 		for (int i = 0; i < aStats.length; ++i) {
-			if (!aStats[i].alive)
+			Astats a = aStats[i];
+			if (!a.alive && a.x == a.x0 && a.y == a.y0)
 				continue;
 			
 			int x = gridToPixel(lerp(aStats[i].x0, aStats[i].x, Math.min((float) m_moveCounter * 3, 1f)));
