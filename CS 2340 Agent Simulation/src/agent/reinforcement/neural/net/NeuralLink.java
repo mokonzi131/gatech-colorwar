@@ -20,7 +20,7 @@ public class NeuralLink implements Serializable {
 		return w.w * n.getOutput();
 	}
 
-	public synchronized void backpropagate(double delta) {
+	public void backpropagate(double delta) {
 		double dw = c.a * (n.getOutput() * delta - c.d * w.w); // weight, decay, momentum
 		m += dw;
 		w.w += dw + c.m * m;
