@@ -2,6 +2,8 @@ package agent.reinforcement;
 
 import java.io.Serializable;
 
+import agent.reinforcement.neural.net.NeuralNet;
+
 public interface Regressor extends Serializable {
 
 	double[] predict(double[] obs);
@@ -11,5 +13,7 @@ public interface Regressor extends Serializable {
 	void fit(double[] x, double[] y);
 
 	Regressor copy();
+
+	void rootTransfer(Regressor regressor);
 
 }

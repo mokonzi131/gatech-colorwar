@@ -32,7 +32,7 @@ public class Game implements Runnable {
 			neuralAgent = BasicNeuralAgentFactory.loadAgent(filename);
 		} catch (Exception e) {
 			LOGGER.info("Generating a new Neural Agent");
-			neuralAgent = BasicNeuralAgentFactory.generateAgent(63, 4);
+			neuralAgent = BasicNeuralAgentFactory.generateAgent(Constants.getInBounds() * 3, 4);
 		}
 		
 		// setup input reader, and the scene
@@ -49,7 +49,7 @@ public class Game implements Runnable {
 				else
 					agents[i] = new RandomAgent();
 			else
-				agents[i] = neuralAgent;
+				agents[i] = neuralAgent.copy();
 		}
 		
 		// setup the environment
@@ -59,7 +59,7 @@ public class Game implements Runnable {
 		
 		// run the iterations
 		ColorScene scene = new ColorScene(colorWar, imap);
-		for (int i = 0; i < 100; ++i) {
+		for (int i = 0; i < Constants.iterations; ++i) {
 			colorWar.reset();
 			scene.reset();
 			m_engine.setScene(scene);

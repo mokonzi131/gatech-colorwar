@@ -101,4 +101,13 @@ public class NeuralRegressor implements Regressor, Serializable {
 		return "Neural Net\n\n" + n.toString();
 	}
 
+	@Override
+	public void rootTransfer(Regressor r) {
+		n.rootTransfer(((NeuralRegressor) r).getNeuralNet());
+	}
+
+	private NeuralNet getNeuralNet() {
+		return n;
+	}
+
 }

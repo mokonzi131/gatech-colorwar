@@ -48,12 +48,12 @@ public class ColorWar implements IEnvironment, IViewable {
 		for (int i = 0; i < e.length; ++i)
 			for (int j = 0; j < e[0].length; ++j) {
 				e[i][j] = new Square();
-				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1){
-						e[i][j].available = true;
+				e[i][j].available = true;
+//				if (i>0 && i<gameSize-1 && j>0 && j<gameSize-1) {
 						e[i][j].Color = r.nextInt(3) > 0;
 						if (e[i][j].Color == true) 
 							totalC++;
-					}	
+//				}
 			}
 		aStats = new Astats[Lagents.length]; //create agent statistics at each index for each agent 
 		for (int i = 0; i < aStats.length; ++i)
@@ -135,7 +135,8 @@ public class ColorWar implements IEnvironment, IViewable {
 		int[] count= new int[1];
 		for (int i = 0; i < Lagents.length; ++i) {
 			// get a desired move (for alive agents only)
-			Thread thread = new Thread(new AgentMoveSelectionThread(count, moves ,i ,aStats[i], Lagents[i]));
+			AgentMoveSelectionThread runnable = new AgentMoveSelectionThread(count, moves ,i ,aStats[i], Lagents[i]);
+			Thread thread = new Thread(runnable);
 			thread.start();
 		}
 		while(count[0]!=Lagents.length){
@@ -147,6 +148,7 @@ public class ColorWar implements IEnvironment, IViewable {
 			}
 		}
 		for (int i = 0; i < aStats.length; i++) {
+			if (!aStats[i].alive) continue;
 			removeAgentLocation(i);
 			aStats[i].x = moves[i].x;
 			aStats[i].y = moves[i].y;
