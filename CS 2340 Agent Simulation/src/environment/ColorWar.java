@@ -117,7 +117,7 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	public void lose(int i) {
 		Astats a = aStats[i];
-		a.newScore = 0;
+		a.newScore = -1;
 		a.alive = false;
 		reward(i);
 	}
@@ -337,7 +337,7 @@ public class ColorWar implements IEnvironment, IViewable {
 					c++;
 				if (!available(i, j - 1))
 					c++;
-				if (r.nextInt(16) < c) {
+				if (r.nextInt(8) < c) {
 					sq.add(s);
 				}
 			}
@@ -472,7 +472,13 @@ public class ColorWar implements IEnvironment, IViewable {
 
 	@Override
 	public boolean isEnd() {
-		return turns == gameSize * gameSize * 2 / Lagents.length;
+		int count=0;
+		for (int i=0; i<aStats.length; i++){
+			if(!aStats[i].alive)
+				count++;
+		}
+		//return turns == gameSize * gameSize * 2 / Lagents.length;
+		return aStats.length==count;
 	}
 
 	@Override

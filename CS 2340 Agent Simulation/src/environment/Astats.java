@@ -12,7 +12,9 @@ public class Astats {
 	public boolean alive=true;
 	
 	public Color color(int scale) {
-		float intensity = (float) score / scale * 255;
-		return new Color(255, 0, 0, (int) intensity);
+		int intensity = (score+1) * 255 / scale;
+		if (intensity > 255)
+			intensity = 255;
+		return new Color(255, 0, 0, intensity);
 	}
 }
