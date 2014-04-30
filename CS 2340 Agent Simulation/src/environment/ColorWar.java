@@ -65,6 +65,8 @@ public class ColorWar implements IEnvironment, IViewable {
 				y = r.nextInt(gameSize);
 			}
 			setAgentLocation(i, x, y);
+			aStats[i].x0 = x;
+			aStats[i].y0 = y;
 		}
 		fullC = totalC;
 		m_moveCounter = 0.0;
@@ -359,7 +361,7 @@ public class ColorWar implements IEnvironment, IViewable {
 	}
 
 	private float lerp(int x0, int x1, float z) {
-		return (1-z)*x0-z*x1;
+		return (1-z)*x0 + z*x1;
 	}
 
 	public void renderAgentFromWorld(int i, BufferedImage world, BufferedImage target) {
