@@ -138,26 +138,23 @@ public class ColorWar implements IEnvironment, IViewable {
 		decay();
 		// tell all of the agents to move...
 		Point[] moves = new Point[Lagents.length];
-		int[] count = new int[1];
+		List<Thread> threads = new ArrayList<>();
 		for (int i = 0; i < Lagents.length; ++i) {
 			// get a desired move (for alive agents only)
-
-			AgentMoveSelectionThread runnable = new AgentMoveSelectionThread(count, moves ,i ,aStats[i], Lagents[i]);
-//			Thread thread = new Thread(runnable);
-//			thread.start();
-			runnable.run();
+			AgentMoveSelectionThread runnable = new AgentMoveSelectionThread(moves ,i ,aStats[i], Lagents[i]);
+			Thread thread = new Thread(runnable);
+			threads.add(thread);
+			thread.start();
 		}
 
-		while(count[0]<Lagents.length){
-			System.out.println(count[0]);
-
+		for (Thread thread : threads) {
 			try {
-				Thread.sleep(1);
+				thread.join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+
 		for (int i = 0; i < aStats.length; i++) {
 			if (!aStats[i].alive)
 				continue;

@@ -10,13 +10,11 @@ public class AgentMoveSelectionThread implements Runnable {
 	private Agent agent;
 	private int ind;
 	private Point[] moves;
-	private int[] count;
-	AgentMoveSelectionThread(int[] count, Point[] moves, int ind,Astats stat, Agent agent){
+	AgentMoveSelectionThread(Point[] moves, int ind, Astats stat, Agent agent){
 		this.stat=stat;
 		this.agent=agent;
 		this.ind=ind;
 		this.moves=moves;
-		this.count=count;
 	}
 
 	@Override
@@ -47,9 +45,5 @@ public class AgentMoveSelectionThread implements Runnable {
 		
 		// attempt to move to that desired
 		moves[ind] = point;
-		// TODO Auto-generated method stub
-		count[0]++;
-		
 	}
-
 }
